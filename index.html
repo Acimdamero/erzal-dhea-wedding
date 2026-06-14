@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Undangan pernikahan digital Budi & Sari — The Wedding of Budi & Sari">
+  <meta name="theme-color" content="#8B9A7E">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="The Wedding of Budi & Sari">
+  <meta property="og:description" content="Kami mengundang Anda untuk merayakan hari bahagia kami bersama.">
+  <meta property="og:image" content="https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&h=630&fit=crop">
+  <meta property="og:url" content="">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <title>The Wedding of Budi & Sari</title>
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Opening Cover / Envelope -->
+  <div id="cover" class="cover" role="dialog" aria-label="Buka undangan" aria-modal="true">
+    <div class="cover__bg" aria-hidden="true"></div>
+    <div class="cover__particles" aria-hidden="true"></div>
+
+    <div class="envelope">
+      <div class="envelope__flap envelope__flap--top"></div>
+      <div class="envelope__body">
+        <div class="envelope__card">
+          <p class="envelope__label">The Wedding of</p>
+          <h1 class="envelope__names">Budi <span>&</span> Sari</h1>
+          <p class="envelope__date">14 Juni 2026</p>
+          <p class="envelope__guest">Kepada Yth.<br><strong>Tamu Terhormat</strong></p>
+        </div>
+      </div>
+      <div class="envelope__flap envelope__flap--bottom"></div>
+    </div>
+
+    <button class="cover__open-btn" id="openInvite" type="button">
+      <span class="cover__open-icon"><i class="fa-solid fa-envelope-open" aria-hidden="true"></i></span>
+      <span>Buka Undangan</span>
+      <small>Open Invitation</small>
+    </button>
+  </div>
+
+  <!-- Music Control -->
+  <div class="music-control" id="musicControl" hidden>
+    <button class="music-control__btn" id="musicToggle" type="button" aria-label="Putar musik" aria-pressed="false">
+      <i class="fa-solid fa-volume-xmark" id="musicIcon" aria-hidden="true"></i>
+    </button>
+    <span class="music-control__label" id="musicLabel">Putar Musik</span>
+  </div>
+
+  <audio id="bgMusic" loop preload="auto">
+    <!-- Royalty-free demo music: SoundHelix (CC-like free use for demos) -->
+    <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- Main Content -->
+  <main id="mainContent" class="main" hidden>
+
+    <!-- Navigation -->
+    <nav class="nav" id="nav" aria-label="Navigasi undangan">
+      <a href="#hero" class="nav__link">Beranda</a>
+      <a href="#couple" class="nav__link">Mempelai</a>
+      <a href="#story" class="nav__link">Kisah</a>
+      <a href="#events" class="nav__link">Acara</a>
+      <a href="#gallery" class="nav__link">Galeri</a>
+      <a href="#rsvp" class="nav__link">RSVP</a>
+      <a href="#wishes" class="nav__link">Ucapan</a>
+      <a href="#location" class="nav__link">Lokasi</a>
+    </nav>
+
+    <!-- Hero -->
+    <section id="hero" class="hero section">
+      <div class="hero__bg parallax" data-speed="0.3" aria-hidden="true">
+        <!-- PLACEHOLDER: Replace with couple cover photo -->
+        <img src="https://images.unsplash.com/photo-1519741497674-611481863552?w=1920&q=80" alt="" loading="eager">
+        <div class="hero__overlay"></div>
+      </div>
+      <div class="hero__content reveal">
+        <p class="hero__pre">The Wedding of</p>
+        <h1 class="hero__title">Budi <span class="amp">&</span> Sari</h1>
+        <p class="hero__subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+        <p class="hero__date"><i class="fa-regular fa-calendar" aria-hidden="true"></i> Minggu, 14 Juni 2026</p>
+        <div class="hero__ornament" aria-hidden="true">
+          <span></span><i class="fa-solid fa-heart"></i><span></span>
+        </div>
+      </div>
+      <a href="#couple" class="hero__scroll" aria-label="Scroll ke bawah">
+        <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+      </a>
+    </section>
+
+    <!-- Countdown -->
+    <section id="countdown" class="countdown section">
+      <div class="container">
+        <div class="section-header reveal">
+          <p class="section-label">Menghitung Hari</p>
+          <h2 class="section-title">Countdown</h2>
+          <p class="section-desc">Lorem ipsum dolor sit amet — kami menantikan hari bahagia bersama Anda.</p>
+        </div>
+        <div class="countdown__grid reveal" id="countdownTimer" aria-live="polite">
+          <div class="countdown__item glass">
+            <span class="countdown__num" id="days">00</span>
+            <span class="countdown__label">Hari / Days</span>
+          </div>
+          <div class="countdown__item glass">
+            <span class="countdown__num" id="hours">00</span>
+            <span class="countdown__label">Jam / Hours</span>
+          </div>
+          <div class="countdown__item glass">
+            <span class="countdown__num" id="minutes">00</span>
+            <span class="countdown__label">Menit / Minutes</span>
+          </div>
+          <div class="countdown__item glass">
+            <span class="countdown__num" id="seconds">00</span>
+            <span class="countdown__label">Detik / Seconds</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Couple -->
+    <section id="couple" class="couple section">
+      <div class="container">
+        <div class="section-header reveal">
+          <p class="section-label">Mempelai</p>
+          <h2 class="section-title">The Couple</h2>
+          <p class="section-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt.</p>
+        </div>
+        <div class="couple__grid">
+          <article class="couple__card glass reveal">
+            <!-- PLACEHOLDER: Replace with groom photo -->
+            <div class="couple__photo">
+              <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=500&fit=crop" alt="Foto Budi Santoso — placeholder">
+            </div>
+            <h3 class="couple__name">Budi Santoso</h3>
+            <p class="couple__parents">Putra dari<br><strong>Bapak Lorem & Ibu Ipsum</strong></p>
+            <div class="couple__social">
+              <a href="#" aria-label="Instagram Budi"><i class="fa-brands fa-instagram"></i></a>
+            </div>
+          </article>
+
+          <div class="couple__divider reveal" aria-hidden="true">
+            <i class="fa-solid fa-heart"></i>
+          </div>
+
+          <article class="couple__card glass reveal">
+            <!-- PLACEHOLDER: Replace with bride photo -->
+            <div class="couple__photo">
+              <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=400&h=500&fit=crop" alt="Foto Sari Wulandari — placeholder">
+            </div>
+            <h3 class="couple__name">Sari Wulandari</h3>
+            <p class="couple__parents">Putri dari<br><strong>Bapak Dolor & Ibu Sit Amet</strong></p>
+            <div class="couple__social">
+              <a href="#" aria-label="Instagram Sari"><i class="fa-brands fa-instagram"></i></a>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Love Story -->
+    <section id="story" class="story section">
+      <div class="container">
+        <div class="section-header reveal">
+          <p class="section-label">Perjalanan Cinta</p>
+          <h2 class="section-title">Our Love Story</h2>
+          <p class="section-desc">Lorem ipsum dolor sit amet — setiap bab dalam kisah kami penuh makna.</p>
+        </div>
+        <div class="timeline">
+          <article class="timeline__item reveal">
+            <div class="timeline__dot" aria-hidden="true"></div>
+            <div class="timeline__content glass">
+              <time datetime="2019">2019</time>
+              <h3>Pertama Bertemu / First Meet</h3>
+              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation.</p>
+            </div>
+          </article>
+          <article class="timeline__item reveal">
+            <div class="timeline__dot" aria-hidden="true"></div>
+            <div class="timeline__content glass">
+              <time datetime="2021">2021</time>
+              <h3>Resmi Berpacaran / Official Dating</h3>
+              <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+            </div>
+          </article>
+          <article class="timeline__item reveal">
+            <div class="timeline__dot" aria-hidden="true"></div>
+            <div class="timeline__content glass">
+              <time datetime="2024">2024</time>
+              <h3>Lamaran / The Proposal</h3>
+              <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+            </div>
+          </article>
+          <article class="timeline__item reveal">
+            <div class="timeline__dot" aria-hidden="true"></div>
+            <div class="timeline__content glass">
+              <time datetime="2026">2026</time>
+              <h3>Menuju Altar / The Big Day</h3>
+              <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Events Schedule -->
+    <section id="events" class="events section">
+      <div class="container">
+        <div class="section-header reveal">
+          <p class="section-label">Rangkaian Acara</p>
+          <h2 class="section-title">Wedding Events</h2>
+          <p class="section-desc">Lorem ipsum dolor sit amet — kami berharap kehadiran Anda di setiap momen istimewa.</p>
+        </div>
+        <div class="events__grid">
+          <article class="event-card glass reveal">
+            <div class="event-card__icon"><i class="fa-solid fa-mosque" aria-hidden="true"></i></div>
+            <h3>Akad Nikah</h3>
+            <p class="event-card__en">Holy Matrimony</p>
+            <ul class="event-card__details">
+              <li><i class="fa-regular fa-calendar"></i> Minggu, 14 Juni 2026</li>
+              <li><i class="fa-regular fa-clock"></i> 08:00 – 10:00 WIB</li>
+              <li><i class="fa-solid fa-location-dot"></i> Masjid Al-Ikhlas, Jakarta</li>
+            </ul>
+            <p class="event-card__note">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+          </article>
+          <article class="event-card glass reveal">
+            <div class="event-card__icon"><i class="fa-solid fa-champagne-glasses" aria-hidden="true"></i></div>
+            <h3>Resepsi Pernikahan</h3>
+            <p class="event-card__en">Wedding Reception</p>
+            <ul class="event-card__details">
+              <li><i class="fa-regular fa-calendar"></i> Minggu, 14 Juni 2026</li>
+              <li><i class="fa-regular fa-clock"></i> 11:00 – 15:00 WIB</li>
+              <li><i class="fa-solid fa-location-dot"></i> Grand Ballroom Hotel Santika</li>
+            </ul>
+            <p class="event-card__note">Duis aute irure dolor in reprehenderit in voluptate velit esse.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Gallery -->
+    <section id="gallery" class="gallery section">
+      <div class="container">
+        <div class="section-header reveal">
+          <p class="section-label">Galeri Foto</p>
+          <h2 class="section-title">Our Gallery</h2>
+          <p class="section-desc">Lorem ipsum — momen indah yang ingin kami bagikan bersama Anda.</p>
+        </div>
+        <div class="gallery__grid">
+          <!-- PLACEHOLDER: Replace gallery images with client photos -->
+          <button class="gallery__item reveal" type="button" data-index="0" aria-label="Buka foto galeri 1">
+            <img src="https://images.unsplash.com/photo-1606216794074-735e91aa2c92?w=600&h=600&fit=crop" alt="Galeri foto 1 — placeholder" loading="lazy">
+          </button>
+          <button class="gallery__item reveal" type="button" data-index="1" aria-label="Buka foto galeri 2">
+            <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?w=600&h=600&fit=crop" alt="Galeri foto 2 — placeholder" loading="lazy">
+          </button>
+          <button class="gallery__item reveal" type="button" data-index="2" aria-label="Buka foto galeri 3">
+            <img src="https://images.unsplash.com/photo-1465495976277-4387d1b1b58a?w=600&h=600&fit=crop" alt="Galeri foto 3 — placeholder" loading="lazy">
+          </button>
+          <button class="gallery__item reveal" type="button" data-index="3" aria-label="Buka foto galeri 4">
+            <img src="https://images.unsplash.com/photo-1522673606300-8d9631de05c9?w=600&h=600&fit=crop" alt="Galeri foto 4 — placeholder" loading="lazy">
+          </button>
+          <button class="gallery__item reveal" type="button" data-index="4" aria-label="Buka foto galeri 5">
+            <img src="https://images.unsplash.com/photo-1520854221256-17451cc791c2?w=600&h=600&fit=crop" alt="Galeri foto 5 — placeholder" loading="lazy">
+          </button>
+          <button class="gallery__item reveal" type="button" data-index="5" aria-label="Buka foto galeri 6">
+            <img src="https://images.unsplash.com/photo-1519225421980-715cb0215aed?w=600&h=600&fit=crop" alt="Galeri foto 6 — placeholder" loading="lazy">
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox" role="dialog" aria-label="Galeri foto" aria-modal="true" hidden>
+      <button class="lightbox__close" type="button" aria-label="Tutup galeri"><i class="fa-solid fa-xmark"></i></button>
+      <button class="lightbox__nav lightbox__nav--prev" type="button" aria-label="Foto sebelumnya"><i class="fa-solid fa-chevron-left"></i></button>
+      <img class="lightbox__img" id="lightboxImg" src="" alt="">
+      <button class="lightbox__nav lightbox__nav--next" type="button" aria-label="Foto berikutnya"><i class="fa-solid fa-chevron-right"></i></button>
+    </div>
+
+    <!-- RSVP -->
+    <section id="rsvp" class="rsvp section">
+      <div class="container">
+        <div class="section-header reveal">
+          <p class="section-label">Konfirmasi Kehadiran</p>
+          <h2 class="section-title">RSVP</h2>
+          <p class="section-desc">Lorem ipsum dolor sit amet — mohon konfirmasi kehadiran Anda sebelum 1 Juni 2026.</p>
+        </div>
+        <form class="rsvp__form glass reveal" id="rsvpForm" novalidate>
+          <div class="form-group">
+            <label for="rsvpName">Nama Lengkap / Full Name</label>
+            <input type="text" id="rsvpName" name="name" required placeholder="Masukkan nama Anda">
+          </div>
+          <div class="form-group">
+            <label for="rsvpPhone">No. WhatsApp / Phone</label>
+            <input type="tel" id="rsvpPhone" name="phone" placeholder="+62 812 3456 7890">
+          </div>
+          <div class="form-group">
+            <label for="rsvpAttendance">Kehadiran / Attendance</label>
+            <select id="rsvpAttendance" name="attendance" required>
+              <option value="">Pilih / Select</option>
+              <option value="yes">Hadir / Attending</option>
+              <option value="no">Tidak Hadir / Not Attending</option>
+              <option value="maybe">Belum Pasti / Maybe</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="rsvpGuests">Jumlah Tamu / Number of Guests</label>
+            <input type="number" id="rsvpGuests" name="guests" min="1" max="5" value="1">
+          </div>
+          <div class="form-group">
+            <label for="rsvpMessage">Pesan / Message</label>
+            <textarea id="rsvpMessage" name="message" rows="3" placeholder="Lorem ipsum dolor sit amet..."></textarea>
+          </div>
+          <button type="submit" class="btn btn--primary">Kirim Konfirmasi / Submit</button>
+          <p class="form-note" id="rsvpNote" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+
+    <!-- Wishes / Guest Book -->
+    <section id="wishes" class="wishes section">
+      <div class="container">
+        <div class="section-header reveal">
+          <p class="section-label">Buku Tamu</p>
+          <h2 class="section-title">Wishes &amp; Prayers</h2>
+          <p class="section-desc">Tinggalkan ucapan dan doa terbaik untuk kami.</p>
+        </div>
+        <form class="wishes__form glass reveal" id="wishesForm">
+          <div class="form-group">
+            <label for="wishName">Nama / Name</label>
+            <input type="text" id="wishName" name="name" required placeholder="Nama Anda">
+          </div>
+          <div class="form-group">
+            <label for="wishMessage">Ucapan / Wishes</label>
+            <textarea id="wishMessage" name="message" rows="3" required placeholder="Selamat menempuh hidup baru..."></textarea>
+          </div>
+          <button type="submit" class="btn btn--secondary">Kirim Ucapan / Send</button>
+        </form>
+        <div class="wishes__list" id="wishesList">
+          <article class="wish-card glass reveal">
+            <div class="wish-card__avatar" aria-hidden="true">A</div>
+            <div class="wish-card__body">
+              <h4>Andi Pratama</h4>
+              <p>Selamat Budi & Sari! Semoga menjadi keluarga sakinah, mawaddah, warahmah. Barakallahu lakuma.</p>
+              <time datetime="2026-05-01">1 Mei 2026</time>
+            </div>
+          </article>
+          <article class="wish-card glass reveal">
+            <div class="wish-card__avatar" aria-hidden="true">D</div>
+            <div class="wish-card__body">
+              <h4>Dewi Lestari</h4>
+              <p>Lorem ipsum dolor sit amet. Semoga pernikahan kalian penuh berkah dan kebahagiaan selamanya!</p>
+              <time datetime="2026-05-02">2 Mei 2026</time>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Location -->
+    <section id="location" class="location section">
+      <div class="container">
+        <div class="section-header reveal">
+          <p class="section-label">Lokasi Acara</p>
+          <h2 class="section-title">Venue &amp; Location</h2>
+          <p class="section-desc">Lorem ipsum dolor sit amet — temukan lokasi resepsi pernikahan kami.</p>
+        </div>
+        <div class="location__grid">
+          <div class="location__info glass reveal">
+            <h3>Grand Ballroom Hotel Santika</h3>
+            <p>Jl. Lorem Ipsum No. 123, Jakarta Selatan, DKI Jakarta 12345</p>
+            <ul class="location__details">
+              <li><i class="fa-regular fa-clock"></i> 11:00 – 15:00 WIB</li>
+              <li><i class="fa-regular fa-calendar"></i> Minggu, 14 Juni 2026</li>
+            </ul>
+            <a href="https://maps.google.com" target="_blank" rel="noopener noreferrer" class="btn btn--outline">
+              <i class="fa-solid fa-map-location-dot"></i> Buka di Google Maps
+            </a>
+          </div>
+          <div class="location__map glass reveal">
+            <!-- PLACEHOLDER: Replace with actual Google Maps embed -->
+            <iframe
+              title="Peta lokasi acara pernikahan"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3966.521260322298!2d106.819561!3d-6.194741!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69f5390917b759%3A0x6b45e6735608a7ed!2sMonas!5e0!3m2!1sid!2sid!4v1700000000000!5m2!1sid!2sid"
+              width="100%"
+              height="100%"
+              style="border:0;"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Share -->
+    <section id="share" class="share section">
+      <div class="container">
+        <div class="share__content glass reveal">
+          <p class="section-label">Bagikan Undangan</p>
+          <h2 class="section-title">Share Invitation</h2>
+          <p class="section-desc">Lorem ipsum — bagikan kebahagiaan kami kepada kerabat dan sahabat.</p>
+          <div class="share__buttons">
+            <button class="btn btn--primary" id="copyLink" type="button">
+              <i class="fa-solid fa-link"></i> Salin Link / Copy Link
+            </button>
+            <a href="#" class="btn btn--outline" id="shareWa" target="_blank" rel="noopener noreferrer">
+              <i class="fa-brands fa-whatsapp"></i> WhatsApp
+            </a>
+          </div>
+          <p class="share__toast" id="shareToast" role="status" aria-live="polite"></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <p class="footer__names">Budi <span>&</span> Sari</p>
+        <p class="footer__date">14.06.2026</p>
+        <p class="footer__thanks">Terima kasih atas doa dan kehadiran Anda.<br>Thank you for your prayers and presence.</p>
+        <p class="footer__credit">Made with <i class="fa-solid fa-heart" aria-hidden="true"></i> — Demo Wedding Invitation</p>
+      </div>
+    </footer>
+  </main>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
