@@ -363,6 +363,18 @@ button {
   50% { box-shadow: 0 8px 32px rgba(139, 154, 126, 0.55); }
 }
 
+/* Hidden YouTube player — audio only, no visible iframe */
+.youtube-player {
+  position: fixed;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+  left: -9999px;
+  top: -9999px;
+  overflow: hidden;
+}
+
 /* ============================================
    MUSIC CONTROL
    ============================================ */
@@ -707,6 +719,22 @@ button {
    ============================================ */
 .story {
   background: linear-gradient(180deg, #edeae3 0%, var(--color-bg) 100%);
+}
+
+.story__photo {
+  max-width: 420px;
+  margin: 0 auto 3rem;
+  border-radius: var(--radius);
+  overflow: hidden;
+  box-shadow: var(--shadow-glass);
+  border: 1px solid var(--color-glass-border);
+}
+
+.story__photo img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
 }
 
 .timeline {

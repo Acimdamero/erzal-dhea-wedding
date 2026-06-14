@@ -45,18 +45,24 @@ wedding-invitation/
    - Groom & bride profile photos
    - Gallery images (6 slots)
 4. **Location** — update venue name, address, and Google Maps embed URL
-5. **Music** — replace the `<audio>` source in `index.html` with your own MP3 file in `assets/`
+5. **Music** — update `YOUTUBE_VIDEO_ID` in `js/main.js` with the client's YouTube video ID
 
 ### Background Music
 
-Demo music uses **SoundHelix Song 8** via CDN:
-- Source: https://www.soundhelix.com/examples/mp3/SoundHelix-Song-8.mp3
-- License: Free for demonstration purposes (replace with licensed music for production)
+Background music streams from **YouTube** via the [IFrame Player API](https://developers.google.com/youtube/iframe_api_reference) (hidden player, audio only):
 
-To use a local file:
-```html
-<source src="assets/wedding-song.mp3" type="audio/mpeg">
+- Current track: https://youtu.be/-a-vbOxM-6s (`YOUTUBE_VIDEO_ID = '-a-vbOxM-6s'` in `js/main.js`)
+- Playback starts after the guest taps **Buka Undangan** (user gesture required for autoplay)
+- Loop is enabled via `loop: 1` and matching `playlist` parameter
+- Play/pause is controlled by the floating music toggle button
+
+To change the song, replace the video ID in `js/main.js`:
+
+```javascript
+const YOUTUBE_VIDEO_ID = 'your-video-id-here';
 ```
+
+**Note:** Do not download or rip YouTube audio — use the embed API only. Some videos may block embedding; test the chosen URL before going live.
 
 ### Image Placeholders
 
@@ -107,7 +113,8 @@ Or connect your GitHub repo at [vercel.com](https://vercel.com) — no framework
 ## Limitations
 
 - **Music autoplay**: Browsers block autoplay until user interaction. Music starts after tapping "Buka Undangan"; a play button is shown if autoplay fails.
-- **Mobile autoplay**: iOS Safari may require an additional tap on the music toggle.
+- **YouTube embed**: Requires internet connection. Some videos restrict embedding or may show ads. Playback depends on YouTube's availability in the guest's region.
+- **Mobile autoplay**: iOS Safari may require an additional tap on the music toggle. YouTube playback on mobile can be less reliable than native `<audio>`.
 - **RSVP & wishes**: Frontend-only demo — data is not persisted. Connect to a backend (Google Sheets, Formspree, Firebase, etc.) for production.
 - **Gallery images**: Loaded from Unsplash CDN — requires internet connection. Replace with local assets for offline use.
 - **Google Maps**: Embed uses a demo location (Monas, Jakarta). Replace with actual venue coordinates.

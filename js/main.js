@@ -17,7 +17,6 @@
   const musicToggle = document.getElementById('musicToggle');
   const musicIcon = document.getElementById('musicIcon');
   const musicLabel = document.getElementById('musicLabel');
-  const bgMusic = document.getElementById('bgMusic');
   const nav = document.getElementById('nav');
   const lightbox = document.getElementById('lightbox');
   const lightboxImg = document.getElementById('lightboxImg');
@@ -29,7 +28,12 @@
   const shareToast = document.getElementById('shareToast');
   const shareWa = document.getElementById('shareWa');
 
+  const YOUTUBE_VIDEO_ID = '-a-vbOxM-6s';
+
   let isMusicPlaying = false;
+  let youtubePlayer = null;
+  let ytPlayerReady = false;
+  let pendingAutoplay = false;
   let currentGalleryIndex = 0;
   let galleryImages = [];
 
@@ -60,13 +64,78 @@
   openBtn.addEventListener('click', openInvitation);
 
   // ============================================
-  // Background Music
+  // Background Music (YouTube IFrame Player API)
   // ============================================
-  async function tryPlayMusic() {
+  function loadYouTubeAPI() {
+    return new Promise((resolve) => {
+      if (window.YT && window.YT.Player) {
+        resolve();
+        return;
+      }
+
+      const existingCallback = window.onYouTubeIframeAPIReady;
+      window.onYouTubeIframeAPIReady = () => {
+        if (typeof existingCallback === 'function') existingCallback();
+        resolve();
+      };
+
+      const tag = document.createElement('script');
+      tag.src = 'https://www.youtube.com/iframe_api';
+      const firstScript = document.getElementsByTagName('script')[0];
+      firstScript.parentNode.insertBefore(tag, firstScript);
+    });
+  }
+
+  function initYouTubePlayer() {
+    youtubePlayer = new YT.Player('youtubePlayer', {
+      height: '1',
+      width: '1',
+      videoId: YOUTUBE_VIDEO_ID,
+      playerVars: {
+        autoplay: 0,
+        loop: 1,
+        playlist: YOUTUBE_VIDEO_ID,
+        controls: 0,
+        disablekb: 1,
+        fs: 0,
+        modestbranding: 1,
+        rel: 0,
+        iv_load_policy: 3,
+        playsinline: 1,
+        origin: window.location.origin,
+      },
+      events: {
+        onReady: (event) => {
+          ytPlayerReady = true;
+          event.target.setVolume(35);
+          if (pendingAutoplay) {
+            pendingAutoplay = false;
+            tryPlayMusic();
+          }
+        },
+        onStateChange: (event) => {
+          if (event.data === YT.PlayerState.PLAYING) {
+            setMusicState(true);
+          } else if (event.data === YT.PlayerState.ENDED) {
+            event.target.playVideo();
+          }
+        },
+        onError: () => {
+          setMusicState(false);
+          musicLabel.textContent = 'Musik tidak tersedia';
+        },
+      },
+    });
+  }
+
+  function tryPlayMusic() {
+    if (!ytPlayerReady) {
+      pendingAutoplay = true;
+      return;
+    }
+
     try {
-      bgMusic.volume = 0.35;
-      await bgMusic.play();
-      setMusicState(true);
+      youtubePlayer.playVideo();
     } catch {
       setMusicState(false);
       musicLabel.textContent = 'Putar Musik';
@@ -89,19 +158,25 @@
     }
   }
 
-  musicToggle.addEventListener('click', async () => {
+  musicToggle.addEventListener('click', () => {
+    if (!ytPlayerReady) {
+      musicLabel.textContent = 'Memuat musik...';
+      return;
+    }
+
     if (isMusicPlaying) {
-      bgMusic.pause();
+      youtubePlayer.pauseVideo();
       setMusicState(false);
     } else {
       try {
-        await bgMusic.play();
-        setMusicState(true);
+        youtubePlayer.playVideo();
       } catch {
         musicLabel.textContent = 'Ketuk untuk putar';
       }
     }
   });
+
+  loadYouTubeAPI().then(initYouTubePlayer);
 
   // ============================================
   // Scroll Reveal Animations
