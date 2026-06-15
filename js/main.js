@@ -1,13 +1,13 @@
 /**
- * Wedding Invitation — Budi & Sari
+ * Wedding Invitation — Erzal & Dhea
  * Main JavaScript
  */
 
 (function () {
   'use strict';
 
-  // Wedding date: July 22, 2026 at 08:00 WIB (UTC+7)
-  const WEDDING_DATE = new Date('2026-07-22T08:00:00+07:00');
+  // Primary countdown: Akad Nikah — July 13, 2026 (Makkah)
+  const AKAD_DATE = new Date('2026-07-13T08:00:00+03:00');
 
   // DOM Elements
   const cover = document.getElementById('cover');
@@ -28,7 +28,8 @@
   const shareToast = document.getElementById('shareToast');
   const shareWa = document.getElementById('shareWa');
 
-  const YOUTUBE_VIDEO_ID = 'bLmDVZRhhRE';
+  const YOUTUBE_VIDEO_ID = '-a-vbOxM-6s';
+  const BEAT_BPM = 75;
 
   let isMusicPlaying = false;
   let youtubePlayer = null;
@@ -36,6 +37,7 @@
   let pendingAutoplay = false;
   let currentGalleryIndex = 0;
   let galleryImages = [];
+  let beatEngine = null;
 
   // ============================================
   // Cover / Envelope Opening
@@ -116,6 +118,8 @@
         onStateChange: (event) => {
           if (event.data === YT.PlayerState.PLAYING) {
             setMusicState(true);
+          } else if (event.data === YT.PlayerState.PAUSED) {
+            setMusicState(false);
           } else if (event.data === YT.PlayerState.ENDED) {
             event.target.playVideo();
           }
@@ -151,10 +155,12 @@
       musicIcon.className = 'fa-solid fa-volume-high';
       musicLabel.textContent = 'Musik Aktif';
       musicToggle.classList.add('playing');
+      if (beatEngine) beatEngine.start();
     } else {
       musicIcon.className = 'fa-solid fa-volume-xmark';
       musicLabel.textContent = 'Putar Musik';
       musicToggle.classList.remove('playing');
+      if (beatEngine) beatEngine.stop();
     }
   }
 
@@ -176,7 +182,12 @@
     }
   });
 
-  loadYouTubeAPI().then(initYouTubePlayer);
+  loadYouTubeAPI().then(() => {
+    initYouTubePlayer();
+    if (typeof BeatEngine !== 'undefined') {
+      beatEngine = new BeatEngine({ bpm: BEAT_BPM });
+    }
+  });
 
   // ============================================
   // Scroll Reveal Animations
@@ -263,7 +274,7 @@
   // ============================================
   function updateCountdown() {
     const now = new Date();
-    const diff = WEDDING_DATE - now;
+    const diff = AKAD_DATE - now;
 
     const daysEl = document.getElementById('days');
     const hoursEl = document.getElementById('hours');
@@ -410,7 +421,7 @@
   // Share / Copy Link
   // ============================================
   const pageUrl = window.location.href;
-  const shareText = encodeURIComponent('The Wedding of Budi & Sari — Anda diundang! 🎊');
+  const shareText = encodeURIComponent('The Wedding of Erzal & Dhea — Anda diundang! 🎊');
   shareWa.href = `https://wa.me/?text=${shareText}%20${encodeURIComponent(pageUrl)}`;
 
   copyLinkBtn.addEventListener('click', async () => {
@@ -434,8 +445,8 @@
     shareBtn.addEventListener('click', async () => {
       try {
         await navigator.share({
-          title: 'The Wedding of Budi & Sari',
-          text: 'Anda diundang ke pernikahan Budi & Sari!',
+          title: 'The Wedding of Erzal & Dhea',
+          text: 'Anda diundang ke pernikahan Erzal & Dhea!',
           url: pageUrl,
         });
       } catch {

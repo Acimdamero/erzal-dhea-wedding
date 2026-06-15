@@ -1,4 +1,4 @@
-# Photo Editing Notes — Budi & Sari Wedding Invitation
+# Photo Editing Notes — Erzal & Dhea Wedding Invitation
 
 Processed from 6 client source images. Warm color grading applied site-wide to match the cream/sage/gold palette (`#f7f5f0`, `#8b9a7e`, `#c4a882`).
 
@@ -8,8 +8,8 @@ Processed from 6 client source images. Warm color grading applied site-wide to m
 |--------|--------|-------------------|------------|
 | `hero.jpg` | Tropical villa (#4) | 16:9 landscape, couple centered; warm grade + soft vignette + slight darken for text overlay | Hero background |
 | `og.jpg` | Tropical villa (#4) | 1200×630 social crop, warm grade | Open Graph / share preview |
-| `groom.jpg` | Restaurant collage top (#1) | Split collage; 1:1 crop on groom (right side); removed busy table foreground | Couple section — Budi |
-| `bride.jpg` | Tropical villa (#4) | 1:1 crop on bride (left side), upper body | Couple section — Sari |
+| `groom.jpg` | Restaurant collage top (#1) | Split collage; 1:1 crop on groom (right side); removed busy table foreground | Couple section — Erzal |
+| `bride.jpg` | Tropical villa (#4) | 1:1 crop on bride (left side), upper body | Couple section — Dhea |
 | `story.jpg` | Car trunk color (#2) | 4:5 portrait; trimmed sky/pavement dead space | *(replaced by childhood.jpg in Love Story)* |
 | `childhood.jpg` | Childhood collage (#6) | 4:5 portrait; top 8% cropped (Pinterest watermark); warm grade | Love Story section banner — "Our Beginning" |
 | `gallery-07.jpg` | Childhood collage (#6) | 1:1 center crop on heart collage; warm grade | Gallery |
@@ -79,4 +79,4 @@ For production-ready wedding invitation photos, recommend the couple provide:
 
 ---
 
-*Demo names Budi & Sari retained per template. Replace with actual couple names when going live.*
+*Couple names updated to Erzal & Dhea. Replace photos per PHOTO-SUGGESTIONS.md before go-live.*

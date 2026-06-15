@@ -3,18 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Undangan pernikahan digital Budi & Sari — The Wedding of Budi & Sari">
+  <meta name="description" content="Undangan pernikahan digital Erzal & Dhea — The Wedding of Erzal & Dhea">
   <meta name="theme-color" content="#8B9A7E">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="The Wedding of Budi & Sari">
+  <meta property="og:title" content="The Wedding of Erzal & Dhea">
   <meta property="og:description" content="Kami mengundang Anda untuk merayakan hari bahagia kami bersama.">
   <meta property="og:image" content="https://acimdamero.github.io/wedding-invitation/assets/photos/og.jpg">
   <meta property="og:url" content="https://acimdamero.github.io/wedding-invitation/">
   <meta name="twitter:card" content="summary_large_image">
 
-  <title>The Wedding of Budi & Sari</title>
+  <title>The Wedding of Erzal & Dhea</title>
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,6 +23,19 @@
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+
+  <!-- Beat-sync floating ornaments -->
+  <div class="ornaments" id="ornaments" aria-hidden="true">
+    <div class="ornament ornament--crescent" style="--ornament-x: 4%; --ornament-y: 12%;"><img src="assets/ornaments/crescent.svg" alt=""></div>
+    <div class="ornament ornament--star" style="--ornament-x: 92%; --ornament-y: 8%;"><img src="assets/ornaments/star.svg" alt=""></div>
+    <div class="ornament ornament--petal" style="--ornament-x: 6%; --ornament-y: 72%;"><img src="assets/ornaments/petal.svg" alt=""></div>
+    <div class="ornament ornament--arabesque" style="--ornament-x: 88%; --ornament-y: 65%;"><img src="assets/ornaments/arabesque.svg" alt=""></div>
+    <div class="ornament ornament--star" style="--ornament-x: 3%; --ornament-y: 42%;"><img src="assets/ornaments/star.svg" alt=""></div>
+    <div class="ornament ornament--crescent" style="--ornament-x: 94%; --ornament-y: 38%;"><img src="assets/ornaments/crescent.svg" alt=""></div>
+    <div class="ornament ornament--petal" style="--ornament-x: 10%; --ornament-y: 88%;"><img src="assets/ornaments/petal.svg" alt=""></div>
+    <div class="ornament ornament--arabesque" style="--ornament-x: 85%; --ornament-y: 85%;"><img src="assets/ornaments/arabesque.svg" alt=""></div>
+  </div>
+  <div class="beat-particles" id="beatParticles" aria-hidden="true"></div>
 
   <!-- Opening Cover / Envelope -->
   <div id="cover" class="cover" role="dialog" aria-label="Buka undangan" aria-modal="true">
@@ -34,8 +47,8 @@
       <div class="envelope__body">
         <div class="envelope__card">
           <p class="envelope__label">The Wedding of</p>
-          <h1 class="envelope__names">Budi <span>&</span> Sari</h1>
-          <p class="envelope__date">22 Juli 2026</p>
+          <h1 class="envelope__names">Erzal <span>&</span> Dhea</h1>
+          <p class="envelope__date">13 &amp; 22 Juli 2026</p>
           <p class="envelope__guest">Kepada Yth.<br><strong>Tamu Terhormat</strong></p>
         </div>
       </div>
@@ -84,9 +97,9 @@
       </div>
       <div class="hero__content reveal">
         <p class="hero__pre">The Wedding of</p>
-        <h1 class="hero__title">Budi <span class="amp">&</span> Sari</h1>
-        <p class="hero__subtitle">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-        <p class="hero__date"><i class="fa-regular fa-calendar" aria-hidden="true"></i> Rabu, 22 Juli 2026</p>
+        <h1 class="hero__title">Erzal <span class="amp">&</span> Dhea</h1>
+        <p class="hero__subtitle">Dengan memohon rahmat dan ridha Allah SWT, kami mengundang Anda untuk merayakan hari bahagia kami.</p>
+        <p class="hero__date"><i class="fa-regular fa-calendar" aria-hidden="true"></i> Akad 13 Juli &mdash; Resepsi 22 Juli 2026</p>
         <div class="hero__ornament" aria-hidden="true">
           <span></span><i class="fa-solid fa-heart"></i><span></span>
         </div>
@@ -102,7 +115,7 @@
         <div class="section-header reveal">
           <p class="section-label">Menghitung Hari</p>
           <h2 class="section-title">Countdown</h2>
-          <p class="section-desc">Lorem ipsum dolor sit amet — kami menantikan hari bahagia bersama Anda.</p>
+          <p class="section-desc">Menuju hari Akad Nikah kami di Makkah — 13 Juli 2026.</p>
         </div>
         <div class="countdown__grid reveal" id="countdownTimer" aria-live="polite">
           <div class="countdown__item glass">
@@ -131,18 +144,17 @@
         <div class="section-header reveal">
           <p class="section-label">Mempelai</p>
           <h2 class="section-title">The Couple</h2>
-          <p class="section-desc">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt.</p>
+          <p class="section-desc">Putra dan putri yang dipertemukan oleh Allah SWT, kini melangkah menuju pelaminan.</p>
         </div>
         <div class="couple__grid">
           <article class="couple__card glass reveal">
-            <!-- Groom — restaurant candid -->
             <div class="couple__photo">
-              <img src="assets/photos/groom.jpg" alt="Foto Budi Santoso">
+              <img src="assets/photos/groom.jpg" alt="Foto Erzal Maulana Sandrya">
             </div>
-            <h3 class="couple__name">Budi Santoso</h3>
+            <h3 class="couple__name">Erzal Maulana Sandrya</h3>
             <p class="couple__parents">Putra dari<br><strong>Bapak Lorem & Ibu Ipsum</strong></p>
             <div class="couple__social">
-              <a href="#" aria-label="Instagram Budi"><i class="fa-brands fa-instagram"></i></a>
+              <a href="#" aria-label="Instagram Erzal"><i class="fa-brands fa-instagram"></i></a>
             </div>
           </article>
 
@@ -151,14 +163,13 @@
           </div>
 
           <article class="couple__card glass reveal">
-            <!-- Bride — tropical villa portrait -->
             <div class="couple__photo">
-              <img src="assets/photos/bride.jpg" alt="Foto Sari Wulandari">
+              <img src="assets/photos/bride.jpg" alt="Foto Dhea Fadhillah Ramlan">
             </div>
-            <h3 class="couple__name">Sari Wulandari</h3>
+            <h3 class="couple__name">Dhea Fadhillah Ramlan</h3>
             <p class="couple__parents">Putri dari<br><strong>Bapak Dolor & Ibu Sit Amet</strong></p>
             <div class="couple__social">
-              <a href="#" aria-label="Instagram Sari"><i class="fa-brands fa-instagram"></i></a>
+              <a href="#" aria-label="Instagram Dhea"><i class="fa-brands fa-instagram"></i></a>
             </div>
           </article>
         </div>
@@ -171,42 +182,34 @@
         <div class="section-header reveal">
           <p class="section-label">Perjalanan Cinta</p>
           <h2 class="section-title">Our Love Story</h2>
-          <p class="section-desc">Lorem ipsum dolor sit amet — setiap bab dalam kisah kami penuh makna.</p>
+          <p class="section-desc">Setiap bab dalam kisah kami penuh makna dan berkah.</p>
         </div>
         <figure class="story__photo reveal">
-          <img src="assets/photos/childhood.jpg" alt="Budi dan Sari — kenangan masa kecil, awal kisah cinta" loading="lazy">
+          <img src="assets/photos/childhood.jpg" alt="Erzal dan Dhea — kenangan masa kecil, awal kisah cinta" loading="lazy">
         </figure>
         <div class="timeline">
           <article class="timeline__item reveal">
             <div class="timeline__dot" aria-hidden="true"></div>
             <div class="timeline__content glass">
-              <time datetime="2019">2019</time>
-              <h3>Awal Kisah / Our Beginning</h3>
-              <p>Sejak kecil, takdir telah menuliskan bab pertama — dua hati yang akhirnya bertemu kembali di waktu yang tepat.</p>
-            </div>
-          </article>
-          <article class="timeline__item reveal">
-            <div class="timeline__dot" aria-hidden="true"></div>
-            <div class="timeline__content glass">
-              <time datetime="2021">2021</time>
-              <h3>Resmi Berpacaran / Official Dating</h3>
-              <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+              <time datetime="2022">2022</time>
+              <h3>Pertama Bertemu / First Meet</h3>
+              <p>We first met through Instagram. After 1 month of getting to know each other, we decided to start our relationship on 10 Juli 2022.</p>
             </div>
           </article>
           <article class="timeline__item reveal">
             <div class="timeline__dot" aria-hidden="true"></div>
             <div class="timeline__content glass">
               <time datetime="2024">2024</time>
-              <h3>Lamaran / The Proposal</h3>
-              <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+              <h3>Langkah Serius / Serious Step</h3>
+              <p>This year we decided to take a more serious step towards marriage.</p>
             </div>
           </article>
           <article class="timeline__item reveal">
             <div class="timeline__dot" aria-hidden="true"></div>
             <div class="timeline__content glass">
               <time datetime="2026">2026</time>
-              <h3>Menuju Altar / The Big Day</h3>
-              <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</p>
+              <h3>Menuju Pelaminan / The Big Day</h3>
+              <p>And finally we will get married and carry out the marriage contract in Mecca in July 2026.</p>
             </div>
           </article>
         </div>
@@ -219,7 +222,7 @@
         <div class="section-header reveal">
           <p class="section-label">Rangkaian Acara</p>
           <h2 class="section-title">Wedding Events</h2>
-          <p class="section-desc">Lorem ipsum dolor sit amet — kami berharap kehadiran Anda di setiap momen istimewa.</p>
+          <p class="section-desc">Kami berharap kehadiran Anda di setiap momen istimewa.</p>
         </div>
         <div class="events__grid">
           <article class="event-card glass reveal">
@@ -227,11 +230,11 @@
             <h3>Akad Nikah</h3>
             <p class="event-card__en">Holy Matrimony</p>
             <ul class="event-card__details">
-              <li><i class="fa-regular fa-calendar"></i> Rabu, 22 Juli 2026</li>
-              <li><i class="fa-regular fa-clock"></i> 08:00 – 10:00 WIB</li>
-              <li><i class="fa-solid fa-location-dot"></i> Maxi's Resto, Bandung</li>
+              <li><i class="fa-regular fa-calendar"></i> Senin, 13 Juli 2026</li>
+              <li><i class="fa-solid fa-location-dot"></i> Makkah, Saudi Arabia</li>
+              <li><i class="fa-solid fa-kaaba"></i> Area Masjidil Haram</li>
             </ul>
-            <p class="event-card__note">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+            <p class="event-card__note">Pelaksanaan akad nikah di tanah suci Makkah.</p>
           </article>
           <article class="event-card glass reveal">
             <div class="event-card__icon"><i class="fa-solid fa-champagne-glasses" aria-hidden="true"></i></div>
@@ -242,7 +245,7 @@
               <li><i class="fa-regular fa-clock"></i> 11:00 – 15:00 WIB</li>
               <li><i class="fa-solid fa-location-dot"></i> Maxi's Resto, Bandung</li>
             </ul>
-            <p class="event-card__note">Duis aute irure dolor in reprehenderit in voluptate velit esse.</p>
+            <p class="event-card__note">Jl. Gunung Agung No.8, Ciumbuleuit, Kec. Cidadap, Kota Bandung</p>
           </article>
         </div>
       </div>
@@ -258,25 +261,25 @@
         </div>
         <div class="gallery__grid">
           <button class="gallery__item reveal" type="button" data-index="0" aria-label="Buka foto galeri 1">
-            <img src="assets/photos/gallery-01.jpg" alt="Budi dan Sari di villa tropis" loading="lazy">
+            <img src="assets/photos/gallery-01.jpg" alt="Erzal dan Dhea di villa tropis" loading="lazy">
           </button>
           <button class="gallery__item reveal" type="button" data-index="1" aria-label="Buka foto galeri 2">
-            <img src="assets/photos/gallery-02.jpg" alt="Budi dan Sari — momen santai" loading="lazy">
+            <img src="assets/photos/gallery-02.jpg" alt="Erzal dan Dhea — momen santai" loading="lazy">
           </button>
           <button class="gallery__item reveal" type="button" data-index="2" aria-label="Buka foto galeri 3">
-            <img src="assets/photos/gallery-03.jpg" alt="Budi dan Sari — foto duotone" loading="lazy">
+            <img src="assets/photos/gallery-03.jpg" alt="Erzal dan Dhea — foto duotone" loading="lazy">
           </button>
           <button class="gallery__item reveal" type="button" data-index="3" aria-label="Buka foto galeri 4">
-            <img src="assets/photos/gallery-04.jpg" alt="Budi dan Sari di restoran" loading="lazy">
+            <img src="assets/photos/gallery-04.jpg" alt="Erzal dan Dhea di restoran" loading="lazy">
           </button>
           <button class="gallery__item reveal" type="button" data-index="4" aria-label="Buka foto galeri 5">
-            <img src="assets/photos/gallery-05.jpg" alt="Budi dan Sari — candid" loading="lazy">
+            <img src="assets/photos/gallery-05.jpg" alt="Erzal dan Dhea — candid" loading="lazy">
           </button>
           <button class="gallery__item reveal" type="button" data-index="5" aria-label="Buka foto galeri 6">
-            <img src="assets/photos/gallery-06.jpg" alt="Budi dan Sari dengan mobil" loading="lazy">
+            <img src="assets/photos/gallery-06.jpg" alt="Erzal dan Dhea dengan mobil" loading="lazy">
           </button>
           <button class="gallery__item reveal" type="button" data-index="6" aria-label="Buka foto galeri 7">
-            <img src="assets/photos/gallery-07.jpg" alt="Budi dan Sari — kenangan masa kecil" loading="lazy">
+            <img src="assets/photos/gallery-07.jpg" alt="Erzal dan Dhea — kenangan masa kecil" loading="lazy">
           </button>
         </div>
       </div>
@@ -354,7 +357,7 @@
             <div class="wish-card__avatar" aria-hidden="true">A</div>
             <div class="wish-card__body">
               <h4>Andi Pratama</h4>
-              <p>Selamat Budi & Sari! Semoga menjadi keluarga sakinah, mawaddah, warahmah. Barakallahu lakuma.</p>
+              <p>Selamat Erzal & Dhea! Semoga menjadi keluarga sakinah, mawaddah, warahmah. Barakallahu lakuma.</p>
               <time datetime="2026-05-01">1 Mei 2026</time>
             </div>
           </article>
@@ -429,14 +432,15 @@
     <!-- Footer -->
     <footer class="footer">
       <div class="container">
-        <p class="footer__names">Budi <span>&</span> Sari</p>
-        <p class="footer__date">22.07.2026</p>
+        <p class="footer__names">Erzal <span>&</span> Dhea</p>
+        <p class="footer__date">13 &amp; 22.07.2026</p>
         <p class="footer__thanks">Terima kasih atas doa dan kehadiran Anda.<br>Thank you for your prayers and presence.</p>
         <p class="footer__credit">Made with <i class="fa-solid fa-heart" aria-hidden="true"></i> — Demo Wedding Invitation</p>
       </div>
     </footer>
   </main>
 
+  <script src="js/beat-sync.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

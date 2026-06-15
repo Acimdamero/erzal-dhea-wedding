@@ -1,5 +1,5 @@
 /* ============================================
-   Wedding Invitation — Budi & Sari
+   Wedding Invitation — Erzal & Dhea
    Modern minimalist with glassmorphism
    ============================================ */
 
@@ -23,6 +23,7 @@
   --radius-sm: 10px;
   --transition: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   --nav-height: 56px;
+  --beat-intensity: 0;
 }
 
 *, *::before, *::after {
@@ -1219,6 +1220,113 @@ button {
 }
 
 /* ============================================
+   BEAT-SYNC ORNAMENTS & ANIMATIONS
+   ============================================ */
+.ornaments {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 50;
+  overflow: hidden;
+}
+
+.ornament {
+  position: absolute;
+  left: var(--ornament-x, 5%);
+  top: var(--ornament-y, 10%);
+  width: clamp(28px, 4vw, 48px);
+  height: clamp(28px, 4vw, 48px);
+  color: var(--color-accent);
+  opacity: calc(0.15 + var(--beat-intensity) * 0.25);
+  transform: scale(calc(1 + var(--beat-intensity) * 0.08));
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  animation: ornament-float 8s ease-in-out infinite;
+}
+
+.ornament img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.ornament:nth-child(odd) { animation-delay: -2s; }
+.ornament:nth-child(3n) { animation-delay: -4s; color: var(--color-primary); }
+
+.ornament--pulse {
+  transform: scale(calc(1.15 + var(--beat-intensity) * 0.1));
+  opacity: calc(0.35 + var(--beat-intensity) * 0.4);
+}
+
+.ornament--flash {
+  filter: drop-shadow(0 0 8px rgba(196, 168, 130, 0.6));
+}
+
+@keyframes ornament-float {
+  0%, 100% { translate: 0 0; }
+  50% { translate: 0 -12px; }
+}
+
+.beat-particles {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 51;
+  overflow: hidden;
+}
+
+.beat-particle {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  opacity: 0;
+  animation: particle-burst 1.2s ease-out forwards;
+}
+
+.beat-particle--star {
+  background: var(--color-accent);
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+}
+
+.beat-particle--petal {
+  background: var(--color-primary);
+  border-radius: 50% 0 50% 0;
+}
+
+.beat-particle--heart {
+  background: var(--color-accent);
+  clip-path: path('M10,6 C10,3 7,1 5,3 C3,1 0,3 0,6 C0,10 5,14 5,14 C5,14 10,10 10,6');
+  width: 12px;
+  height: 12px;
+}
+
+@keyframes particle-burst {
+  0% { opacity: 0.8; transform: scale(0.5) translateY(0); }
+  100% { opacity: 0; transform: scale(1.5) translateY(-60px); }
+}
+
+/* Beat pulse effects */
+body.beat-active .hero__title {
+  text-shadow: 0 0 calc(20px * var(--beat-intensity)) rgba(232, 213, 181, 0.5);
+}
+
+body.beat-pulse .glass {
+  transform: scale(1.01);
+  transition: transform 0.12s ease;
+}
+
+body.beat-pulse .gallery__item {
+  box-shadow: 0 0 calc(12px * var(--beat-intensity)) rgba(196, 168, 130, 0.35);
+}
+
+body.beat-downbeat .hero__bg img {
+  transform: scale(calc(1.1 + var(--beat-intensity) * 0.02));
+}
+
+body.beat-downbeat .parallax img {
+  transition: transform 0.3s ease;
+}
+
+/* ============================================
    RESPONSIVE
    ============================================ */
 @media (max-width: 768px) {
@@ -1292,5 +1400,16 @@ button {
 
   html {
     scroll-behavior: auto;
+  }
+
+  .ornaments,
+  .beat-particles {
+    display: none;
+  }
+
+  body.beat-pulse .glass,
+  body.beat-pulse .gallery__item {
+    transform: none;
+    box-shadow: none;
   }
 }
