@@ -27,7 +27,7 @@
 - **Autoscroll sinematik** — gulir otomatis per section dengan ring countdown; ketuk = lanjut ke section berikutnya; tahan = matikan/nyalakan
 - **Beat sync** — ornamen & partikel mengikuti BPM 75
 - **Countdown** — menuju Akad 13 Juli 2026 (Makkah, UTC+3)
-- **Mempelai** — Erzal Maulana Sandrya & **Dhea Fadillah Ramlan** (ejaan benar); data orang tua tampil jelas dengan kontras teks diperbaiki
+- **Mempelai** — Erzal Maulana Sandrya S.I.Kom & **Dhea Fadillah Ramlan S.E.** (ejaan benar); data orang tua tampil jelas dengan kontras teks diperbaiki
 - **Love Story** — teks klien ditampilkan persis (2022 / 2024 / 2026) dengan foto childhood + milestone
 - **Acara** — Akad 13 Juli 2026 Makkah; Resepsi 22 Juli 2026 Maxi's Resto Bandung 15:30–18:30 WIB
 - **RSVP & Ucapan** — terhubung Supabase (`bebdiinqomsclynxvpbm.supabase.co`)

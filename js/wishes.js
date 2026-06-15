@@ -54,7 +54,16 @@
   }
 
   function isTestEntry(name) {
-    return /^reviewtest$/i.test((name || '').trim());
+    const n = (name || '').trim();
+    return /^(reviewtest|rlstest|setup\s*test)$/i.test(n);
+  }
+
+  function showEmptyState(list) {
+    if (list.querySelector('.wish-card') || list.querySelector('.wishes__empty')) return;
+    const empty = document.createElement('p');
+    empty.className = 'wishes__empty form-note form-note--info';
+    empty.textContent = 'Jadilah yang pertama meninggalkan ucapan dan doa!';
+    list.appendChild(empty);
   }
 
   async function loadRecentWishes(list, client, slug) {
@@ -64,13 +73,12 @@
         .select('name, message, created_at')
         .eq('wedding_slug', slug)
         .order('created_at', { ascending: false })
-        .limit(10);
+        .limit(20);
 
       if (error) throw error;
-      if (!data || !data.length) return;
 
-      const wishes = data.filter((wish) => !isTestEntry(wish.name));
-      if (!wishes.length) return;
+      const wishes = (data || []).filter((wish) => !isTestEntry(wish.name));
+      if (!wishes.length) return false;
 
       const emptyEl = list.querySelector('.wishes__empty');
       if (emptyEl) emptyEl.remove();
@@ -80,8 +88,10 @@
           createWishCard(wish.name, wish.message, new Date(wish.created_at))
         );
       });
+      return true;
     } catch (err) {
       console.warn('[Wishes] Could not load public wishes:', err);
+      return false;
     }
   }
 
@@ -99,7 +109,7 @@
     if (type) note.classList.add(`form-note--${type}`);
   }
 
-  function init() {
+  async function init() {
     const form = document.getElementById('wishesForm');
     const list = document.getElementById('wishesList');
     if (!form || !list) return;
@@ -111,17 +121,15 @@
         'info'
       );
       console.warn('[Wishes] Supabase belum dikonfigurasi. Isi js/config.js dengan URL dan anon key.');
+      showEmptyState(list);
     } else {
       const client = getClient();
       const cfg = getConfig();
       if (client) {
-        loadRecentWishes(list, client, cfg.slug || 'erzal-dhea');
-      }
-      if (!list.children.length) {
-        const empty = document.createElement('p');
-        empty.className = 'wishes__empty form-note form-note--info';
-        empty.textContent = 'Jadilah yang pertama meninggalkan ucapan dan doa!';
-        list.appendChild(empty);
+        const loaded = await loadRecentWishes(list, client, cfg.slug || 'erzal-dhea');
+        if (!loaded) showEmptyState(list);
+      } else {
+        showEmptyState(list);
       }
     }
 

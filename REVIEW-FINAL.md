@@ -5,7 +5,7 @@
 **Tanggal review:** 15 Juni 2026  
 **Update konten:** 15 Juni 2026 — placeholder, footer, Instagram, copy, dokumentasi  
 **Commit terbaru:** (lihat git log setelah deploy konten)  
-**Pasangan:** Erzal Maulana Sandrya & Dhea Fadillah Ramlan  
+**Pasangan:** Erzal Maulana Sandrya S.I.Kom & Dhea Fadillah Ramlan S.E.  
 **Akad:** 13 Juli 2026, Makkah | **Resepsi:** 22 Juli 2026, Maxi's Resto Bandung 15:30–18:30 WIB
 
 ---
@@ -83,7 +83,7 @@ Namun, sebagian kecil masih terbuka: section **Wedding Events** sengaja disembun
 
 ### Konten & Data
 - **Nama mempelai benar** — Dhea **Fadillah** Ramlan (bukan Fadhillah).
-- **Orang tua** — Erzal: Ibu Ratna Karyati & Bapak Mamat Rahmat; Dhea: Ibu Siti Aisah & Bapak Ramlan.
+- **Orang tua** — Erzal: Ibu Hj. Ratna Karyati S.Pd. & Bapak Mamat Rahmat; Dhea: Ibu Siti Aisah & Bapak Ramlan.
 - **URL resmi** — `erzal-dhea-wedding.vercel.app` (tanpa `acimdamero`).
 - **Demo mode OFF** — `js/config.js` & `admin/config.js` berisi project Supabase `bebdiinqomsclynxvpbm.supabase.co`.
 

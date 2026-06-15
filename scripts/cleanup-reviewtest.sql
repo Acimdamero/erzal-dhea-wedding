@@ -1,0 +1,1 @@
+-- DEPRECATED — gunakan scripts/cleanup-test-data.sql (cakupan lengkap: ReviewTest, RLSTest, Setup Test)

@@ -38,8 +38,8 @@
     <div id="pageAlert" class="alert" hidden role="alert"></div>
     <p class="admin-hint no-print" id="adminHint" hidden role="note">
       <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
-      Hapus entri uji <strong>ReviewTest</strong> dari tabel RSVP &amp; Ucapan sebelum go-live.
-      Di Supabase SQL Editor: <code>DELETE FROM wishes WHERE name ILIKE 'ReviewTest'; DELETE FROM rsvp_responses WHERE name ILIKE 'ReviewTest';</code>
+      Hapus entri uji (<strong>ReviewTest</strong>, <strong>RLSTest</strong>, <strong>Setup Test</strong>) dari tabel RSVP &amp; Ucapan sebelum go-live.
+      Jalankan <code>scripts/cleanup-test-data.sql</code> di Supabase SQL Editor.
     </p>
 
     <section class="summary-grid" id="summaryGrid" aria-label="Ringkasan">
