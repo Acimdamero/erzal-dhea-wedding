@@ -134,8 +134,25 @@ a.btn,
   }
 }
 
-/* Full viewport height — address bar safe (iOS Safari, Android Chrome) */
-.cover {
+/* Fixed background hurts mobile scroll performance — use scroll attachment */
+@media (max-width: 768px) {
+  .site-bg__image {
+    background-attachment: scroll;
+  }
+
+  .couple__card--text {
+    padding: 2rem 1.25rem;
+  }
+
+  .couple__frame {
+    width: min(120px, 40%);
+  }
+
+  .ornament--corner img {
+    width: 48px;
+    opacity: 0.35;
+  }
+}
   min-height: 100vh;
   min-height: 100svh;
   min-height: 100dvh;

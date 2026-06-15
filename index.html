@@ -13,12 +13,12 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="Wedding Invitation Erzal & Dhea">
   <meta property="og:description" content="Kami mengundang Anda untuk merayakan hari bahagia kami. / We invite you to celebrate our special day.">
-  <meta property="og:image" content="https://acimdamero.github.io/erzal-dhea-wedding/assets/photos/og.jpg">
-  <meta property="og:url" content="https://acimdamero.github.io/erzal-dhea-wedding/">
+  <meta property="og:image" content="https://erzal-dhea-wedding.vercel.app/assets/backgrounds/masjidil-haram.jpg">
+  <meta property="og:url" content="https://erzal-dhea-wedding.vercel.app/">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Wedding Invitation Erzal & Dhea">
   <meta name="twitter:description" content="Kami mengundang Anda untuk merayakan hari bahagia kami. / We invite you to celebrate our special day.">
-  <meta name="twitter:image" content="https://acimdamero.github.io/erzal-dhea-wedding/assets/photos/og.jpg">
+  <meta name="twitter:image" content="https://erzal-dhea-wedding.vercel.app/assets/backgrounds/masjidil-haram.jpg">
 
   <title>Wedding Invitation Erzal & Dhea</title>
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
@@ -31,6 +31,13 @@
   <link rel="stylesheet" href="css/mobile.css">
 </head>
 <body>
+
+  <!-- Layered Islamic background: Masjidil Haram + arabesque pattern -->
+  <div class="site-bg" aria-hidden="true">
+    <div class="site-bg__image"></div>
+    <div class="site-bg__overlay"></div>
+    <div class="site-bg__pattern"></div>
+  </div>
 
   <canvas id="bg-canvas-3d" class="canvas-3d canvas-3d--bg" aria-hidden="true"></canvas>
 
@@ -52,6 +59,11 @@
     <div class="ornament ornament--crescent" style="--ornament-x: 94%; --ornament-y: 38%;"><img src="assets/ornaments/crescent.svg" alt=""></div>
     <div class="ornament ornament--petal" style="--ornament-x: 10%; --ornament-y: 88%;"><img src="assets/ornaments/petal.svg" alt=""></div>
     <div class="ornament ornament--arabesque" style="--ornament-x: 85%; --ornament-y: 85%;"><img src="assets/ornaments/arabesque.svg" alt=""></div>
+    <div class="ornament ornament--rosette" style="--ornament-x: 50%; --ornament-y: 5%;"><img src="assets/ornaments/geometric-rosette.svg" alt=""></div>
+    <div class="ornament ornament--crescent" style="--ornament-x: 78%; --ornament-y: 22%;"><img src="assets/ornaments/crescent.svg" alt=""></div>
+    <div class="ornament ornament--star" style="--ornament-x: 18%; --ornament-y: 28%;"><img src="assets/ornaments/star.svg" alt=""></div>
+    <div class="ornament ornament--arabesque ornament--corner" style="--ornament-x: 2%; --ornament-y: 2%;"><img src="assets/ornaments/mashrabiya-lattice.svg" alt=""></div>
+    <div class="ornament ornament--arabesque ornament--corner" style="--ornament-x: 96%; --ornament-y: 92%;"><img src="assets/ornaments/mashrabiya-lattice.svg" alt=""></div>
   </div>
   <div class="beat-particles" id="beatParticles" aria-hidden="true"></div>
 
@@ -84,10 +96,10 @@
 
   <!-- Music Control -->
   <div class="music-control" id="musicControl" hidden>
-    <button class="music-control__btn" id="musicToggle" type="button" aria-label="Putar musik" aria-pressed="false">
-      <i class="fa-solid fa-volume-xmark" id="musicIcon" aria-hidden="true"></i>
+    <button class="music-control__btn playing" id="musicToggle" type="button" aria-label="Matikan musik" aria-pressed="true">
+      <i class="fa-solid fa-music" id="musicIcon" aria-hidden="true"></i>
     </button>
-    <span class="music-control__label" id="musicLabel">Putar Musik</span>
+    <span class="music-control__label" id="musicLabel">Musik</span>
   </div>
 
   <!-- Hidden YouTube background music player (IFrame API) -->
@@ -102,18 +114,17 @@
       <a href="#couple" class="nav__link">Mempelai</a>
       <a href="#story" class="nav__link">Kisah</a>
       <a href="#events" class="nav__link">Acara</a>
-      <a href="#gallery" class="nav__link">Galeri</a>
+      <a href="#gallery" class="nav__link nav__link--photos">Galeri</a>
       <a href="#rsvp" class="nav__link">RSVP</a>
       <a href="#wishes" class="nav__link">Ucapan</a>
       <a href="#location" class="nav__link">Lokasi</a>
     </nav>
 
-    <!-- Hero -->
-    <section id="hero" class="hero section" data-chapter="welcome">
+    <!-- Hero — Masjidil Haram layered background (no couple photo) -->
+    <section id="hero" class="hero section section--makkah" data-chapter="welcome">
       <div class="hero__bg parallax" data-speed="0.3" aria-hidden="true">
-        <!-- Couple cover photo — tropical villa -->
-        <img src="assets/photos/hero.jpg" alt="" loading="eager">
         <div class="hero__overlay"></div>
+        <img class="hero__arch" src="assets/ornaments/islamic-arch.svg" alt="" aria-hidden="true">
       </div>
       <div class="hero__content reveal">
         <p class="hero__pre">The Wedding of</p>
@@ -161,7 +172,7 @@
     </section>
 
     <!-- Couple -->
-    <section id="couple" class="couple section" data-chapter="couple">
+    <section id="couple" class="couple section section--makkah" data-chapter="couple">
       <div class="container">
         <div class="section-header reveal">
           <p class="section-label">Mempelai</p>
@@ -170,10 +181,11 @@
           <p class="section-desc">Putra dan putri yang dipertemukan oleh Allah SWT, kini melangkah menuju pelaminan.</p>
         </div>
         <div class="couple__grid">
-          <article class="couple__card glass reveal">
-            <div class="couple__photo">
-              <img src="assets/photos/groom.jpg" alt="Foto Erzal Maulana Sandrya" loading="lazy">
+          <article class="couple__card couple__card--text glass reveal">
+            <div class="couple__frame" aria-hidden="true">
+              <img src="assets/ornaments/mihrab-frame.svg" alt="">
             </div>
+            <p class="couple__role">Mempelai Pria</p>
             <h3 class="couple__name">Erzal Maulana Sandrya</h3>
             <p class="couple__parents">Putra dari<br><strong>Ibu Ratna Karyati & Bapak Mamat Rahmat</strong></p>
             <div class="couple__social">
@@ -182,13 +194,16 @@
           </article>
 
           <div class="couple__divider reveal" aria-hidden="true">
+            <span class="couple__divider-line"></span>
             <i class="fa-solid fa-heart"></i>
+            <span class="couple__divider-line"></span>
           </div>
 
-          <article class="couple__card glass reveal">
-            <div class="couple__photo">
-              <img src="assets/photos/bride.jpg" alt="Foto Dhea Fadhillah Ramlan" loading="lazy">
+          <article class="couple__card couple__card--text glass reveal">
+            <div class="couple__frame" aria-hidden="true">
+              <img src="assets/ornaments/mihrab-frame.svg" alt="">
             </div>
+            <p class="couple__role">Mempelai Wanita</p>
             <h3 class="couple__name">Dhea Fadhillah Ramlan</h3>
             <p class="couple__parents">Putri dari<br><strong>Ibu Siti Aisah & Bapak Ramlan</strong></p>
             <div class="couple__social">
@@ -200,7 +215,7 @@
     </section>
 
     <!-- Love Story -->
-    <section id="story" class="story section" data-chapter="story">
+    <section id="story" class="story section section--makkah" data-chapter="story">
       <img class="section-ornament section-ornament--left parallax-layer" data-parallax="0.06" src="assets/ornaments/arabesque.svg" alt="" aria-hidden="true">
       <div class="container story__pin-wrap">
         <div class="section-header reveal">
@@ -209,9 +224,12 @@
           <span class="section-divider" aria-hidden="true"></span>
           <p class="section-desc">Setiap bab dalam kisah kami penuh makna dan berkah.</p>
         </div>
+        <!-- PHOTOS: set PHOTOS_ENABLED true and uncomment story photo -->
+        <!--
         <figure class="story__photo reveal">
           <img src="assets/photos/childhood.jpg" alt="Erzal dan Dhea — kenangan masa kecil, awal kisah cinta" loading="lazy">
         </figure>
+        -->
         <div class="timeline">
           <article class="timeline__item reveal">
             <div class="timeline__dot" aria-hidden="true"></div>
@@ -288,7 +306,8 @@
       </div>
     </section>
 
-    <!-- Gallery -->
+    <!-- PHOTOS: set PHOTOS_ENABLED true and uncomment gallery + lightbox sections -->
+    <!--
     <section id="gallery" class="gallery section" data-chapter="gallery">
       <div class="container">
         <div class="section-header reveal">
@@ -323,13 +342,13 @@
       </div>
     </section>
 
-    <!-- Lightbox -->
     <div class="lightbox" id="lightbox" role="dialog" aria-label="Galeri foto" aria-modal="true" hidden>
       <button class="lightbox__close" type="button" aria-label="Tutup galeri"><i class="fa-solid fa-xmark"></i></button>
       <button class="lightbox__nav lightbox__nav--prev" type="button" aria-label="Foto sebelumnya"><i class="fa-solid fa-chevron-left"></i></button>
       <img class="lightbox__img" id="lightboxImg" src="" alt="">
       <button class="lightbox__nav lightbox__nav--next" type="button" aria-label="Foto berikutnya"><i class="fa-solid fa-chevron-right"></i></button>
     </div>
+    -->
 
     <!-- RSVP -->
     <section id="rsvp" class="rsvp section" data-chapter="rsvp">

@@ -76,6 +76,7 @@
       this.camera.lookAt(0, 0, 0);
 
       this._addLights();
+      this._buildHaramBackdrop();
       this._buildIslamicGroup();
       this._buildSundaGroup();
       this._buildSharedElements();
@@ -109,6 +110,48 @@
         opacity,
         wireframe,
       });
+    }
+
+    _buildHaramBackdrop() {
+      const THREE = global.THREE;
+      const loader = new THREE.TextureLoader();
+      loader.load(
+        'assets/backgrounds/masjidil-haram.jpg',
+        (texture) => {
+          texture.minFilter = THREE.LinearFilter;
+          const plane = new THREE.Mesh(
+            new THREE.PlaneGeometry(14, 8),
+            new THREE.MeshBasicMaterial({
+              map: texture,
+              transparent: true,
+              opacity: 0.22,
+              depthWrite: false,
+            })
+          );
+          plane.position.set(0, 0.2, -4);
+          this.scene.add(plane);
+          this.elements.push({ mesh: plane, baseRot: { x: 0, y: 0, z: 0 }, drift: 0.1 });
+        },
+        undefined,
+        () => { /* fallback: procedural backdrop only */ }
+      );
+
+      // Kaaba silhouette (procedural)
+      const kaabaGroup = new THREE.Group();
+      const kaabaBody = new THREE.Mesh(
+        new THREE.BoxGeometry(0.9, 0.7, 0.9),
+        new THREE.MeshStandardMaterial({ color: COLORS.kaaba, metalness: 0.2, roughness: 0.85 })
+      );
+      kaabaBody.position.set(-1.8, -0.2, -2.5);
+      kaabaGroup.add(kaabaBody);
+      const kaabaBand = new THREE.Mesh(
+        new THREE.BoxGeometry(0.95, 0.12, 0.95),
+        this._goldMaterial(0.9)
+      );
+      kaabaBand.position.set(-1.8, 0.05, -2.5);
+      kaabaGroup.add(kaabaBand);
+      this.scene.add(kaabaGroup);
+      this.elements.push({ mesh: kaabaGroup, baseRot: { x: 0, y: 0, z: 0 }, drift: 0.15 });
     }
 
     _buildIslamicGroup() {

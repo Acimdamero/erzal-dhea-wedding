@@ -147,7 +147,7 @@
       group.add(kaabaBand);
 
       // Arabesque particles
-      const count = this.isSmallScreen ? 6 : this.isMobile ? 8 : 24;
+      const count = this.isSmallScreen ? 10 : this.isMobile ? 16 : 40;
       const positions = new Float32Array(count * 3);
       for (let i = 0; i < count; i++) {
         positions[i * 3] = (Math.random() - 0.5) * 6;
@@ -163,8 +163,34 @@
       pts.name = 'arabesque-particles';
       group.add(pts);
 
+      // Crescent ornament
+      const crescent = new THREE.Mesh(
+        new THREE.TorusGeometry(0.35, 0.05, 8, 32, Math.PI * 1.35),
+        new THREE.MeshBasicMaterial({ color: COLORS.gold, transparent: true, opacity: 0.45 })
+      );
+      crescent.position.set(2.2, 2.0, -0.4);
+      crescent.rotation.z = -0.4;
+      group.add(crescent);
+
+      // Mihrab arch wireframe
+      const archShape = new THREE.Shape();
+      archShape.moveTo(-0.5, 0);
+      archShape.lineTo(-0.5, 0.8);
+      archShape.quadraticCurveTo(0, 1.4, 0.5, 0.8);
+      archShape.lineTo(0.5, 0);
+      const archGeo = new THREE.ExtrudeGeometry(archShape, { depth: 0.02, bevelEnabled: false });
+      const arch = new THREE.Mesh(archGeo, new THREE.MeshBasicMaterial({
+        color: COLORS.gold,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.35,
+      }));
+      arch.position.set(-3.2, 0.5, -0.6);
+      arch.scale.set(0.8, 0.8, 0.8);
+      group.add(arch);
+
       // Floating star polyhedra
-      const starCount = this.isSmallScreen ? 1 : this.isMobile ? 2 : 4;
+      const starCount = this.isSmallScreen ? 2 : this.isMobile ? 4 : 8;
       for (let i = 0; i < starCount; i++) {
         const star = new THREE.Mesh(
           new THREE.IcosahedronGeometry(0.1, 0),

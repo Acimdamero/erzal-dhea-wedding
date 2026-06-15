@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" aria-hidden="true">
+  <defs>
+    <linearGradient id="rosette-gold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#e8d5b5"/>
+      <stop offset="100%" stop-color="#c4a882"/>
+    </linearGradient>
+  </defs>
+  <g fill="none" stroke="url(#rosette-gold)" stroke-width="1.2" opacity="0.85">
+    <circle cx="60" cy="60" r="48"/>
+    <circle cx="60" cy="60" r="32"/>
+    <circle cx="60" cy="60" r="16"/>
+    <g transform="translate(60 60)">
+      <path d="M0 -48 L8 -16 L40 -8 L16 8 L8 40 L0 16 L-8 40 L-16 8 L-40 -8 L-8 -16 Z"/>
+      <path d="M0 -32 L5 -10 L27 -5 L10 5 L5 27 L0 10 L-5 27 L-10 5 L-27 -5 L-5 -10 Z" opacity="0.6"/>
+    </g>
+    <g transform="translate(60 60) rotate(22.5)">
+      <path d="M0 -48 L0 48 M-48 0 L48 0 M-34 -34 L34 34 M34 -34 L-34 34"/>
+    </g>
+  </g>
+</svg>

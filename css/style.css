@@ -40,10 +40,53 @@ html {
 body {
   font-family: var(--font-sans);
   color: var(--color-text);
-  background: var(--color-bg);
+  background: var(--color-bg-dark);
   line-height: 1.6;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+}
+
+/* ============================================
+   LAYERED SITE BACKGROUND — Masjidil Haram
+   ============================================ */
+.site-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+}
+
+.site-bg__image {
+  position: absolute;
+  inset: 0;
+  background: url('../assets/backgrounds/masjidil-haram.jpg') center / cover no-repeat;
+  background-attachment: fixed;
+}
+
+.site-bg__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(26, 36, 24, 0.72) 0%,
+    rgba(44, 51, 40, 0.68) 40%,
+    rgba(26, 26, 24, 0.75) 100%
+  );
+}
+
+.site-bg__pattern {
+  position: absolute;
+  inset: 0;
+  background: url('../assets/ornaments/arabesque-pattern.svg') center / 180px repeat;
+  opacity: 0.12;
+  mix-blend-mode: soft-light;
+}
+
+body.photos-disabled .gallery,
+body.photos-disabled .story__photo,
+body.photos-disabled .couple__photo,
+body.photos-disabled .nav__link--photos {
+  display: none !important;
 }
 
 body.invite-open {
@@ -422,13 +465,24 @@ button {
 }
 
 .music-control__btn.playing {
+  background: var(--color-primary);
+  color: var(--color-white);
   animation: music-spin 3s linear infinite;
+}
+
+.music-control__btn.playing i {
+  animation: music-note-spin 2s linear infinite;
 }
 
 @keyframes music-spin {
   0% { box-shadow: 0 0 0 0 rgba(139, 154, 126, 0.4); }
   50% { box-shadow: 0 0 0 8px rgba(139, 154, 126, 0); }
   100% { box-shadow: 0 0 0 0 rgba(139, 154, 126, 0); }
+}
+
+@keyframes music-note-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
 .music-control__label {
@@ -507,6 +561,7 @@ button {
   position: relative;
   overflow: hidden;
   padding: 0;
+  background: transparent;
 }
 
 .hero__bg {
@@ -515,10 +570,21 @@ button {
   z-index: 0;
 }
 
-.hero__bg img {
+.hero__bg img:not(.hero__arch) {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.hero__arch {
+  position: absolute;
+  left: 50%;
+  top: 8%;
+  transform: translateX(-50%);
+  width: min(420px, 80vw);
+  opacity: 0.35;
+  filter: drop-shadow(0 4px 24px rgba(196, 168, 130, 0.3));
+  pointer-events: none;
 }
 
 .hero__overlay {
@@ -526,8 +592,9 @@ button {
   inset: 0;
   background: linear-gradient(
     to bottom,
-    rgba(44, 51, 40, 0.35) 0%,
-    rgba(44, 51, 40, 0.55) 100%
+    rgba(26, 36, 24, 0.55) 0%,
+    rgba(44, 51, 40, 0.7) 50%,
+    rgba(26, 26, 24, 0.8) 100%
   );
 }
 
@@ -665,6 +732,35 @@ button {
 .couple__card {
   text-align: center;
   padding: 2rem 1.5rem;
+  position: relative;
+}
+
+.couple__card--text {
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+}
+
+.couple__frame {
+  position: absolute;
+  top: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(160px, 50%);
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.couple__frame img {
+  width: 100%;
+  height: auto;
+}
+
+.couple__role {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-primary);
+  margin-bottom: 0.5rem;
 }
 
 .couple__photo {
@@ -716,9 +812,20 @@ button {
 }
 
 .couple__divider {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
   font-size: 1.5rem;
   color: var(--color-accent);
   animation: heartbeat 1.5s ease infinite;
+}
+
+.couple__divider-line {
+  display: block;
+  width: 2px;
+  height: 36px;
+  background: linear-gradient(180deg, transparent, var(--color-accent), transparent);
 }
 
 @keyframes heartbeat {
@@ -1332,21 +1439,39 @@ button {
 body.no-webgl .ornaments-fallback {
   display: block;
 }
-.section--islamic {
-  background: linear-gradient(180deg, var(--color-bg) 0%, #eae6de 50%, var(--color-bg) 100%);
+.section--islamic,
+.section--makkah {
+  background: linear-gradient(180deg, rgba(26, 36, 24, 0.82) 0%, rgba(44, 51, 40, 0.78) 50%, rgba(26, 36, 24, 0.85) 100%);
+  color: #f0ebe3;
 }
 
-.section--islamic::before {
+.section--islamic .section-title,
+.section--makkah .section-title {
+  color: #e8d5b5;
+}
+
+.section--islamic .section-desc,
+.section--makkah .section-desc {
+  color: rgba(240, 235, 227, 0.75);
+}
+
+.section--islamic .section-label,
+.section--makkah .section-label {
+  color: #a8b89a;
+}
+
+.section--islamic::before,
+.section--makkah::before {
   content: '';
   position: absolute;
   inset: 0;
   background: url('../assets/ornaments/mashrabiya-lattice.svg') center / 200px repeat;
-  opacity: 0.03;
+  opacity: 0.06;
   pointer-events: none;
 }
 
 .section--sunda {
-  background: linear-gradient(180deg, #f5f0e6 0%, #ede8dc 50%, #f0ebe0 100%);
+  background: linear-gradient(180deg, rgba(245, 240, 230, 0.92) 0%, rgba(237, 232, 220, 0.9) 50%, rgba(240, 235, 224, 0.92) 100%);
 }
 
 .section-header--framed::before,
@@ -1598,8 +1723,14 @@ body.beat-pulse .gallery__item {
   box-shadow: 0 0 calc(12px * var(--beat-intensity)) rgba(196, 168, 130, 0.35);
 }
 
-body.beat-downbeat .hero__bg img {
-  transform: scale(calc(1.1 + var(--beat-intensity) * 0.02));
+body.beat-downbeat .site-bg__image {
+  transform: scale(calc(1 + var(--beat-intensity) * 0.015));
+  transition: transform 0.3s ease;
+}
+
+body.beat-downbeat .hero__arch {
+  transform: translateX(-50%) scale(calc(1 + var(--beat-intensity) * 0.02));
+  transition: transform 0.3s ease;
 }
 
 body.beat-downbeat .parallax img {
@@ -1624,7 +1755,14 @@ body.beat-downbeat .parallax img {
   }
 
   .couple__divider {
-    order: -1;
+    flex-direction: row;
+    order: 0;
+  }
+
+  .couple__divider-line {
+    width: 48px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
   }
 
   .gallery__grid {

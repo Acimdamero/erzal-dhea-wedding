@@ -28,10 +28,19 @@
   const START_SECONDS = 24;
   const BEAT_BPM = 75;
 
+  const PHOTOS_ENABLED = !(window.WEDDING_CONFIG && window.WEDDING_CONFIG.PHOTOS_ENABLED === false);
+  if (!PHOTOS_ENABLED) {
+    document.body.classList.add('photos-disabled');
+    document.querySelectorAll('.nav__link--photos').forEach((link) => {
+      link.hidden = true;
+    });
+  }
+
   let isMusicPlaying = false;
   let youtubePlayer = null;
   let ytPlayerReady = false;
   let pendingAutoplay = false;
+  let inviteOpened = false;
   let currentGalleryIndex = 0;
   let galleryImages = [];
   let beatEngine = null;
@@ -101,24 +110,22 @@
   // Cover / Envelope Opening
   // ============================================
   function openInvitation() {
+    // Music must start synchronously in this click/tap gesture (iOS Safari).
+    inviteOpened = true;
+    musicControl.hidden = false;
+    tryPlayMusic();
+
     if (opening3D) opening3D.triggerOpen();
     cover.classList.add('opening');
 
     setTimeout(() => {
       cover.classList.add('hidden');
       mainContent.hidden = false;
-      musicControl.hidden = false;
       document.body.classList.add('invite-open');
 
       // Trigger hero reveal
       const heroReveal = document.querySelector('.hero__content.reveal');
       if (heroReveal) heroReveal.classList.add('visible');
-
-      // Attempt autoplay music after user interaction (required on iOS Safari).
-      // iOS blocks programmatic audio until a direct user gesture; opening the
-      // envelope counts, but playback may still fail silently — user can tap
-      // the music toggle to start.
-      tryPlayMusic();
 
       // Lazy-start background 3D on mobile after envelope opens
       if (!scene3D && window.matchMedia('(max-width: 768px)').matches) {
@@ -133,9 +140,9 @@
       // Show nav after scroll
       setTimeout(() => nav.classList.add('visible'), 600);
 
-      // Start cinematic autoscroll journey
+      // Start cinematic autoscroll journey (default ON on all devices)
       if (autoScrollEngine) {
-        autoScrollEngine.start({ defaultOn: !window.matchMedia('(max-width: 768px)').matches });
+        autoScrollEngine.start({ defaultOn: true });
         autoScrollEngine.runProgressLoop();
       }
 
@@ -197,7 +204,7 @@
         onReady: (event) => {
           ytPlayerReady = true;
           event.target.setVolume(35);
-          if (pendingAutoplay) {
+          if (pendingAutoplay || inviteOpened) {
             pendingAutoplay = false;
             tryPlayMusic();
           }
@@ -207,7 +214,7 @@
             ensureMusicStartPosition(event.target);
             setMusicState(true);
           } else if (event.data === YT.PlayerState.PAUSED) {
-            setMusicState(false);
+            if (isMusicPlaying) setMusicState(false);
           } else if (event.data === YT.PlayerState.ENDED) {
             seekToMusicStart(event.target);
             event.target.playVideo();
@@ -242,33 +249,42 @@
   }
 
   function tryPlayMusic() {
+    setMusicState(true, { optimistic: !ytPlayerReady });
+
     if (!ytPlayerReady) {
       pendingAutoplay = true;
       return;
     }
 
     try {
-      ensureMusicStartPosition();
+      seekToMusicStart();
       youtubePlayer.playVideo();
     } catch {
       setMusicState(false);
-      musicLabel.textContent = 'Putar Musik';
     }
   }
 
-  function setMusicState(playing) {
+  function setMusicState(playing, options = {}) {
+    const { optimistic = false } = options;
     isMusicPlaying = playing;
     musicToggle.setAttribute('aria-pressed', String(playing));
     musicToggle.setAttribute('aria-label', playing ? 'Matikan musik' : 'Putar musik');
 
     if (playing) {
-      musicIcon.className = 'fa-solid fa-volume-high';
-      musicLabel.textContent = 'Musik Aktif';
+      musicIcon.className = 'fa-solid fa-music';
+      const isTouch = window.matchMedia('(hover: none)').matches;
+      musicLabel.textContent = optimistic
+        ? 'Memuat musik...'
+        : (isTouch ? 'Ketuk untuk mematikan musik' : 'Musik');
+      musicToggle.title = 'Ketuk untuk mematikan musik';
+      musicLabel.classList.add('music-control__label--visible');
       musicToggle.classList.add('playing');
-      if (beatEngine) beatEngine.start();
+      if (beatEngine && !optimistic) beatEngine.start();
     } else {
       musicIcon.className = 'fa-solid fa-volume-xmark';
       musicLabel.textContent = 'Putar Musik';
+      musicToggle.title = 'Putar musik';
+      musicLabel.classList.remove('music-control__label--visible');
       musicToggle.classList.remove('playing');
       if (beatEngine) beatEngine.stop();
     }
@@ -276,8 +292,8 @@
 
   musicToggle.addEventListener('click', () => {
     if (!ytPlayerReady) {
-      musicLabel.textContent = 'Memuat musik...';
-      musicLabel.classList.add('music-control__label--visible');
+      pendingAutoplay = true;
+      setMusicState(true, { optimistic: true });
       return;
     }
 
@@ -286,11 +302,13 @@
       setMusicState(false);
     } else {
       try {
-        ensureMusicStartPosition();
+        const currentTime = youtubePlayer.getCurrentTime();
+        if (currentTime < START_SECONDS) {
+          seekToMusicStart();
+        }
         youtubePlayer.playVideo();
       } catch {
-        musicLabel.textContent = 'Ketuk untuk putar';
-        musicLabel.classList.add('music-control__label--visible');
+        setMusicState(false);
       }
     }
   });
@@ -377,9 +395,13 @@
 
       if (rect.top < windowH && rect.bottom > 0) {
         const offset = (rect.top - windowH / 2) * speed;
-        const img = el.querySelector('img');
+        const img = el.querySelector('img:not(.hero__arch)');
         if (img) {
           img.style.transform = `translateY(${offset}px) scale(1.1)`;
+        }
+        const arch = el.querySelector('.hero__arch');
+        if (arch) {
+          arch.style.transform = `translateY(${offset * 0.5}px)`;
         }
       }
     });
@@ -436,7 +458,11 @@
   // Gallery Lightbox
   // ============================================
   function initGallery() {
+    if (!PHOTOS_ENABLED || !lightbox || !lightboxImg) return;
+
     const items = document.querySelectorAll('.gallery__item');
+    if (!items.length) return;
+
     galleryImages = Array.from(items).map((item) => item.querySelector('img').src);
 
     items.forEach((item) => {
@@ -463,6 +489,7 @@
   }
 
   function openLightbox() {
+    if (!lightbox || !lightboxImg) return;
     lightboxImg.src = galleryImages[currentGalleryIndex];
     lightbox.hidden = false;
     document.body.style.overflow = 'hidden';
@@ -471,6 +498,7 @@
   }
 
   function closeLightbox() {
+    if (!lightbox) return;
     lightbox.hidden = true;
     document.body.style.overflow = '';
     if (autoScrollEngine && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {

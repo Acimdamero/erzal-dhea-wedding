@@ -304,6 +304,22 @@ body.invite-open .autoscroll-toggle {
   opacity: 0.7;
 }
 
+.autoscroll-toggle[aria-pressed="true"],
+.autoscroll-toggle--active {
+  background: var(--color-primary);
+  color: var(--color-white);
+  box-shadow: 0 0 0 2px rgba(139, 154, 126, 0.35);
+}
+
+.autoscroll-toggle--active i {
+  animation: autoscroll-film-pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes autoscroll-film-pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.08); }
+}
+
 .autoscroll-toggle[aria-pressed="false"] i::before {
   content: '\f04c';
 }
@@ -380,8 +396,17 @@ body.invite-open .autoscroll-toggle {
   .autoscroll-toggle {
     bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
     left: calc(1rem + env(safe-area-inset-left, 0px));
-    width: 44px;
-    height: 44px;
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    min-height: 48px;
+  }
+
+  .music-control__btn {
+    width: 48px;
+    height: 48px;
+    min-width: 48px;
+    min-height: 48px;
   }
 
   .floating-petals {

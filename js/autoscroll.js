@@ -160,14 +160,16 @@
       }
 
       this._collectSections();
-      const defaultOn = options.defaultOn ?? !this.isMobile;
+      const defaultOn = options.defaultOn ?? true;
       this.setEnabled(defaultOn, true);
 
       if (this.enabled) {
         window.scrollTo({ top: 0, behavior: 'instant' });
         this.currentIndex = 0;
-        setTimeout(() => this._scheduleNextSection(), 1800);
+        const startDelay = options.startDelay ?? 500;
+        setTimeout(() => this._scheduleNextSection(), startDelay);
         this.hint.classList.add('autoscroll-hint--visible');
+        this.toggleBtn.classList.add('autoscroll-toggle--active');
       }
     }
 
@@ -176,6 +178,8 @@
       this.toggleBtn.setAttribute('aria-pressed', String(this.enabled));
       this.toggleBtn.setAttribute('aria-label', this.enabled ? 'Matikan gulir otomatis' : 'Nyalakan gulir otomatis');
       document.body.classList.toggle('autoscroll-active', this.enabled);
+
+      this.toggleBtn.classList.toggle('autoscroll-toggle--active', this.enabled);
 
       if (!silent) {
         if (this.enabled) {
@@ -239,7 +243,10 @@
         return;
       }
 
-      const duration = Math.min(2800, Math.max(1400, Math.abs(distance) * 1.2));
+      const speedFactor = this.isMobile ? 1.6 : 1.2;
+      const maxDuration = this.isMobile ? 3400 : 2800;
+      const minDuration = this.isMobile ? 1800 : 1400;
+      const duration = Math.min(maxDuration, Math.max(minDuration, Math.abs(distance) * speedFactor));
       const startTime = performance.now();
 
       const step = (now) => {
