@@ -51,7 +51,9 @@ wedding-invitation/
 
 - **Names:** Erzal Maulana Sandrya (groom), Dhea Fadhillah Ramlan (bride)
 - **Akad:** 13 Juli 2026 — Makkah, Saudi Arabia
-- **Resepsi:** 22 Juli 2026 — Maxi's Resto, Bandung
+- **Resepsi:** 22 Juli 2026, 15:30–18:30 WIB — Maxi's Resto, Bandung
+- **Parents (groom):** Ibu Ratna Karyati & Bapak Mamat Rahmat
+- **Parents (bride):** Ibu Siti Aisah & Bapak Ramlan
 - **Countdown target:** `AKAD_DATE` in `js/main.js`
 
 ### Background Music
@@ -108,4 +110,4 @@ Live site: https://acimdamero.github.io/wedding-invitation/
 
 ## License
 
-Client project. Replace placeholder parent names and photos before final delivery.
+Client project. Replace photos before final delivery if needed.
