@@ -25,6 +25,7 @@
   const shareWa = document.getElementById('shareWa');
 
   const YOUTUBE_VIDEO_ID = '-a-vbOxM-6s';
+  const START_SECONDS = 24;
   const BEAT_BPM = 75;
 
   let isMusicPlaying = false;
@@ -180,6 +181,7 @@
       videoId: YOUTUBE_VIDEO_ID,
       playerVars: {
         autoplay: 0,
+        start: START_SECONDS,
         loop: 1,
         playlist: YOUTUBE_VIDEO_ID,
         controls: 0,
@@ -202,10 +204,12 @@
         },
         onStateChange: (event) => {
           if (event.data === YT.PlayerState.PLAYING) {
+            ensureMusicStartPosition(event.target);
             setMusicState(true);
           } else if (event.data === YT.PlayerState.PAUSED) {
             setMusicState(false);
           } else if (event.data === YT.PlayerState.ENDED) {
+            seekToMusicStart(event.target);
             event.target.playVideo();
           }
         },
@@ -217,6 +221,26 @@
     });
   }
 
+  function seekToMusicStart(player = youtubePlayer) {
+    if (!player || typeof player.seekTo !== 'function') return;
+    try {
+      player.seekTo(START_SECONDS, true);
+    } catch {
+      /* ignore seek errors */
+    }
+  }
+
+  function ensureMusicStartPosition(player = youtubePlayer) {
+    if (!player || typeof player.getCurrentTime !== 'function') return;
+    try {
+      if (player.getCurrentTime() < START_SECONDS) {
+        seekToMusicStart(player);
+      }
+    } catch {
+      /* ignore */
+    }
+  }
+
   function tryPlayMusic() {
     if (!ytPlayerReady) {
       pendingAutoplay = true;
@@ -224,6 +248,7 @@
     }
 
     try {
+      ensureMusicStartPosition();
       youtubePlayer.playVideo();
     } catch {
       setMusicState(false);
@@ -261,6 +286,7 @@
       setMusicState(false);
     } else {
       try {
+        ensureMusicStartPosition();
         youtubePlayer.playVideo();
       } catch {
         musicLabel.textContent = 'Ketuk untuk putar';
@@ -463,9 +489,9 @@
   // ============================================
   // Share / Copy Link
   // ============================================
-  const pageUrl = window.location.href;
-  const shareText = encodeURIComponent('The Wedding of Erzal & Dhea — Anda diundang! 🎊');
-  shareWa.href = `https://wa.me/?text=${shareText}%20${encodeURIComponent(pageUrl)}`;
+  const pageUrl = (window.WEDDING_CONFIG && window.WEDDING_CONFIG.canonicalUrl) || window.location.href;
+  const shareMessage = 'Wedding Invitation Erzal & Dhea';
+  shareWa.href = `https://wa.me/?text=${encodeURIComponent(`${shareMessage}\n${pageUrl}`)}`;
 
   copyLinkBtn.addEventListener('click', async () => {
     try {
@@ -488,8 +514,8 @@
     shareBtn.addEventListener('click', async () => {
       try {
         await navigator.share({
-          title: 'The Wedding of Erzal & Dhea',
-          text: 'Anda diundang ke pernikahan Erzal & Dhea!',
+          title: shareMessage,
+          text: shareMessage,
           url: pageUrl,
         });
       } catch {

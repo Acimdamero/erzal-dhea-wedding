@@ -76,6 +76,7 @@ wedding-invitation/
 Background music streams from **YouTube** via the [IFrame Player API](https://developers.google.com/youtube/iframe_api_reference):
 
 - Current track: https://youtu.be/-a-vbOxM-6s (`YOUTUBE_VIDEO_ID = '-a-vbOxM-6s'`)
+- Playback starts at **24 seconds** (`START_SECONDS` in `js/main.js`) to skip the intro
 - Beat sync uses estimated **75 BPM** (`BEAT_BPM` in `js/main.js`)
 
 ### Photos
@@ -103,7 +104,7 @@ Quick checklist:
 2. Run `supabase/schema.sql` in the SQL Editor
 3. Paste **Project URL** and **anon key** into `js/config.js` and `admin/config.js`
 4. Create an admin user in Supabase Auth (Authentication → Users)
-5. Deploy — admin URL: https://acimdamero.github.io/wedding-invitation/admin/
+5. Deploy — admin URL: https://erzal-dhea-wedding.vercel.app/admin/ (backup: https://acimdamero.github.io/wedding-invitation/admin/)
 
 Until keys are configured, forms run in **demo mode** (RSVP/wishes are not persisted).
 
@@ -122,13 +123,30 @@ Test on real devices before sharing with guests:
 
 **Share via WhatsApp:** Open the live URL on your phone, scroll to **Share Invitation**, tap **WhatsApp**, and send to yourself or a test contact to verify the Open Graph preview.
 
-Live: https://acimdamero.github.io/wedding-invitation/
+## Live URLs
+
+| URL | Role |
+|-----|------|
+| **https://erzal-dhea-wedding.vercel.app/** | **Primary — share this with guests** |
+| https://acimdamero.github.io/wedding-invitation/ | Backup (GitHub Pages) |
+
+WhatsApp share message: `Wedding Invitation Erzal & Dhea` + link.
 
 ## Deployment
 
-### GitHub Pages
+### Vercel (primary URL)
 
-Live site: https://acimdamero.github.io/wedding-invitation/
+```bash
+npx vercel --prod --yes
+```
+
+First-time setup requires one login: `npx vercel login` (browser OAuth).
+
+Project name: `erzal-dhea-wedding` → `https://erzal-dhea-wedding.vercel.app`
+
+### GitHub Pages (backup)
+
+Live site (backup): https://acimdamero.github.io/wedding-invitation/
 
 1. Push to `main` branch
 2. Settings → Pages → source: `main` / root
