@@ -245,6 +245,12 @@
       document.getElementById('sumGuests').textContent = guestTotal;
       document.getElementById('sumWishes').textContent = wishes.length;
 
+      const hasTestData = [...rsvps, ...wishes].some((row) =>
+        /^reviewtest$/i.test((row.name || '').trim())
+      );
+      const hint = document.getElementById('adminHint');
+      if (hint) hint.hidden = !hasTestData;
+
       this.renderRsvpTable(rsvps);
       this.renderWishesTable(wishes);
     },

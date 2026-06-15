@@ -78,6 +78,13 @@ create policy "anon_insert_wishes"
   to anon
   with check (true);
 
+-- Public (anon): read recent wishes for guest book display (name + message only)
+create policy "anon_select_wishes"
+  on public.wishes
+  for select
+  to anon
+  using (wedding_slug = 'erzal-dhea');
+
 -- Authenticated admin: SELECT only — dashboard reads reports after Supabase Auth login
 create policy "auth_select_rsvp"
   on public.rsvp_responses

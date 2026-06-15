@@ -53,6 +53,38 @@
     return card;
   }
 
+  function isTestEntry(name) {
+    return /^reviewtest$/i.test((name || '').trim());
+  }
+
+  async function loadRecentWishes(list, client, slug) {
+    try {
+      const { data, error } = await client
+        .from('wishes')
+        .select('name, message, created_at')
+        .eq('wedding_slug', slug)
+        .order('created_at', { ascending: false })
+        .limit(10);
+
+      if (error) throw error;
+      if (!data || !data.length) return;
+
+      const wishes = data.filter((wish) => !isTestEntry(wish.name));
+      if (!wishes.length) return;
+
+      const emptyEl = list.querySelector('.wishes__empty');
+      if (emptyEl) emptyEl.remove();
+
+      wishes.forEach((wish) => {
+        list.appendChild(
+          createWishCard(wish.name, wish.message, new Date(wish.created_at))
+        );
+      });
+    } catch (err) {
+      console.warn('[Wishes] Could not load public wishes:', err);
+    }
+  }
+
   function setFormNote(form, message, type) {
     let note = form.querySelector('.form-note');
     if (!note) {
@@ -79,11 +111,18 @@
         'info'
       );
       console.warn('[Wishes] Supabase belum dikonfigurasi. Isi js/config.js dengan URL dan anon key.');
-    } else if (!list.children.length) {
-      const empty = document.createElement('p');
-      empty.className = 'wishes__empty form-note form-note--info';
-      empty.textContent = 'Jadilah yang pertama meninggalkan ucapan dan doa!';
-      list.appendChild(empty);
+    } else {
+      const client = getClient();
+      const cfg = getConfig();
+      if (client) {
+        loadRecentWishes(list, client, cfg.slug || 'erzal-dhea');
+      }
+      if (!list.children.length) {
+        const empty = document.createElement('p');
+        empty.className = 'wishes__empty form-note form-note--info';
+        empty.textContent = 'Jadilah yang pertama meninggalkan ucapan dan doa!';
+        list.appendChild(empty);
+      }
     }
 
     let submitting = false;

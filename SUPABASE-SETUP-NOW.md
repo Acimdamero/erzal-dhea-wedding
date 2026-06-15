@@ -1,7 +1,9 @@
 # Setup Supabase — Undangan Erzal & Dhea
 
-**Status sekarang:** Form RSVP & ucapan masih **mode demo** (data tidak tersimpan).  
-**Yang Anda butuhkan:** 1 token Supabase (gratis), ~5 menit.
+**Status sekarang:** Supabase **sudah aktif di production** — RSVP & ucapan tersimpan ke database.  
+**Project:** `bebdiinqomsclynxvpbm.supabase.co` · Admin: https://erzal-dhea-wedding.vercel.app/admin/
+
+Jika Anda setup project baru dari nol, ikuti langkah di bawah (~5 menit).
 
 ---
 

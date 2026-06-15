@@ -76,8 +76,8 @@
         return;
       }
 
-      if (guestCount < 1 || guestCount > 20) {
-        setNote(note, 'Jumlah tamu harus antara 1 dan 20.', 'error');
+      if (guestCount < 1 || guestCount > 5) {
+        setNote(note, 'Jumlah tamu harus antara 1 dan 5.', 'error');
         return;
       }
 

@@ -12,13 +12,13 @@ A complete, deployable digital wedding invitation website built with pure HTML, 
 - **Bilingual structure** — Indonesian & English labels throughout
 - **Countdown timer** — to Akad Nikah date (13 July 2026, Makkah)
 - **Couple profiles** — Erzal Maulana Sandrya & Dhea Fadillah Ramlan (elegant text cards with Islamic frames — photos optional)
-- **Love story timeline** — Instagram meet (2022) through Makkah akad (2026)
-- **Event schedule** — Akad Nikah (Makkah) & Resepsi (Maxi's Resto, Bandung)
-- **Photo gallery** — optional; disabled by default (`PHOTOS_ENABLED: false`)
+- **Love story timeline** — meet through social media (2022) through Makkah akad (2026)
+- **Event schedule** — Akad Nikah (Makkah) & Resepsi (Maxi's Resto, Bandung); **Events section temporarily hidden** in HTML (info still in hero, countdown, location)
+- **Single childhood photo** — `SINGLE_PHOTO_MODE: true` in `js/config.js` (only `childhood.jpg` in Love Story; full gallery commented out)
 - **Masjidil Haram layered theme** — full-site background, arabesque pattern, 3D gold ornaments
 - **Beat-synced animations** — rhythmic visual pulse synced to background music
-- **RSVP form** — Supabase-backed attendance confirmation (with demo fallback)
-- **Guest book / wishes** — Supabase-backed messages (with demo fallback)
+- **RSVP form** — Supabase-backed attendance confirmation (live in production)
+- **Guest book / wishes** — Supabase-backed messages; recent wishes load on page when RLS policy applied
 - **Admin dashboard** — password-protected reports at `/admin/` (Supabase Auth)
 - **Location section** — Google Maps embed for reception venue
 - **Background music** — YouTube embed with mute/unmute toggle
@@ -82,20 +82,12 @@ Background music streams from **YouTube** via the [IFrame Player API](https://de
 - Playback starts at **24 seconds** (`START_SECONDS` in `js/main.js`) to skip the intro
 - Beat sync uses estimated **75 BPM** (`BEAT_BPM` in `js/main.js`)
 
-### Photos (disabled by default)
+### Photos (`SINGLE_PHOTO_MODE`)
 
-Photos are hidden until the client provides proper images. To re-enable in **~5 minutes**:
+The site shows **one childhood photo** in the Love Story section (`assets/photos/childhood.jpg`). Full couple cards and gallery are commented out in `index.html`.
 
-1. Add photos to `assets/photos/` (see `PHOTO-SUGGESTIONS.md` and run `scripts/process_photos.py` if needed)
-2. Set `PHOTOS_ENABLED: true` in `js/config.js`
-3. In `index.html`, uncomment:
-   - Story photo block (`<!-- PHOTOS: ... story photo -->`)
-   - Gallery section + lightbox (`<!-- PHOTOS: ... gallery -->`)
-4. Restore couple `<div class="couple__photo">` blocks if desired (see git history)
-5. Update `og:image` to a couple or gallery image if preferred
-6. Deploy
-
-While disabled, `body.photos-disabled` hides gallery nav and photo elements via CSS + JS.
+- `PHOTOS_ENABLED: true` and `SINGLE_PHOTO_MODE: true` in `js/config.js`
+- To restore full gallery: uncomment gallery block in `index.html`, add photos, set `SINGLE_PHOTO_MODE: false` if desired
 
 See [PHOTO-SUGGESTIONS.md](PHOTO-SUGGESTIONS.md) for professional shoot recommendations.
 
@@ -122,6 +114,8 @@ Quick checklist:
 4. Create an admin user in Supabase Auth (Authentication → Users)
 5. Deploy — admin URL: https://erzal-dhea-wedding.vercel.app/admin/
 
+**Production status:** Supabase is configured in `js/config.js` and `admin/config.js`. Forms persist RSVP and wishes. For public guest-book display, run `supabase/patch-anon-select-wishes.sql` in the SQL Editor if not already applied.
+
 Until keys are configured, forms run in **demo mode** (RSVP/wishes are not persisted).
 
 ## Mobile Testing
@@ -134,7 +128,7 @@ Test on real devices before sharing with guests:
 | Music | Tap open → music may autoplay; if silent, tap music button | Usually autoplays after open gesture |
 | Scroll & nav | Horizontal nav scrolls; sections anchor correctly | Same |
 | RSVP inputs | No unwanted zoom on focus (16px inputs) | Same |
-| Gallery | Hidden when `PHOTOS_ENABLED: false` | Same |
+| Gallery | Single childhood photo in Love Story | Same |
 | Share | Copy link + WhatsApp open correctly | WhatsApp intent works |
 
 **Share via WhatsApp:** Open the live URL on your phone, scroll to **Share Invitation**, tap **WhatsApp**, and send to yourself or a test contact to verify the Open Graph preview.
