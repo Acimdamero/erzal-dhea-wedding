@@ -1220,6 +1220,258 @@ button {
 }
 
 /* ============================================
+   3D CANVAS LAYERS
+   ============================================ */
+.canvas-3d {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.canvas-3d--opening {
+  z-index: 1;
+}
+
+.canvas-3d--bg {
+  z-index: 0;
+}
+
+.canvas-3d--hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.canvas-3d--fallback {
+  display: none;
+}
+
+.cover {
+  background: linear-gradient(135deg, rgba(232, 228, 220, 0.85) 0%, rgba(212, 207, 196, 0.9) 50%, rgba(200, 194, 180, 0.85) 100%);
+}
+
+.cover .envelope,
+.cover .cover__open-btn,
+.cover .cover__tagline {
+  position: relative;
+  z-index: 5;
+}
+
+.cover__tagline {
+  position: absolute;
+  top: 1.5rem;
+  font-family: var(--font-serif);
+  font-size: 0.85rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--color-primary-dark);
+  opacity: 0.7;
+  z-index: 5;
+}
+
+.main {
+  position: relative;
+  z-index: 1;
+}
+
+.ornaments-fallback {
+  display: none;
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.ornaments-fallback__arch {
+  position: absolute;
+  left: 2%;
+  top: 10%;
+  width: 80px;
+  opacity: 0.12;
+}
+
+.ornaments-fallback__house {
+  position: absolute;
+  right: 2%;
+  bottom: 15%;
+  width: 100px;
+  opacity: 0.12;
+}
+
+.canvas-3d--fallback ~ .ornaments-fallback,
+body.no-webgl .ornaments-fallback {
+  display: block;
+}
+.section--islamic {
+  background: linear-gradient(180deg, var(--color-bg) 0%, #eae6de 50%, var(--color-bg) 100%);
+}
+
+.section--islamic::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('../assets/ornaments/mashrabiya-lattice.svg') center / 200px repeat;
+  opacity: 0.03;
+  pointer-events: none;
+}
+
+.section--sunda {
+  background: linear-gradient(180deg, #f5f0e6 0%, #ede8dc 50%, #f0ebe0 100%);
+}
+
+.section-header--framed::before,
+.section-header--framed::after {
+  content: '';
+  display: block;
+  width: min(280px, 70vw);
+  height: 24px;
+  margin: 0 auto;
+  background: url('../assets/ornaments/arabesque-pattern.svg') center / contain no-repeat;
+  opacity: 0.5;
+}
+
+.section-header--framed::before {
+  margin-bottom: 1rem;
+}
+
+.section-header--framed::after {
+  margin-top: 0.5rem;
+  transform: scaleY(-1);
+}
+
+.section-header--sunda .section-label {
+  color: #7a8a3a;
+}
+
+.section-header--sunda .section-title {
+  color: #4a3a2e;
+}
+
+/* Sunda garland divider */
+.sunda-garland {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: 1.5rem 1rem 0;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.sunda-garland span {
+  font-family: var(--font-serif);
+  font-size: 0.9rem;
+  letter-spacing: 0.12em;
+  color: #6b5a42;
+  white-space: nowrap;
+}
+
+.sunda-garland__janur {
+  width: 28px;
+  height: auto;
+  opacity: 0.8;
+  animation: janur-sway 4s ease-in-out infinite;
+}
+
+.sunda-garland__janur--flip {
+  transform: scaleX(-1);
+}
+
+.sunda-garland__melati {
+  width: 32px;
+  height: auto;
+  opacity: 0.9;
+  animation: melati-glow 3s ease-in-out infinite;
+}
+
+@keyframes janur-sway {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+}
+
+@keyframes melati-glow {
+  0%, 100% { opacity: 0.7; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.08); }
+}
+
+/* Event cards — themed */
+.event-card {
+  position: relative;
+  overflow: visible;
+  transform-style: preserve-3d;
+}
+
+.card-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease;
+}
+
+body.beat-pulse .card-3d {
+  transform: scale(1.015) translateZ(4px);
+}
+
+.event-card__frame {
+  position: absolute;
+  top: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+.event-card__frame img {
+  width: 100%;
+  height: auto;
+}
+
+.event-card--akad {
+  clip-path: polygon(0 4%, 50% 0, 100% 4%, 100% 100%, 0 100%);
+}
+
+.event-card--akad .event-card__icon {
+  background: rgba(196, 168, 130, 0.2);
+  color: var(--color-accent);
+}
+
+.event-card--resepsi {
+  border-image: url('../assets/ornaments/sunda/seserahan-motif.svg') 30 round;
+}
+
+.event-card--resepsi .event-card__icon {
+  background: rgba(212, 196, 74, 0.15);
+  color: #8a9a3a;
+}
+
+.event-card__garland {
+  position: absolute;
+  top: -20px;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  pointer-events: none;
+}
+
+.event-card__janur {
+  width: 24px;
+  opacity: 0.75;
+}
+
+.event-card__janur--flip {
+  transform: scaleX(-1);
+}
+
+.event-card__melati {
+  width: 28px;
+  opacity: 0.85;
+}
+
+/* ============================================
    BEAT-SYNC ORNAMENTS & ANIMATIONS
    ============================================ */
 .ornaments {
@@ -1403,8 +1655,13 @@ body.beat-downbeat .parallax img {
   }
 
   .ornaments,
-  .beat-particles {
+  .beat-particles,
+  .canvas-3d {
     display: none;
+  }
+
+  .ornaments-fallback {
+    display: block;
   }
 
   body.beat-pulse .glass,

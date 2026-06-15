@@ -1,0 +1,395 @@
+/* ============================================
+   Cinematic Scroll — chapters, autoscroll, polish
+   ============================================ */
+
+/* Film grain overlay */
+.film-grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0.035;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 180px;
+}
+
+/* Hero vignette */
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(20, 24, 18, 0.45) 100%);
+}
+
+/* Chapter states */
+.section[data-chapter] {
+  transition: opacity 0.6s ease;
+}
+
+.section.chapter-enter {
+  opacity: 1;
+}
+
+.section.chapter-exit {
+  opacity: 0.92;
+}
+
+.section.chapter-active .section-title {
+  animation: gold-shimmer 4s ease-in-out infinite;
+}
+
+@keyframes gold-shimmer {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.section-title {
+  background: linear-gradient(
+    105deg,
+    var(--color-bg-dark) 0%,
+    var(--color-accent) 35%,
+    var(--color-bg-dark) 50%,
+    var(--color-accent-light) 65%,
+    var(--color-bg-dark) 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Ornamental section divider */
+.section-divider {
+  display: block;
+  width: min(120px, 30vw);
+  height: 1px;
+  margin: 1rem auto 0;
+  background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
+  transform-origin: center;
+  transform: scaleX(0);
+}
+
+.section.chapter-active .section-divider {
+  animation: divider-expand 1s ease forwards;
+}
+
+@keyframes divider-expand {
+  to { transform: scaleX(1); }
+}
+
+/* Story pin wrapper */
+.story__pin-wrap {
+  position: relative;
+}
+
+/* Event card ornamental border */
+.event-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.event-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: linear-gradient(135deg, var(--color-accent-light), var(--color-primary), var(--color-accent));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.section.chapter-active .event-card::before,
+.event-card:hover::before {
+  opacity: 0.7;
+}
+
+/* Location map pin */
+.location__map {
+  position: relative;
+}
+
+.location__map::after {
+  content: '\f3c5';
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+  position: absolute;
+  top: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(-20px);
+  font-size: 1.75rem;
+  color: var(--color-primary);
+  opacity: 0;
+  filter: drop-shadow(0 4px 8px rgba(44, 51, 40, 0.25));
+  pointer-events: none;
+  z-index: 2;
+}
+
+.section.chapter-active .location__map::after {
+  animation: pin-drop 0.9s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s forwards;
+}
+
+@keyframes pin-drop {
+  0% {
+    opacity: 0;
+    transform: translateX(-50%) translateY(-40px);
+  }
+  70% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+/* Parallax depth layers */
+.parallax-layer {
+  position: absolute;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.parallax-layer--bg {
+  z-index: 0;
+  opacity: 0.06;
+}
+
+/* Floating melati petals */
+.floating-petals {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 40;
+  overflow: hidden;
+}
+
+.floating-petal {
+  position: absolute;
+  top: -20px;
+  width: 10px;
+  height: 10px;
+  background: var(--color-accent-light);
+  border-radius: 50% 0 50% 0;
+  animation: petal-fall linear infinite;
+}
+
+@keyframes petal-fall {
+  0% {
+    transform: translateY(-10vh) rotate(0deg) translateX(0);
+  }
+  25% {
+    transform: translateY(25vh) rotate(90deg) translateX(15px);
+  }
+  50% {
+    transform: translateY(50vh) rotate(180deg) translateX(-10px);
+  }
+  75% {
+    transform: translateY(75vh) rotate(270deg) translateX(12px);
+  }
+  100% {
+    transform: translateY(110vh) rotate(360deg) translateX(0);
+  }
+}
+
+/* Autoscroll progress bar */
+.autoscroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 950;
+  background: rgba(196, 168, 130, 0.15);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+  pointer-events: none;
+}
+
+body.autoscroll-active .autoscroll-progress {
+  opacity: 1;
+}
+
+.autoscroll-progress__fill {
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, var(--color-primary), var(--color-accent), var(--color-accent-light));
+  transition: width 0.15s linear;
+  box-shadow: 0 0 8px rgba(196, 168, 130, 0.5);
+}
+
+/* Autoscroll hint */
+.autoscroll-hint {
+  position: fixed;
+  bottom: 5.5rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(12px);
+  z-index: 890;
+  font-size: 0.7rem;
+  letter-spacing: 0.06em;
+  color: var(--color-text-light);
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(10px);
+  padding: 0.45rem 1rem;
+  border-radius: 20px;
+  border: 1px solid var(--color-glass-border);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  white-space: nowrap;
+}
+
+.autoscroll-hint--visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+.autoscroll-hint--paused {
+  color: var(--color-primary-dark);
+  border-color: var(--color-primary);
+}
+
+/* Autoscroll toggle */
+.autoscroll-toggle {
+  position: fixed;
+  bottom: 1.5rem;
+  left: 1.5rem;
+  z-index: 900;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--color-glass);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--color-glass-border);
+  color: var(--color-primary);
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-soft);
+  transition: var(--transition);
+  opacity: 0;
+  pointer-events: none;
+}
+
+body.invite-open .autoscroll-toggle {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.autoscroll-toggle:hover {
+  background: var(--color-primary);
+  color: var(--color-white);
+}
+
+.autoscroll-toggle[aria-pressed="false"] {
+  color: var(--color-text-light);
+  opacity: 0.7;
+}
+
+.autoscroll-toggle[aria-pressed="false"] i::before {
+  content: '\f04c';
+}
+
+/* Countdown flip perspective */
+.countdown__item {
+  perspective: 400px;
+}
+
+.countdown__num {
+  display: inline-block;
+  transition: transform 0.4s ease;
+}
+
+.countdown__num.is-flipping {
+  animation: num-flip 0.4s ease;
+}
+
+@keyframes num-flip {
+  0% { transform: rotateX(0); }
+  50% { transform: rotateX(-90deg); opacity: 0.5; }
+  100% { transform: rotateX(0); }
+}
+
+/* Gallery Ken Burns base */
+.gallery__item img {
+  transform-origin: center;
+  will-change: transform;
+}
+
+/* Crossfade between sections feel */
+.main {
+  position: relative;
+}
+
+/* Mid decorative parallax ornaments in sections */
+.section-ornament {
+  position: absolute;
+  width: clamp(40px, 8vw, 80px);
+  opacity: 0.08;
+  pointer-events: none;
+}
+
+.section-ornament--left {
+  left: 2%;
+  top: 20%;
+}
+
+.section-ornament--right {
+  right: 2%;
+  bottom: 15%;
+}
+
+@media (max-width: 768px) {
+  .autoscroll-hint {
+    bottom: 5rem;
+    font-size: 0.65rem;
+    max-width: 90vw;
+    white-space: normal;
+    text-align: center;
+  }
+
+  .autoscroll-toggle {
+    bottom: 1rem;
+    left: 1rem;
+    width: 40px;
+    height: 40px;
+  }
+
+  .floating-petals {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .film-grain,
+  .floating-petals,
+  .autoscroll-progress,
+  .autoscroll-hint,
+  .autoscroll-toggle {
+    display: none !important;
+  }
+
+  .section-title {
+    background: none;
+    -webkit-text-fill-color: var(--color-bg-dark);
+    color: var(--color-bg-dark);
+  }
+
+  .hero::after {
+    opacity: 0.5;
+  }
+}

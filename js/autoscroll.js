@@ -1,0 +1,290 @@
+/**
+ * AutoScrollEngine — cinematic section-by-section autonomous scroll.
+ * Pauses on user interaction; syncs cadence with BeatEngine downbeats.
+ */
+(function (global) {
+  'use strict';
+
+  const DEFAULT_SECTION_MS = 4000;
+  const PAUSE_SECTION_MS = 5500;
+  const USER_PAUSE_MS = 9000;
+  const EASE = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+
+  const SECTION_DWELL = {
+    hero: 5000,
+    countdown: 4500,
+    couple: 4000,
+    story: 5500,
+    events: 4500,
+    gallery: 4000,
+    rsvp: 5000,
+    wishes: 3500,
+    location: 4000,
+    share: 3000,
+  };
+
+  class AutoScrollEngine {
+    constructor(options = {}) {
+      this.beatEngine = options.beatEngine ?? null;
+      this.reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      this.isMobile = window.matchMedia('(max-width: 768px)').matches;
+
+      this.enabled = !this.reducedMotion;
+      this.paused = false;
+      this.userPausedUntil = 0;
+      this.rafId = null;
+      this.sections = [];
+      this.currentIndex = 0;
+      this.scrollAnim = null;
+      this.loopAtEnd = true;
+      this.onBeatMultiplier = 1;
+
+      this._onUserIntent = this._onUserIntent.bind(this);
+      this._tick = this._tick.bind(this);
+      this._onBeat = this._onBeat.bind(this);
+
+      this._buildUI();
+      this._bindEvents();
+      this._collectSections();
+    }
+
+    _buildUI() {
+      this.progressBar = document.createElement('div');
+      this.progressBar.className = 'autoscroll-progress';
+      this.progressBar.setAttribute('role', 'progressbar');
+      this.progressBar.setAttribute('aria-hidden', 'true');
+      this.progressBar.innerHTML = '<span class="autoscroll-progress__fill"></span>';
+      document.body.appendChild(this.progressBar);
+      this.progressFill = this.progressBar.querySelector('.autoscroll-progress__fill');
+
+      this.hint = document.createElement('div');
+      this.hint.className = 'autoscroll-hint';
+      this.hint.setAttribute('aria-live', 'polite');
+      this.hint.innerHTML = '<span>Gulir otomatis · Ketuk untuk jeda</span>';
+      document.body.appendChild(this.hint);
+
+      this.toggleBtn = document.createElement('button');
+      this.toggleBtn.type = 'button';
+      this.toggleBtn.className = 'autoscroll-toggle';
+      this.toggleBtn.setAttribute('aria-pressed', 'true');
+      this.toggleBtn.setAttribute('aria-label', 'Matikan gulir otomatis');
+      this.toggleBtn.innerHTML = '<i class="fa-solid fa-film" aria-hidden="true"></i>';
+      document.body.appendChild(this.toggleBtn);
+
+      this.toggleBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        this.setEnabled(!this.enabled);
+      });
+    }
+
+    _bindEvents() {
+      const events = ['wheel', 'touchstart', 'touchmove', 'keydown', 'mousedown'];
+      events.forEach((ev) => {
+        window.addEventListener(ev, this._onUserIntent, { passive: true });
+      });
+
+      document.querySelectorAll('.nav__link, .hero__scroll').forEach((link) => {
+        link.addEventListener('click', this._onUserIntent);
+      });
+
+      window.addEventListener('resize', () => {
+        this.isMobile = window.matchMedia('(max-width: 768px)').matches;
+        this._collectSections();
+      });
+    }
+
+    _onUserIntent(e) {
+      if (!document.body.classList.contains('invite-open')) return;
+      if (e.type === 'keydown' && !['ArrowUp', 'ArrowDown', 'PageUp', 'PageDown', ' ', 'Home', 'End'].includes(e.key)) {
+        return;
+      }
+      if (e.target === this.toggleBtn || this.toggleBtn.contains(e.target)) return;
+
+      this.userPausedUntil = Date.now() + USER_PAUSE_MS;
+      this.paused = true;
+      this._cancelScrollAnim();
+      this.hint.classList.add('autoscroll-hint--visible', 'autoscroll-hint--paused');
+      this.hint.querySelector('span').textContent = 'Dijeda · Gulir otomatis lanjut sebentar lagi';
+
+      if (this.beatEngine) this.beatEngine.setAutoScrollPaused(true);
+
+      clearTimeout(this._resumeTimer);
+      this._resumeTimer = setTimeout(() => {
+        if (this.enabled && !this.reducedMotion) {
+          this.paused = false;
+          this.hint.classList.remove('autoscroll-hint--paused');
+          this.hint.querySelector('span').textContent = 'Gulir otomatis · Ketuk untuk jeda';
+          if (this.beatEngine) this.beatEngine.setAutoScrollPaused(false);
+          this._scheduleNextSection();
+        }
+      }, USER_PAUSE_MS);
+    }
+
+    _collectSections() {
+      const ids = ['hero', 'countdown', 'couple', 'story', 'events', 'gallery', 'rsvp', 'wishes', 'location', 'share'];
+      this.sections = ids
+        .map((id) => document.getElementById(id))
+        .filter(Boolean);
+    }
+
+    connectBeatEngine(beatEngine) {
+      this.beatEngine = beatEngine;
+      if (beatEngine) {
+        beatEngine.onDownbeat = this._onBeat;
+        beatEngine.setAutoScrollDelegate(() => this._nudgeOnBeat());
+      }
+    }
+
+    _onBeat() {
+      if (!this.enabled || this.paused || this.reducedMotion) return;
+      this.onBeatMultiplier = 1.08;
+    }
+
+    _nudgeOnBeat() {
+      if (!this.enabled || this.paused || this.scrollAnim) return false;
+      const sinceUser = Date.now() - this.userPausedUntil;
+      if (sinceUser < 0) return false;
+
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      if (window.scrollY >= maxScroll - 20) return false;
+
+      const nudge = 8 * this.onBeatMultiplier;
+      this.onBeatMultiplier = 1;
+      window.scrollBy({ top: nudge, behavior: 'auto' });
+      return true;
+    }
+
+    start(options = {}) {
+      if (this.reducedMotion) {
+        this.setEnabled(false);
+        return;
+      }
+
+      this._collectSections();
+      const defaultOn = options.defaultOn ?? !this.isMobile;
+      this.setEnabled(defaultOn, true);
+
+      if (this.enabled) {
+        window.scrollTo({ top: 0, behavior: 'instant' });
+        this.currentIndex = 0;
+        setTimeout(() => this._scheduleNextSection(), 1800);
+        this.hint.classList.add('autoscroll-hint--visible');
+      }
+    }
+
+    setEnabled(on, silent = false) {
+      this.enabled = on && !this.reducedMotion;
+      this.toggleBtn.setAttribute('aria-pressed', String(this.enabled));
+      this.toggleBtn.setAttribute('aria-label', this.enabled ? 'Matikan gulir otomatis' : 'Nyalakan gulir otomatis');
+      document.body.classList.toggle('autoscroll-active', this.enabled);
+
+      if (!silent) {
+        if (this.enabled) {
+          this.paused = false;
+          this._scheduleNextSection();
+          this.hint.classList.add('autoscroll-hint--visible');
+          this.hint.querySelector('span').textContent = 'Gulir otomatis · Ketuk untuk jeda';
+        } else {
+          this._cancelScrollAnim();
+          this.hint.classList.remove('autoscroll-hint--visible');
+        }
+      }
+
+      if (this.beatEngine) this.beatEngine.setAutoScrollPaused(!this.enabled || this.paused);
+    }
+
+    _scheduleNextSection() {
+      if (!this.enabled || this.paused || this.reducedMotion) return;
+
+      clearTimeout(this._sectionTimer);
+      const section = this.sections[this.currentIndex];
+      if (!section) return;
+
+      const id = section.id;
+      const dwell = SECTION_DWELL[id] ?? DEFAULT_SECTION_MS;
+      const isPauseSection = ['countdown', 'story', 'events', 'rsvp'].includes(id);
+      const wait = isPauseSection ? PAUSE_SECTION_MS : dwell;
+
+      this._scrollToSection(section, () => {
+        this._updateProgress();
+        this._sectionTimer = setTimeout(() => {
+          this.currentIndex += 1;
+          if (this.currentIndex >= this.sections.length) {
+            if (this.loopAtEnd) {
+              this._showBackToTop();
+              this.currentIndex = 0;
+            } else {
+              this.setEnabled(false);
+              return;
+            }
+          }
+          this._scheduleNextSection();
+        }, wait);
+      });
+    }
+
+    _showBackToTop() {
+      this.hint.querySelector('span').textContent = 'Kembali ke atas…';
+      this.hint.classList.add('autoscroll-hint--visible');
+    }
+
+    _scrollToSection(section, onComplete) {
+      this._cancelScrollAnim();
+
+      const targetY = section.getBoundingClientRect().top + window.scrollY - (parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-height'), 10) || 56);
+      const startY = window.scrollY;
+      const distance = targetY - startY;
+
+      if (Math.abs(distance) < 8) {
+        if (onComplete) onComplete();
+        return;
+      }
+
+      const duration = Math.min(2800, Math.max(1400, Math.abs(distance) * 1.2));
+      const startTime = performance.now();
+
+      const step = (now) => {
+        const elapsed = now - startTime;
+        const progress = Math.min(1, elapsed / duration);
+        const eased = EASE(progress);
+        window.scrollTo(0, startY + distance * eased);
+
+        if (progress < 1) {
+          this.scrollAnim = requestAnimationFrame(step);
+        } else {
+          this.scrollAnim = null;
+          if (onComplete) onComplete();
+        }
+      };
+
+      this.scrollAnim = requestAnimationFrame(step);
+    }
+
+    _cancelScrollAnim() {
+      if (this.scrollAnim) {
+        cancelAnimationFrame(this.scrollAnim);
+        this.scrollAnim = null;
+      }
+      clearTimeout(this._sectionTimer);
+    }
+
+    _updateProgress() {
+      if (!this.sections.length) return;
+      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+      const pct = maxScroll > 0 ? (window.scrollY / maxScroll) * 100 : 0;
+      this.progressFill.style.width = `${pct}%`;
+    }
+
+    _tick() {
+      this._updateProgress();
+      if (this.enabled) this.rafId = requestAnimationFrame(this._tick);
+    }
+
+    runProgressLoop() {
+      if (this.rafId) cancelAnimationFrame(this.rafId);
+      this.rafId = requestAnimationFrame(this._tick);
+    }
+  }
+
+  global.AutoScrollEngine = AutoScrollEngine;
+})(window);

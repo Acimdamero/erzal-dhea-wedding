@@ -21,8 +21,19 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/scroll-animations.css">
 </head>
 <body>
+
+  <canvas id="bg-canvas-3d" class="canvas-3d canvas-3d--bg" aria-hidden="true"></canvas>
+
+  <div class="ornaments-fallback" aria-hidden="true">
+    <img src="assets/ornaments/islamic-arch.svg" class="ornaments-fallback__arch" alt="">
+    <img src="assets/ornaments/sunda/rumah-sunda.svg" class="ornaments-fallback__house" alt="">
+  </div>
+
+  <div class="film-grain" aria-hidden="true"></div>
+  <div class="floating-petals" id="floatingPetals" aria-hidden="true"></div>
 
   <!-- Beat-sync floating ornaments -->
   <div class="ornaments" id="ornaments" aria-hidden="true">
@@ -39,8 +50,10 @@
 
   <!-- Opening Cover / Envelope -->
   <div id="cover" class="cover" role="dialog" aria-label="Buka undangan" aria-modal="true">
+    <canvas id="opening-canvas" class="canvas-3d canvas-3d--opening" aria-hidden="true"></canvas>
     <div class="cover__bg" aria-hidden="true"></div>
     <div class="cover__particles" aria-hidden="true"></div>
+    <p class="cover__tagline" aria-hidden="true">Dua Dunia, Satu Cinta</p>
 
     <div class="envelope">
       <div class="envelope__flap envelope__flap--top"></div>
@@ -89,7 +102,7 @@
     </nav>
 
     <!-- Hero -->
-    <section id="hero" class="hero section">
+    <section id="hero" class="hero section" data-chapter="welcome">
       <div class="hero__bg parallax" data-speed="0.3" aria-hidden="true">
         <!-- Couple cover photo — tropical villa -->
         <img src="assets/photos/hero.jpg" alt="" loading="eager">
@@ -110,11 +123,13 @@
     </section>
 
     <!-- Countdown -->
-    <section id="countdown" class="countdown section">
+    <section id="countdown" class="countdown section section--islamic" data-chapter="countdown">
+      <img class="section-ornament section-ornament--right parallax-layer" data-parallax="0.08" src="assets/ornaments/crescent.svg" alt="" aria-hidden="true">
       <div class="container">
         <div class="section-header reveal">
           <p class="section-label">Menghitung Hari</p>
           <h2 class="section-title">Countdown</h2>
+          <span class="section-divider" aria-hidden="true"></span>
           <p class="section-desc">Menuju hari Akad Nikah kami di Makkah — 13 Juli 2026.</p>
         </div>
         <div class="countdown__grid reveal" id="countdownTimer" aria-live="polite">
@@ -139,11 +154,12 @@
     </section>
 
     <!-- Couple -->
-    <section id="couple" class="couple section">
+    <section id="couple" class="couple section" data-chapter="couple">
       <div class="container">
         <div class="section-header reveal">
           <p class="section-label">Mempelai</p>
           <h2 class="section-title">The Couple</h2>
+          <span class="section-divider" aria-hidden="true"></span>
           <p class="section-desc">Putra dan putri yang dipertemukan oleh Allah SWT, kini melangkah menuju pelaminan.</p>
         </div>
         <div class="couple__grid">
@@ -177,11 +193,13 @@
     </section>
 
     <!-- Love Story -->
-    <section id="story" class="story section">
-      <div class="container">
+    <section id="story" class="story section" data-chapter="story">
+      <img class="section-ornament section-ornament--left parallax-layer" data-parallax="0.06" src="assets/ornaments/arabesque.svg" alt="" aria-hidden="true">
+      <div class="container story__pin-wrap">
         <div class="section-header reveal">
           <p class="section-label">Perjalanan Cinta</p>
           <h2 class="section-title">Our Love Story</h2>
+          <span class="section-divider" aria-hidden="true"></span>
           <p class="section-desc">Setiap bab dalam kisah kami penuh makna dan berkah.</p>
         </div>
         <figure class="story__photo reveal">
@@ -217,15 +235,19 @@
     </section>
 
     <!-- Events Schedule -->
-    <section id="events" class="events section">
+    <section id="events" class="events section" data-chapter="events">
       <div class="container">
-        <div class="section-header reveal">
+        <div class="section-header reveal section-header--framed">
           <p class="section-label">Rangkaian Acara</p>
           <h2 class="section-title">Wedding Events</h2>
+          <span class="section-divider" aria-hidden="true"></span>
           <p class="section-desc">Kami berharap kehadiran Anda di setiap momen istimewa.</p>
         </div>
         <div class="events__grid">
-          <article class="event-card glass reveal">
+          <article class="event-card event-card--akad glass reveal card-3d">
+            <div class="event-card__frame" aria-hidden="true">
+              <img src="assets/ornaments/bismillah-frame.svg" alt="">
+            </div>
             <div class="event-card__icon"><i class="fa-solid fa-mosque" aria-hidden="true"></i></div>
             <h3>Akad Nikah</h3>
             <p class="event-card__en">Holy Matrimony</p>
@@ -236,7 +258,15 @@
             </ul>
             <p class="event-card__note">Pelaksanaan akad nikah di tanah suci Makkah.</p>
           </article>
-          <article class="event-card glass reveal">
+          <article class="event-card event-card--resepsi glass reveal card-3d">
+            <div class="event-card__frame event-card__frame--sunda" aria-hidden="true">
+              <img src="assets/ornaments/sunda/seserahan-motif.svg" alt="">
+            </div>
+            <div class="event-card__garland" aria-hidden="true">
+              <img src="assets/ornaments/sunda/janur.svg" class="event-card__janur" alt="">
+              <img src="assets/ornaments/sunda/melati.svg" class="event-card__melati" alt="">
+              <img src="assets/ornaments/sunda/janur.svg" class="event-card__janur event-card__janur--flip" alt="">
+            </div>
             <div class="event-card__icon"><i class="fa-solid fa-champagne-glasses" aria-hidden="true"></i></div>
             <h3>Resepsi Pernikahan</h3>
             <p class="event-card__en">Wedding Reception</p>
@@ -252,11 +282,12 @@
     </section>
 
     <!-- Gallery -->
-    <section id="gallery" class="gallery section">
+    <section id="gallery" class="gallery section" data-chapter="gallery">
       <div class="container">
         <div class="section-header reveal">
           <p class="section-label">Galeri Foto</p>
           <h2 class="section-title">Our Gallery</h2>
+          <span class="section-divider" aria-hidden="true"></span>
           <p class="section-desc">Lorem ipsum — momen indah yang ingin kami bagikan bersama Anda.</p>
         </div>
         <div class="gallery__grid">
@@ -294,11 +325,12 @@
     </div>
 
     <!-- RSVP -->
-    <section id="rsvp" class="rsvp section">
+    <section id="rsvp" class="rsvp section" data-chapter="rsvp">
       <div class="container">
         <div class="section-header reveal">
           <p class="section-label">Konfirmasi Kehadiran</p>
           <h2 class="section-title">RSVP</h2>
+          <span class="section-divider" aria-hidden="true"></span>
           <p class="section-desc">Lorem ipsum dolor sit amet — mohon konfirmasi kehadiran Anda sebelum 15 Juli 2026.</p>
         </div>
         <form class="rsvp__form glass reveal" id="rsvpForm" novalidate>
@@ -334,11 +366,12 @@
     </section>
 
     <!-- Wishes / Guest Book -->
-    <section id="wishes" class="wishes section">
+    <section id="wishes" class="wishes section" data-chapter="wishes">
       <div class="container">
         <div class="section-header reveal">
           <p class="section-label">Buku Tamu</p>
           <h2 class="section-title">Wishes &amp; Prayers</h2>
+          <span class="section-divider" aria-hidden="true"></span>
           <p class="section-desc">Tinggalkan ucapan dan doa terbaik untuk kami.</p>
         </div>
         <form class="wishes__form glass reveal" id="wishesForm">
@@ -374,12 +407,19 @@
     </section>
 
     <!-- Location -->
-    <section id="location" class="location section">
+    <section id="location" class="location section section--sunda" data-chapter="location">
+      <div class="sunda-garland reveal" aria-hidden="true">
+        <img src="assets/ornaments/sunda/janur.svg" alt="" class="sunda-garland__janur">
+        <span>Resepsi di Tanah Sunda</span>
+        <img src="assets/ornaments/sunda/melati.svg" alt="" class="sunda-garland__melati">
+        <img src="assets/ornaments/sunda/janur.svg" alt="" class="sunda-garland__janur sunda-garland__janur--flip">
+      </div>
       <div class="container">
-        <div class="section-header reveal">
+        <div class="section-header reveal section-header--sunda">
           <p class="section-label">Lokasi Acara</p>
           <h2 class="section-title">Venue &amp; Location</h2>
-          <p class="section-desc">Lorem ipsum dolor sit amet — temukan lokasi resepsi pernikahan kami.</p>
+          <span class="section-divider" aria-hidden="true"></span>
+          <p class="section-desc">Temukan lokasi resepsi pernikahan kami di Bandung, Jawa Barat.</p>
         </div>
         <div class="location__grid">
           <div class="location__info glass reveal">
@@ -410,11 +450,12 @@
     </section>
 
     <!-- Share -->
-    <section id="share" class="share section">
+    <section id="share" class="share section" data-chapter="share">
       <div class="container">
         <div class="share__content glass reveal">
           <p class="section-label">Bagikan Undangan</p>
           <h2 class="section-title">Share Invitation</h2>
+          <span class="section-divider" aria-hidden="true"></span>
           <p class="section-desc">Lorem ipsum — bagikan kebahagiaan kami kepada kerabat dan sahabat.</p>
           <div class="share__buttons">
             <button class="btn btn--primary" id="copyLink" type="button">
@@ -440,7 +481,14 @@
     </footer>
   </main>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="js/beat-sync.js"></script>
+  <script src="js/autoscroll.js"></script>
+  <script src="js/opening-3d.js"></script>
+  <script src="js/scene-3d.js"></script>
+  <script src="js/scroll-animations.js"></script>
   <script src="js/main.js"></script>
 </body>
 </html>

@@ -22,6 +22,9 @@
       this.intensity = 0;
       this.lastUserScroll = 0;
       this.reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      this.autoScrollPaused = false;
+      this.autoScrollDelegate = null;
+      this.onDownbeat = null;
 
       this._onBeat = this._onBeat.bind(this);
       this._tick = this._tick.bind(this);
@@ -59,6 +62,14 @@
       this.lastUserScroll = Date.now();
     }
 
+    setAutoScrollPaused(paused) {
+      this.autoScrollPaused = paused;
+    }
+
+    setAutoScrollDelegate(fn) {
+      this.autoScrollDelegate = typeof fn === 'function' ? fn : null;
+    }
+
     _tick(now) {
       if (!this.isRunning) return;
 
@@ -91,12 +102,27 @@
         document.body.classList.add('beat-downbeat');
         this._autoScroll();
         this._burstParticles();
+        if (typeof this.onDownbeat === 'function') this.onDownbeat();
       }
 
       this._pulseOrnaments(isDownbeat);
+      this._emitBeatEvent(isDownbeat);
+    }
+
+    _emitBeatEvent(isDownbeat) {
+      global.dispatchEvent(new CustomEvent('beatengine:beat', {
+        detail: { isDownbeat, beatCount: this.beatCount, intensity: this.intensity },
+      }));
     }
 
     _autoScroll() {
+      if (this.autoScrollPaused) return;
+
+      if (this.autoScrollDelegate) {
+        const handled = this.autoScrollDelegate();
+        if (handled) return;
+      }
+
       const sinceUserScroll = Date.now() - this.lastUserScroll;
       if (sinceUserScroll < USER_SCROLL_PAUSE_MS) return;
 

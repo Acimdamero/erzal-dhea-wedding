@@ -1,9 +1,13 @@
 # Wedding Invitation — Erzal & Dhea
 
-A complete, deployable digital wedding invitation website built with pure HTML, CSS, and JavaScript. Designed with a modern minimalist aesthetic, glassmorphism touches, beat-synced animations, and smooth scroll effects.
+A complete, deployable digital wedding invitation website built with pure HTML, CSS, and JavaScript. Designed with a modern minimalist aesthetic, glassmorphism touches, beat-synced animations, **Three.js 3D ornamental scenes**, and smooth scroll effects.
 
 ## Features
 
+- **3D opening scene** — "Dua Dunia, Satu Cinta" — Makkah Islamic + Sundanese rumah adat transition on envelope open
+- **Site-wide 3D ornaments** — corner geometric wireframes, scroll-themed Islamic/Sunda backgrounds
+- **Islamic Arab ornamental design** — arabesque patterns, mashrabiya lattice, mosque arch frames for Akad/Makkah sections
+- **Sundanese wedding motifs** — janur kuning, melati garlands, rumah adat, seserahan patterns for Resepsi/Bandung sections
 - **Opening cover/envelope animation** — classic Indonesian digital invite experience
 - **Bilingual structure** — Indonesian & English labels throughout
 - **Countdown timer** — to Akad Nikah date (13 July 2026, Makkah)
@@ -30,9 +34,12 @@ wedding-invitation/
 │   └── style.css           # All styles & beat-sync animations
 ├── js/
 │   ├── main.js             # Interactivity & logic
-│   └── beat-sync.js        # BeatEngine — rhythmic pulse
+│   ├── beat-sync.js        # BeatEngine — rhythmic pulse
+│   ├── opening-3d.js       # 3D envelope opening scene (Three.js)
+│   └── scene-3d.js         # Site-wide 3D background ornaments
 ├── assets/
-│   ├── ornaments/          # SVG decorative elements
+│   ├── ornaments/          # SVG decorative elements (Islamic + Sunda)
+│   │   └── sunda/          # Janur, melati, rumah adat, seserahan motifs
 │   └── photos/             # Couple photos
 ├── PHOTO-SUGGESTIONS.md    # Client photo recommendations
 └── README.md
@@ -75,6 +82,22 @@ Live site: https://acimdamero.github.io/wedding-invitation/
 
 1. Push to `main` branch
 2. Settings → Pages → source: `main` / root
+
+## 3D & Performance Notes
+
+- **Three.js r128** loaded via CDN — no build step required
+- **WebGL required** for full 3D effect; static SVG ornaments shown as fallback
+- `prefers-reduced-motion`: skips 3D, shows static SVG ornaments only
+- Mobile: reduced particle/geometry count, `devicePixelRatio` capped at 2
+- 3D pauses when browser tab is hidden (`visibilitychange`)
+- Opening scene disposes GPU resources after envelope opens
+
+### Section Theme Mapping
+
+| Theme | Sections |
+|-------|----------|
+| Islamic (Makkah) | Hero, Countdown, Couple, Story, Events (Akad card) |
+| Sundanese (Bandung) | Location, RSVP, Wishes, Share, Events (Resepsi card) |
 
 ## Beat-Sync Limitations
 

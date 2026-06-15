@@ -38,11 +38,54 @@
   let currentGalleryIndex = 0;
   let galleryImages = [];
   let beatEngine = null;
+  let autoScrollEngine = null;
+  let opening3D = null;
+  let scene3D = null;
+
+  // ============================================
+  // 3D Scenes (Three.js)
+  // ============================================
+  function init3D() {
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const hasWebGL = (() => {
+      try {
+        const c = document.createElement('canvas');
+        return !!(c.getContext('webgl') || c.getContext('experimental-webgl'));
+      } catch {
+        return false;
+      }
+    })();
+
+    if (reducedMotion || !hasWebGL) {
+      document.body.classList.add('no-webgl');
+    }
+
+    const openingCanvas = document.getElementById('opening-canvas');
+    if (openingCanvas && typeof Opening3D !== 'undefined' && hasWebGL && !reducedMotion) {
+      opening3D = new Opening3D(openingCanvas);
+    } else if (openingCanvas) {
+      openingCanvas.classList.add('canvas-3d--fallback');
+    }
+
+    const bgCanvas = document.getElementById('bg-canvas-3d');
+    if (bgCanvas && typeof Scene3D !== 'undefined' && hasWebGL && !reducedMotion) {
+      scene3D = new Scene3D(bgCanvas);
+    } else if (bgCanvas) {
+      bgCanvas.classList.add('canvas-3d--fallback');
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init3D);
+  } else {
+    init3D();
+  }
 
   // ============================================
   // Cover / Envelope Opening
   // ============================================
   function openInvitation() {
+    if (opening3D) opening3D.triggerOpen();
     cover.classList.add('opening');
 
     setTimeout(() => {
@@ -60,6 +103,16 @@
 
       // Show nav after scroll
       setTimeout(() => nav.classList.add('visible'), 600);
+
+      // Start cinematic autoscroll journey
+      if (autoScrollEngine) {
+        autoScrollEngine.start({ defaultOn: !window.matchMedia('(max-width: 768px)').matches });
+        autoScrollEngine.runProgressLoop();
+      }
+
+      if (typeof ScrollTrigger !== 'undefined') {
+        setTimeout(() => ScrollTrigger.refresh(), 400);
+      }
     }, 1200);
   }
 
@@ -187,6 +240,10 @@
     if (typeof BeatEngine !== 'undefined') {
       beatEngine = new BeatEngine({ bpm: BEAT_BPM });
     }
+    if (typeof AutoScrollEngine !== 'undefined') {
+      autoScrollEngine = new AutoScrollEngine({ beatEngine });
+      if (beatEngine) autoScrollEngine.connectBeatEngine(beatEngine);
+    }
   });
 
   // ============================================
@@ -294,10 +351,21 @@
     const minutes = Math.floor((diff / (1000 * 60)) % 60);
     const seconds = Math.floor((diff / 1000) % 60);
 
-    daysEl.textContent = String(days).padStart(2, '0');
-    hoursEl.textContent = String(hours).padStart(2, '0');
-    minutesEl.textContent = String(minutes).padStart(2, '0');
-    secondsEl.textContent = String(seconds).padStart(2, '0');
+    const values = [
+      [daysEl, days],
+      [hoursEl, hours],
+      [minutesEl, minutes],
+      [secondsEl, seconds],
+    ];
+
+    values.forEach(([el, val]) => {
+      const next = String(val).padStart(2, '0');
+      if (el.textContent !== next) {
+        el.classList.add('is-flipping');
+        el.textContent = next;
+        el.addEventListener('animationend', () => el.classList.remove('is-flipping'), { once: true });
+      }
+    });
   }
 
   updateCountdown();
@@ -337,11 +405,17 @@
     lightboxImg.src = galleryImages[currentGalleryIndex];
     lightbox.hidden = false;
     document.body.style.overflow = 'hidden';
+    if (autoScrollEngine) autoScrollEngine.setEnabled(false);
+    if (beatEngine) beatEngine.setAutoScrollPaused(true);
   }
 
   function closeLightbox() {
     lightbox.hidden = true;
     document.body.style.overflow = '';
+    if (autoScrollEngine && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      autoScrollEngine.setEnabled(true);
+    }
+    if (beatEngine) beatEngine.setAutoScrollPaused(false);
   }
 
   function navigateGallery(direction) {
