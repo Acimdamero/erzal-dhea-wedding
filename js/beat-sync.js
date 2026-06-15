@@ -95,8 +95,9 @@
       this.beatCount += 1;
       const isDownbeat = this.beatCount % BEATS_PER_MEASURE === 1;
 
+      const skipReflow = document.body.classList.contains('autoscroll-transitioning');
       document.body.classList.remove('beat-pulse', 'beat-downbeat');
-      void document.body.offsetWidth;
+      if (!skipReflow) void document.body.offsetWidth;
       document.body.classList.add('beat-pulse');
       if (isDownbeat) {
         document.body.classList.add('beat-downbeat');
@@ -118,6 +119,10 @@
     _autoScroll() {
       if (this.autoScrollPaused) return;
 
+      // Cinematic autoscroll owns scroll position — beat-sync keeps visuals only
+      if (document.body.classList.contains('autoscroll-active')) return;
+      if (document.body.classList.contains('autoscroll-transitioning')) return;
+
       if (this.autoScrollDelegate) {
         const handled = this.autoScrollDelegate();
         if (handled) return;
@@ -129,7 +134,7 @@
       const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
       if (window.scrollY >= maxScroll - 50) return;
 
-      window.scrollBy({ top: AUTO_SCROLL_PX, behavior: 'smooth' });
+      window.scrollBy({ top: AUTO_SCROLL_PX, behavior: 'auto' });
     }
 
     _pulseOrnaments(isDownbeat) {

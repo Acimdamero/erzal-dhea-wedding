@@ -149,7 +149,7 @@
         autoScrollEngine.runProgressLoop();
       }
 
-      if (typeof ScrollTrigger !== 'undefined') {
+      if (typeof ScrollTrigger !== 'undefined' && !document.body.classList.contains('autoscroll-transitioning')) {
         setTimeout(() => ScrollTrigger.refresh(), 400);
       }
     }, 1200);
@@ -391,6 +391,7 @@
   const parallaxElements = document.querySelectorAll('.parallax');
 
   function updateParallax() {
+    if (document.body.classList.contains('autoscroll-transitioning')) return;
     parallaxElements.forEach((el) => {
       const speed = parseFloat(el.dataset.speed) || 0.3;
       const rect = el.getBoundingClientRect();

@@ -49,6 +49,7 @@
     };
 
     window.addEventListener('scroll', () => {
+      if (document.body.classList.contains('autoscroll-transitioning')) return;
       if (!ticking) {
         requestAnimationFrame(update);
         ticking = true;
@@ -171,6 +172,8 @@
       timelineItems.forEach((item) => item.classList.add('visible'));
     };
 
+    let storyPinTrigger = null;
+
     if (storySection && timelineItems.length && !isMobile) {
       timelineItems.forEach((item, i) => {
         gsap.from(item, {
@@ -190,7 +193,7 @@
       });
 
       if (timelineLine) {
-        ScrollTrigger.create({
+        storyPinTrigger = ScrollTrigger.create({
           trigger: storySection,
           start: 'top top',
           end: 'bottom bottom',
@@ -288,6 +291,21 @@
         delay: i * 0.05,
       });
     });
+
+    if (storyPinTrigger) {
+      const syncStoryPin = () => {
+        const autoscrollOn = document.body.classList.contains('autoscroll-active');
+        if (autoscrollOn) {
+          storyPinTrigger.disable(false, false);
+        } else {
+          storyPinTrigger.enable(false, false);
+        }
+      };
+      syncStoryPin();
+      window.addEventListener('autoscroll:transition-start', syncStoryPin);
+      const bodyObserver = new MutationObserver(syncStoryPin);
+      bodyObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+    }
   }
 
   function initMelatiPetals() {

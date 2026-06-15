@@ -218,6 +218,14 @@
   pointer-events: none;
 }
 
+body.autoscroll-active {
+  overflow-anchor: none;
+}
+
+html.autoscroll-active {
+  scroll-behavior: auto !important;
+}
+
 body.autoscroll-active .autoscroll-progress {
   opacity: 1;
 }
@@ -227,8 +235,12 @@ body.autoscroll-active .autoscroll-progress {
   height: 100%;
   width: 0%;
   background: linear-gradient(90deg, var(--color-primary), var(--color-accent), var(--color-accent-light));
-  transition: width 0.15s linear;
   box-shadow: 0 0 8px rgba(196, 168, 130, 0.5);
+  will-change: width;
+}
+
+body.autoscroll-transitioning .autoscroll-progress__fill {
+  transition: none;
 }
 
 /* Autoscroll hint */

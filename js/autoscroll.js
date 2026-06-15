@@ -10,7 +10,7 @@
   const PAUSE_SECTION_MS = 5500;
   const USER_PAUSE_MS = 9000;
   const LONG_PRESS_MS = 550;
-  const EASE = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
+  const EASE_OUT = (t) => 1 - Math.pow(1 - t, 3);
 
   const SECTION_DWELL = {
     hero: 5000,
@@ -38,9 +38,8 @@
       this.sections = [];
       this.currentIndex = 0;
       this.scrollAnim = null;
+      this.isScrolling = false;
       this.loopAtEnd = true;
-      this.onBeatMultiplier = 1;
-
       this.dwellStart = 0;
       this.dwellDuration = DEFAULT_SECTION_MS;
       this.cooldownRaf = null;
@@ -183,26 +182,12 @@
       this.beatEngine = beatEngine;
       if (beatEngine) {
         beatEngine.onDownbeat = this._onBeat;
-        beatEngine.setAutoScrollDelegate(() => this._nudgeOnBeat());
+        beatEngine.setAutoScrollDelegate(null);
       }
     }
 
     _onBeat() {
-      if (!this.enabled || this.paused || this.reducedMotion) return;
-      this.onBeatMultiplier = 1.08;
-    }
-
-    _nudgeOnBeat() {
-      if (!this.enabled || this.paused || this.scrollAnim) return false;
-      if (Date.now() < this.userPausedUntil) return false;
-
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      if (window.scrollY >= maxScroll - 20) return false;
-
-      const nudge = 8 * this.onBeatMultiplier;
-      this.onBeatMultiplier = 1;
-      window.scrollBy({ top: nudge, behavior: 'auto' });
-      return true;
+      if (!this.enabled || this.paused || this.reducedMotion || this.isScrolling) return;
     }
 
     start(options = {}) {
@@ -233,6 +218,7 @@
         this.enabled ? 'Lanjut ke bagian berikutnya' : 'Gulir otomatis dimatikan — tahan untuk nyalakan'
       );
       document.body.classList.toggle('autoscroll-active', this.enabled);
+      document.documentElement.classList.toggle('autoscroll-active', this.enabled);
 
       this.toggleBtn.classList.toggle('autoscroll-toggle--active', this.enabled);
       this.toggleBtn.classList.toggle('autoscroll-toggle--disabled', !this.enabled);
@@ -376,10 +362,17 @@
       this.hint.classList.add('autoscroll-hint--visible');
     }
 
+    _setTransitioning(active) {
+      document.body.classList.toggle('autoscroll-transitioning', active);
+      window.dispatchEvent(new CustomEvent(active ? 'autoscroll:transition-start' : 'autoscroll:transition-end'));
+    }
+
     _scrollToSection(section, onComplete) {
+      if (this.isScrolling) return;
       this._cancelScrollAnim();
 
-      const targetY = section.getBoundingClientRect().top + window.scrollY - (parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-height'), 10) || 56);
+      const navHeight = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--nav-height'), 10) || 56;
+      const targetY = section.getBoundingClientRect().top + window.scrollY - navHeight;
       const startY = window.scrollY;
       const distance = targetY - startY;
 
@@ -388,23 +381,43 @@
         return;
       }
 
-      const speedFactor = this.isMobile ? 1.6 : 1.2;
-      const maxDuration = this.isMobile ? 3400 : 2800;
-      const minDuration = this.isMobile ? 1800 : 1400;
+      this.isScrolling = true;
+      this._setTransitioning(true);
+      if (this.beatEngine) this.beatEngine.setAutoScrollPaused(true);
+
+      const speedFactor = this.isMobile ? 1.6 : 0.85;
+      const maxDuration = this.isMobile ? 3400 : 3200;
+      const minDuration = this.isMobile ? 1800 : 1800;
       const duration = Math.min(maxDuration, Math.max(minDuration, Math.abs(distance) * speedFactor));
       const startTime = performance.now();
+      let lastAppliedY = startY;
+
+      const finish = () => {
+        this.scrollAnim = null;
+        this.isScrolling = false;
+        this._setTransitioning(false);
+        if (this.beatEngine && this.enabled && !this.paused) {
+          this.beatEngine.setAutoScrollPaused(false);
+        }
+        window.scrollTo({ top: targetY, behavior: 'instant' });
+        if (onComplete) onComplete();
+      };
 
       const step = (now) => {
         const elapsed = now - startTime;
         const progress = Math.min(1, elapsed / duration);
-        const eased = EASE(progress);
-        window.scrollTo(0, startY + distance * eased);
+        const eased = EASE_OUT(progress);
+        const nextY = Math.round(startY + distance * eased);
+
+        if (nextY !== lastAppliedY) {
+          window.scrollTo({ top: nextY, behavior: 'instant' });
+          lastAppliedY = nextY;
+        }
 
         if (progress < 1) {
           this.scrollAnim = requestAnimationFrame(step);
         } else {
-          this.scrollAnim = null;
-          if (onComplete) onComplete();
+          finish();
         }
       };
 
@@ -415,6 +428,13 @@
       if (this.scrollAnim) {
         cancelAnimationFrame(this.scrollAnim);
         this.scrollAnim = null;
+      }
+      if (this.isScrolling) {
+        this.isScrolling = false;
+        this._setTransitioning(false);
+        if (this.beatEngine && this.enabled && !this.paused) {
+          this.beatEngine.setAutoScrollPaused(false);
+        }
       }
       clearTimeout(this._sectionTimer);
       this._stopCooldownRing();

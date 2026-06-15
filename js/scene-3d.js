@@ -31,6 +31,7 @@
       this.isInView = true;
       this.currentTheme = 'islamic';
       this.scrollY = 0;
+      this.scrollFrozen = false;
       this.beatIntensity = 0;
 
       this.renderer = null;
@@ -333,6 +334,13 @@
 
     _bindEvents() {
       this._onScroll = () => {
+        if (document.body.classList.contains('autoscroll-transitioning')) {
+          this.scrollFrozen = true;
+          return;
+        }
+        if (this.scrollFrozen) {
+          this.scrollFrozen = false;
+        }
         this.scrollY = window.scrollY;
         this.currentTheme = this._detectTheme();
       };
@@ -378,6 +386,12 @@
 
       global.addEventListener('beatengine:beat', (e) => {
         this.onBeat(e.detail?.isDownbeat);
+      });
+
+      window.addEventListener('autoscroll:transition-end', () => {
+        this.scrollFrozen = false;
+        this.scrollY = window.scrollY;
+        this.currentTheme = this._detectTheme();
       });
 
       this._onScroll();
