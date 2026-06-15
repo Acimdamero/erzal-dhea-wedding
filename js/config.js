@@ -1,0 +1,9 @@
+/**
+ * Public Supabase configuration (anon key only — safe for GitHub Pages).
+ * Replace placeholders after creating your Supabase project.
+ */
+window.WEDDING_CONFIG = {
+  slug: 'erzal-dhea',
+  supabaseUrl: 'YOUR_SUPABASE_URL',
+  supabaseAnonKey: 'YOUR_SUPABASE_ANON_KEY',
+};

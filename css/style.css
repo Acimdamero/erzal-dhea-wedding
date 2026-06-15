@@ -1041,6 +1041,23 @@ button {
   min-height: 1.2em;
 }
 
+.form-note--success {
+  color: #5a8f6a;
+}
+
+.form-note--error {
+  color: #c45c5c;
+}
+
+.form-note--info {
+  color: var(--color-text-light);
+}
+
+.wishes__empty {
+  max-width: 520px;
+  margin: 0 auto;
+}
+
 .rsvp__form,
 .wishes__form {
   max-width: 520px;

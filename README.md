@@ -16,8 +16,9 @@ A complete, deployable digital wedding invitation website built with pure HTML, 
 - **Event schedule** — Akad Nikah (Makkah) & Resepsi (Maxi's Resto, Bandung)
 - **Photo gallery** — with lightbox viewer
 - **Beat-synced animations** — rhythmic visual pulse synced to background music
-- **RSVP form** — frontend demo (no backend)
-- **Guest book / wishes** — UI-only, adds messages locally
+- **RSVP form** — Supabase-backed attendance confirmation (with demo fallback)
+- **Guest book / wishes** — Supabase-backed messages (with demo fallback)
+- **Admin dashboard** — password-protected reports at `/admin/` (Supabase Auth)
 - **Location section** — Google Maps embed for reception venue
 - **Background music** — YouTube embed with mute/unmute toggle
 - **Share buttons** — copy link, WhatsApp, native share API
@@ -30,12 +31,24 @@ A complete, deployable digital wedding invitation website built with pure HTML, 
 ```
 wedding-invitation/
 ├── index.html              # Main page
+├── admin/                  # Client reporting dashboard (Supabase Auth)
+│   ├── index.html          # Admin login
+│   ├── dashboard.html      # RSVP & wishes reports
+│   ├── admin.css
+│   ├── admin.js
+│   └── config.js           # Supabase keys (same anon key as public site)
+├── supabase/
+│   ├── schema.sql          # Database migration + RLS
+│   └── README.md           # Supabase setup guide
 ├── css/
 │   ├── style.css           # All styles & beat-sync animations
 │   ├── scroll-animations.css
 │   └── mobile.css          # Android & iOS touch/viewport overrides
 ├── js/
 │   ├── main.js             # Interactivity & logic
+│   ├── config.js           # Public Supabase config (anon key)
+│   ├── rsvp.js             # RSVP submit handler
+│   ├── wishes.js           # Wishes submit handler
 │   ├── beat-sync.js        # BeatEngine — rhythmic pulse
 │   ├── opening-3d.js       # 3D envelope opening scene (Three.js)
 │   └── scene-3d.js         # Site-wide 3D background ornaments
@@ -77,6 +90,22 @@ python3 -m http.server 8080
 ```
 
 Open http://localhost:8080 in your browser.
+
+## RSVP & Wishes Database (Supabase)
+
+Guest forms submit to **Supabase PostgreSQL** via the public anon key. An **admin dashboard** at `/admin/` lets the couple view reports after Supabase Auth login.
+
+**Full setup:** see [supabase/README.md](supabase/README.md)
+
+Quick checklist:
+
+1. Create a free [Supabase](https://supabase.com) project
+2. Run `supabase/schema.sql` in the SQL Editor
+3. Paste **Project URL** and **anon key** into `js/config.js` and `admin/config.js`
+4. Create an admin user in Supabase Auth (Authentication → Users)
+5. Deploy — admin URL: https://acimdamero.github.io/wedding-invitation/admin/
+
+Until keys are configured, forms run in **demo mode** (RSVP/wishes are not persisted).
 
 ## Mobile Testing
 

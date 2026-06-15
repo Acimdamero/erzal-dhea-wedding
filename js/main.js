@@ -20,10 +20,6 @@
   const nav = document.getElementById('nav');
   const lightbox = document.getElementById('lightbox');
   const lightboxImg = document.getElementById('lightboxImg');
-  const rsvpForm = document.getElementById('rsvpForm');
-  const rsvpNote = document.getElementById('rsvpNote');
-  const wishesForm = document.getElementById('wishesForm');
-  const wishesList = document.getElementById('wishesList');
   const copyLinkBtn = document.getElementById('copyLink');
   const shareToast = document.getElementById('shareToast');
   const shareWa = document.getElementById('shareWa');
@@ -463,72 +459,6 @@
   }
 
   initGallery();
-
-  // ============================================
-  // RSVP Form (Frontend Only)
-  // ============================================
-  rsvpForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    const name = document.getElementById('rsvpName').value.trim();
-    const attendance = document.getElementById('rsvpAttendance').value;
-
-    if (!name || !attendance) {
-      rsvpNote.textContent = 'Mohon lengkapi nama dan konfirmasi kehadiran.';
-      rsvpNote.style.color = '#c45c5c';
-      return;
-    }
-
-    const attendanceText = {
-      yes: 'Hadir',
-      no: 'Tidak Hadir',
-      maybe: 'Belum Pasti',
-    };
-
-    rsvpNote.textContent = `Terima kasih, ${name}! Konfirmasi: ${attendanceText[attendance]}. (Demo — data tidak disimpan)`;
-    rsvpNote.style.color = '';
-    rsvpForm.reset();
-  });
-
-  // ============================================
-  // Wishes / Guest Book (Frontend Only)
-  // ============================================
-  wishesForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-
-    const name = document.getElementById('wishName').value.trim();
-    const message = document.getElementById('wishMessage').value.trim();
-
-    if (!name || !message) return;
-
-    const card = document.createElement('article');
-    card.className = 'wish-card glass reveal visible';
-    card.innerHTML = `
-      <div class="wish-card__avatar" aria-hidden="true">${name.charAt(0).toUpperCase()}</div>
-      <div class="wish-card__body">
-        <h4>${escapeHtml(name)}</h4>
-        <p>${escapeHtml(message)}</p>
-        <time datetime="${new Date().toISOString().split('T')[0]}">${formatDate(new Date())}</time>
-      </div>
-    `;
-
-    wishesList.prepend(card);
-    wishesForm.reset();
-  });
-
-  function escapeHtml(text) {
-    const div = document.createElement('div');
-    div.textContent = text;
-    return div.innerHTML;
-  }
-
-  function formatDate(date) {
-    return date.toLocaleDateString('id-ID', {
-      day: 'numeric',
-      month: 'long',
-      year: 'numeric',
-    });
-  }
 
   // ============================================
   // Share / Copy Link

@@ -350,9 +350,9 @@
             <label for="rsvpAttendance">Kehadiran / Attendance</label>
             <select id="rsvpAttendance" name="attendance" required>
               <option value="">Pilih / Select</option>
-              <option value="yes">Hadir / Attending</option>
-              <option value="no">Tidak Hadir / Not Attending</option>
-              <option value="maybe">Belum Pasti / Maybe</option>
+              <option value="hadir">Hadir / Attending</option>
+              <option value="tidak_hadir">Tidak Hadir / Not Attending</option>
+              <option value="ragu">Belum Pasti / Maybe</option>
             </select>
           </div>
           <div class="form-group">
@@ -389,24 +389,7 @@
           </div>
           <button type="submit" class="btn btn--secondary">Kirim Ucapan / Send</button>
         </form>
-        <div class="wishes__list" id="wishesList">
-          <article class="wish-card glass reveal">
-            <div class="wish-card__avatar" aria-hidden="true">A</div>
-            <div class="wish-card__body">
-              <h4>Andi Pratama</h4>
-              <p>Selamat Erzal & Dhea! Semoga menjadi keluarga sakinah, mawaddah, warahmah. Barakallahu lakuma.</p>
-              <time datetime="2026-05-01">1 Mei 2026</time>
-            </div>
-          </article>
-          <article class="wish-card glass reveal">
-            <div class="wish-card__avatar" aria-hidden="true">D</div>
-            <div class="wish-card__body">
-              <h4>Dewi Lestari</h4>
-              <p>Lorem ipsum dolor sit amet. Semoga pernikahan kalian penuh berkah dan kebahagiaan selamanya!</p>
-              <time datetime="2026-05-02">2 Mei 2026</time>
-            </div>
-          </article>
-        </div>
+        <div class="wishes__list" id="wishesList" aria-live="polite"></div>
       </div>
     </section>
 
@@ -485,6 +468,10 @@
     </footer>
   </main>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="js/config.js"></script>
+  <script src="js/rsvp.js"></script>
+  <script src="js/wishes.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
