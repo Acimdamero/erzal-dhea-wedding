@@ -116,7 +116,7 @@
       const THREE = global.THREE;
       const loader = new THREE.TextureLoader();
       loader.load(
-        'assets/backgrounds/masjidil-haram.jpg',
+        'assets/backgrounds/kaaba-arch.jpg',
         (texture) => {
           texture.minFilter = THREE.LinearFilter;
           const plane = new THREE.Mesh(

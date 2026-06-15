@@ -47,7 +47,7 @@ body {
 }
 
 /* ============================================
-   LAYERED SITE BACKGROUND — Masjidil Haram
+   LAYERED SITE BACKGROUND — Kaaba arch
    ============================================ */
 .site-bg {
   position: fixed;
@@ -59,7 +59,7 @@ body {
 .site-bg__image {
   position: absolute;
   inset: 0;
-  background: url('../assets/backgrounds/masjidil-haram.jpg') center / cover no-repeat;
+  background: url('../assets/backgrounds/kaaba-arch.jpg') center / cover no-repeat;
   background-attachment: fixed;
 }
 
@@ -1325,11 +1325,24 @@ button {
 /* ============================================
    WISHES
    ============================================ */
+.wishes__feed {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.wishes__feed-title {
+  font-family: var(--font-serif);
+  font-size: 1.35rem;
+  font-weight: 500;
+  color: var(--color-bg-dark);
+  text-align: center;
+  margin-bottom: 1.5rem;
+  letter-spacing: 0.02em;
+}
+
 .wishes__list {
   display: grid;
   gap: 1rem;
-  max-width: 700px;
-  margin: 0 auto;
 }
 
 .wish-card {

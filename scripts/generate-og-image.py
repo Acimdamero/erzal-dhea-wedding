@@ -9,7 +9,7 @@ ROOT = Path(__file__).resolve().parent.parent
 ASSETS = ROOT / "assets"
 OUT_JPG = ASSETS / "og-invite.jpg"
 OUT_WEBP = ASSETS / "og-invite.webp"
-BG_PATH = ASSETS / "backgrounds" / "masjidil-haram.jpg"
+BG_PATH = ASSETS / "backgrounds" / "kaaba-arch.jpg"
 FONTS_DIR = ROOT / "scripts" / "fonts"
 
 WIDTH, HEIGHT = 1200, 630
