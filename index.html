@@ -79,7 +79,13 @@
       <div class="envelope__body">
         <div class="envelope__card">
           <p class="envelope__label">Wedding Invitation</p>
-          <h1 class="envelope__names">Erzal <span>&</span> Dhea</h1>
+          <h1 class="envelope__names">
+            <span class="envelope__name-group">
+              <span class="envelope__name">Erzal</span>
+              <span class="envelope__amp" aria-hidden="true">&</span>
+            </span>
+            <span class="envelope__name">Dhea</span>
+          </h1>
           <p class="envelope__date">13 &amp; 22 Juli 2026</p>
           <p class="envelope__guest">Kepada Yth.<br><strong>Tamu Terhormat</strong></p>
         </div>
@@ -117,9 +123,9 @@
       <!-- <a href="#events" class="nav__link">Acara</a> -->
       <!-- PHOTOS: uncomment when gallery section is restored -->
       <!-- <a href="#gallery" class="nav__link nav__link--photos">Foto</a> -->
+      <a href="#location" class="nav__link">Lokasi</a>
       <a href="#rsvp" class="nav__link">RSVP</a>
       <a href="#wishes" class="nav__link">Ucapan</a>
-      <a href="#location" class="nav__link">Lokasi</a>
     </nav>
 
     <!-- Hero — Masjidil Haram layered background + subtle couple accent -->
@@ -130,7 +136,13 @@
       </div>
       <div class="hero__content reveal">
         <p class="hero__pre">The Wedding of</p>
-        <h1 class="hero__title">Erzal <span class="amp">&</span> Dhea</h1>
+        <h1 class="hero__title">
+          <span class="hero__name-group">
+            <span class="hero__name">Erzal</span>
+            <span class="hero__amp" aria-hidden="true">&</span>
+          </span>
+          <span class="hero__name">Dhea</span>
+        </h1>
         <p class="hero__subtitle">Dengan memohon rahmat dan ridha Allah SWT, kami mengundang Anda untuk merayakan hari bahagia kami.</p>
         <p class="hero__date"><i class="fa-regular fa-calendar" aria-hidden="true"></i> Akad 13 Juli &mdash; Resepsi 22 Juli 2026</p>
         <div class="hero__ornament" aria-hidden="true">
@@ -352,6 +364,49 @@
     </div>
     -->
 
+    <!-- Location -->
+    <section id="location" class="location section section--sunda" data-chapter="location">
+      <div class="sunda-garland reveal" aria-hidden="true">
+        <img src="assets/ornaments/sunda/janur.svg" alt="" class="sunda-garland__janur">
+        <span>Resepsi di Tanah Sunda</span>
+        <img src="assets/ornaments/sunda/melati.svg" alt="" class="sunda-garland__melati">
+        <img src="assets/ornaments/sunda/janur.svg" alt="" class="sunda-garland__janur sunda-garland__janur--flip">
+      </div>
+      <div class="container">
+        <div class="section-header reveal section-header--sunda">
+          <p class="section-label">Lokasi Acara</p>
+          <h2 class="section-title">Venue &amp; Location</h2>
+          <span class="section-divider" aria-hidden="true"></span>
+          <p class="section-desc">Temukan lokasi resepsi pernikahan kami di Bandung, Jawa Barat.</p>
+        </div>
+        <div class="location__grid">
+          <div class="location__info glass reveal">
+            <h3>Maxi's Resto</h3>
+            <p>Jl. Gunung Agung No.8, Ciumbuleuit, Kec. Cidadap, Kota Bandung, Jawa Barat 40143</p>
+            <ul class="location__details">
+              <li><i class="fa-regular fa-clock"></i> 15:30 – 18:30 WIB</li>
+              <li><i class="fa-regular fa-calendar"></i> Rabu, 22 Juli 2026</li>
+            </ul>
+            <a href="https://maps.app.goo.gl/7cV4NaoxiS8SUNMN6?g_st=ic" target="_blank" rel="noopener noreferrer" class="btn btn--outline">
+              <i class="fa-solid fa-map-location-dot"></i> Buka di Google Maps
+            </a>
+          </div>
+          <div class="location__map glass reveal">
+            <iframe
+              title="Peta lokasi Maxi's Resto, Bandung"
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.781!2d107.609807!3d-6.867994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e6e84af1c5e7%3A0x6694c2206a48e373!2sMaxi%27s%20Resto!5e0!3m2!1sid!2sid!4v1718400000000!5m2!1sid!2sid"
+              width="100%"
+              height="100%"
+              style="border:0;"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- RSVP -->
     <section id="rsvp" class="rsvp section" data-chapter="rsvp">
       <div class="container">
@@ -417,49 +472,6 @@
       </div>
     </section>
 
-    <!-- Location -->
-    <section id="location" class="location section section--sunda" data-chapter="location">
-      <div class="sunda-garland reveal" aria-hidden="true">
-        <img src="assets/ornaments/sunda/janur.svg" alt="" class="sunda-garland__janur">
-        <span>Resepsi di Tanah Sunda</span>
-        <img src="assets/ornaments/sunda/melati.svg" alt="" class="sunda-garland__melati">
-        <img src="assets/ornaments/sunda/janur.svg" alt="" class="sunda-garland__janur sunda-garland__janur--flip">
-      </div>
-      <div class="container">
-        <div class="section-header reveal section-header--sunda">
-          <p class="section-label">Lokasi Acara</p>
-          <h2 class="section-title">Venue &amp; Location</h2>
-          <span class="section-divider" aria-hidden="true"></span>
-          <p class="section-desc">Temukan lokasi resepsi pernikahan kami di Bandung, Jawa Barat.</p>
-        </div>
-        <div class="location__grid">
-          <div class="location__info glass reveal">
-            <h3>Maxi's Resto</h3>
-            <p>Jl. Gunung Agung No.8, Ciumbuleuit, Kec. Cidadap, Kota Bandung, Jawa Barat 40143</p>
-            <ul class="location__details">
-              <li><i class="fa-regular fa-clock"></i> 15:30 – 18:30 WIB</li>
-              <li><i class="fa-regular fa-calendar"></i> Rabu, 22 Juli 2026</li>
-            </ul>
-            <a href="https://maps.app.goo.gl/7cV4NaoxiS8SUNMN6?g_st=ic" target="_blank" rel="noopener noreferrer" class="btn btn--outline">
-              <i class="fa-solid fa-map-location-dot"></i> Buka di Google Maps
-            </a>
-          </div>
-          <div class="location__map glass reveal">
-            <iframe
-              title="Peta lokasi Maxi's Resto, Bandung"
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.781!2d107.609807!3d-6.867994!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e6e84af1c5e7%3A0x6694c2206a48e373!2sMaxi%27s%20Resto!5e0!3m2!1sid!2sid!4v1718400000000!5m2!1sid!2sid"
-              width="100%"
-              height="100%"
-              style="border:0;"
-              allowfullscreen=""
-              loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade">
-            </iframe>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <!-- Share -->
     <section id="share" class="share section" data-chapter="share">
       <div class="container">
@@ -484,7 +496,13 @@
     <!-- Footer -->
     <footer class="footer">
       <div class="container">
-        <p class="footer__names">Erzal <span>&</span> Dhea</p>
+        <p class="footer__names">
+          <span class="footer__name-group">
+            <span class="footer__name">Erzal</span>
+            <span class="footer__amp" aria-hidden="true">&</span>
+          </span>
+          <span class="footer__name">Dhea</span>
+        </p>
         <p class="footer__date">13 &amp; 22.07.2026</p>
         <p class="footer__thanks">Terima kasih atas doa dan kehadiran Anda.<br>Thank you for your prayers and presence.</p>
         <p class="footer__closing">Merupakan suatu kehormatan apabila Bapak/Ibu/Saudara/i berkenan hadir.</p>

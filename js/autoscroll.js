@@ -26,7 +26,7 @@
     share: 3000,
   };
 
-  const MAIN_SECTION_IDS = ['hero', 'countdown', 'couple', 'story', 'gallery', 'rsvp', 'wishes', 'location', 'share'];
+  const MAIN_SECTION_IDS = ['hero', 'countdown', 'couple', 'story', 'gallery', 'location', 'rsvp', 'wishes', 'share'];
 
   class AutoScrollEngine {
     constructor(options = {}) {

@@ -322,9 +322,21 @@ button {
   font-weight: 400;
   color: var(--color-bg-dark);
   margin: 0.25rem 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.2em 0.35em;
 }
 
-.envelope__names span {
+.envelope__name-group {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.3em;
+  white-space: nowrap;
+}
+
+.envelope__amp {
   color: var(--color-accent);
   font-style: italic;
 }
@@ -631,9 +643,21 @@ button {
   font-weight: 300;
   line-height: 1.1;
   margin-bottom: 1rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.2em 0.35em;
 }
 
-.hero__title .amp {
+.hero__name-group {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.3em;
+  white-space: nowrap;
+}
+
+.hero__title .hero__amp {
   font-style: italic;
   color: var(--color-accent-light);
 }
@@ -1449,9 +1473,21 @@ button {
   font-size: 2rem;
   font-weight: 300;
   margin-bottom: 0.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.2em 0.35em;
 }
 
-.footer__names span {
+.footer__name-group {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.3em;
+  white-space: nowrap;
+}
+
+.footer__amp {
   color: var(--color-accent-light);
   font-style: italic;
 }

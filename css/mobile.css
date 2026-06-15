@@ -318,7 +318,6 @@ a.btn,
 
   .footer__names {
     font-size: clamp(1.5rem, 7vw, 2rem);
-    word-break: break-word;
   }
 
   .footer__thanks,

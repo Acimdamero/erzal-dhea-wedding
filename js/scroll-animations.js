@@ -76,7 +76,7 @@
         ease: 'power3.out',
         delay: 0.3,
       });
-      gsap.from('.hero__title .amp', {
+      gsap.from('.hero__title .hero__amp', {
         scale: 0,
         opacity: 0,
         duration: 0.8,
