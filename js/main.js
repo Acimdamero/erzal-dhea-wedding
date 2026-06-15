@@ -81,6 +81,16 @@
     init3D();
   }
 
+  function initAutoScroll() {
+    if (typeof AutoScrollEngine === 'undefined') return;
+    autoScrollEngine = new AutoScrollEngine({ beatEngine });
+    if (beatEngine) autoScrollEngine.connectBeatEngine(beatEngine);
+  }
+
+  if (typeof AutoScrollEngine !== 'undefined') {
+    initAutoScroll();
+  }
+
   // ============================================
   // Cover / Envelope Opening
   // ============================================
@@ -239,10 +249,11 @@
     initYouTubePlayer();
     if (typeof BeatEngine !== 'undefined') {
       beatEngine = new BeatEngine({ bpm: BEAT_BPM });
-    }
-    if (typeof AutoScrollEngine !== 'undefined') {
-      autoScrollEngine = new AutoScrollEngine({ beatEngine });
-      if (beatEngine) autoScrollEngine.connectBeatEngine(beatEngine);
+      if (autoScrollEngine) {
+        autoScrollEngine.connectBeatEngine(beatEngine);
+      } else {
+        initAutoScroll();
+      }
     }
   });
 

@@ -154,8 +154,6 @@
     const timelineLine = document.querySelector('.timeline');
 
     if (storySection && timelineItems.length && !isMobile) {
-      gsap.from('.timeline::before', { scaleY: 0, duration: 2, ease: 'none' });
-
       timelineItems.forEach((item, i) => {
         gsap.from(item, {
           scrollTrigger: {

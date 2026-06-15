@@ -142,8 +142,7 @@
 
     _nudgeOnBeat() {
       if (!this.enabled || this.paused || this.scrollAnim) return false;
-      const sinceUser = Date.now() - this.userPausedUntil;
-      if (sinceUser < 0) return false;
+      if (Date.now() < this.userPausedUntil) return false;
 
       const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
       if (window.scrollY >= maxScroll - 20) return false;

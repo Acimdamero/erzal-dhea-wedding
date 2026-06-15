@@ -330,10 +330,21 @@ body.invite-open .autoscroll-toggle {
   will-change: transform;
 }
 
-/* Crossfade between sections feel */
-.main {
-  position: relative;
+/* Timeline line draw on scroll */
+.timeline::before {
+  transform-origin: top center;
+  transform: scaleY(0);
 }
+
+.section.chapter-active .timeline::before,
+.story.chapter-enter .timeline::before {
+  animation: timeline-draw 2.5s ease forwards;
+}
+
+@keyframes timeline-draw {
+  to { transform: scaleY(1); }
+}
+
 
 /* Mid decorative parallax ornaments in sections */
 .section-ornament {
