@@ -55,7 +55,7 @@
 
   function isTestEntry(name) {
     const n = (name || '').trim();
-    return /^(reviewtest|rlstest|setup\s*test)$/i.test(n);
+    return /^(reviewtest|rlstest|setup\s*test|handoffreviewtest)$/i.test(n);
   }
 
   function showEmptyState(list) {

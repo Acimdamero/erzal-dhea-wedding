@@ -246,7 +246,7 @@
       document.getElementById('sumWishes').textContent = wishes.length;
 
       const hasTestData = [...rsvps, ...wishes].some((row) =>
-        /^(reviewtest|rlstest|setup\s*test)$/i.test((row.name || '').trim())
+        /^(reviewtest|rlstest|setup\s*test|handoffreviewtest)$/i.test((row.name || '').trim())
       );
       const hint = document.getElementById('adminHint');
       if (hint) hint.hidden = !hasTestData;

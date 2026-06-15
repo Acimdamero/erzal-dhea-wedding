@@ -28,13 +28,15 @@ DELETE FROM wishes
 WHERE name ILIKE 'ReviewTest'
    OR name ILIKE 'RLSTest'
    OR name ILIKE 'Setup Test'
-   OR name ILIKE 'SetupTest';
+   OR name ILIKE 'SetupTest'
+   OR name ILIKE 'HandoffReviewTest';
 
 DELETE FROM rsvp_responses
 WHERE name ILIKE 'ReviewTest'
    OR name ILIKE 'RLSTest'
    OR name ILIKE 'Setup Test'
-   OR name ILIKE 'SetupTest';
+   OR name ILIKE 'SetupTest'
+   OR name ILIKE 'HandoffReviewTest';
 
 -- ---------------------------------------------------------------------------
 -- VERIFIKASI (harus 0 baris)
@@ -43,10 +45,12 @@ SELECT id, name FROM wishes
 WHERE name ILIKE 'ReviewTest'
    OR name ILIKE 'RLSTest'
    OR name ILIKE 'Setup Test'
-   OR name ILIKE 'SetupTest';
+   OR name ILIKE 'SetupTest'
+   OR name ILIKE 'HandoffReviewTest';
 
 SELECT id, name FROM rsvp_responses
 WHERE name ILIKE 'ReviewTest'
    OR name ILIKE 'RLSTest'
    OR name ILIKE 'Setup Test'
-   OR name ILIKE 'SetupTest';
+   OR name ILIKE 'SetupTest'
+   OR name ILIKE 'HandoffReviewTest';
