@@ -2,11 +2,13 @@
 -- https://supabase.com/dashboard/project/bebdiinqomsclynxvpbm/sql/new
 
 -- 1) Aktifkan tampilan ucapan tamu di situs publik
-create policy if not exists "anon_select_wishes"
-  on public.wishes
-  for select
-  to anon
-  using (wedding_slug = 'erzal-dhea');
+-- (PostgreSQL tidak mendukung CREATE POLICY IF NOT EXISTS)
+DROP POLICY IF EXISTS "anon_select_wishes" ON public.wishes;
+CREATE POLICY "anon_select_wishes"
+  ON public.wishes
+  FOR SELECT
+  TO anon
+  USING (wedding_slug = 'erzal-dhea');
 
 -- 2) Hapus semua entri uji
 DELETE FROM wishes
