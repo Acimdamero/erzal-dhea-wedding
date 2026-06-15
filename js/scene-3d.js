@@ -15,7 +15,7 @@
   };
 
   const THEME_SECTIONS = {
-    islamic: ['hero', 'countdown', 'couple', 'story', 'events'],
+    islamic: ['hero', 'countdown', 'couple', 'story'],
     sunda: ['location', 'rsvp', 'wishes', 'share'],
     neutral: ['gallery'],
   };

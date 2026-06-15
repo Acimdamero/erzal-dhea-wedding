@@ -17,7 +17,6 @@
     countdown: 4500,
     couple: 4000,
     story: 5500,
-    events: 4500,
     gallery: 4000,
     rsvp: 5000,
     wishes: 3500,
@@ -185,7 +184,7 @@
     }
 
     _collectSections() {
-      const ids = ['hero', 'countdown', 'couple', 'story', 'events', 'gallery', 'rsvp', 'wishes', 'location', 'share'];
+      const ids = ['hero', 'countdown', 'couple', 'story', 'gallery', 'rsvp', 'wishes', 'location', 'share'];
       this.sections = ids
         .map((id) => document.getElementById(id))
         .filter(Boolean);
@@ -360,7 +359,7 @@
     _getDwellForSection(section) {
       const id = section.id;
       const dwell = SECTION_DWELL[id] ?? DEFAULT_SECTION_MS;
-      const isPauseSection = ['countdown', 'story', 'events', 'rsvp'].includes(id);
+      const isPauseSection = ['countdown', 'story', 'rsvp'].includes(id);
       return isPauseSection ? PAUSE_SECTION_MS : dwell;
     }
 
