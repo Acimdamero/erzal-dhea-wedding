@@ -25,8 +25,10 @@
       this.canvas = canvas;
       this.reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       this.isMobile = window.innerWidth < 768;
+      this.isSmallScreen = window.innerWidth < 480;
       this.disposed = false;
       this.isVisible = !document.hidden;
+      this.isInView = true;
       this.currentTheme = 'islamic';
       this.scrollY = 0;
       this.beatIntensity = 0;
@@ -65,7 +67,7 @@
 
       const w = window.innerWidth;
       const h = window.innerHeight;
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = Math.min(window.devicePixelRatio || 1, this.isMobile ? 1.5 : 2);
 
       this.renderer = new THREE.WebGLRenderer({
         canvas: this.canvas,
@@ -145,7 +147,7 @@
       group.add(kaabaBand);
 
       // Arabesque particles
-      const count = this.isMobile ? 12 : 24;
+      const count = this.isSmallScreen ? 6 : this.isMobile ? 8 : 24;
       const positions = new Float32Array(count * 3);
       for (let i = 0; i < count; i++) {
         positions[i * 3] = (Math.random() - 0.5) * 6;
@@ -162,7 +164,7 @@
       group.add(pts);
 
       // Floating star polyhedra
-      const starCount = this.isMobile ? 2 : 4;
+      const starCount = this.isSmallScreen ? 1 : this.isMobile ? 2 : 4;
       for (let i = 0; i < starCount; i++) {
         const star = new THREE.Mesh(
           new THREE.IcosahedronGeometry(0.1, 0),
@@ -187,7 +189,7 @@
       group.name = 'sunda';
 
       // Janur arcs
-      const janurCount = this.isMobile ? 2 : 4;
+      const janurCount = this.isSmallScreen ? 1 : this.isMobile ? 2 : 4;
       for (let i = 0; i < janurCount; i++) {
         const curve = new THREE.QuadraticBezierCurve3(
           new THREE.Vector3(2 + i * 0.3, -0.5, -0.5),
@@ -202,7 +204,7 @@
       }
 
       // Melati clusters
-      const clusterCount = this.isMobile ? 3 : 6;
+      const clusterCount = this.isSmallScreen ? 2 : this.isMobile ? 3 : 6;
       for (let c = 0; c < clusterCount; c++) {
         const cluster = new THREE.Group();
         for (let f = 0; f < 5; f++) {
@@ -310,6 +312,8 @@
       };
       this._onResize = () => {
         if (!this.renderer) return;
+        this.isMobile = window.innerWidth < 768;
+        this.isSmallScreen = window.innerWidth < 480;
         const w = window.innerWidth;
         const h = window.innerHeight;
         this.camera.left = -w / 200;
@@ -330,6 +334,22 @@
       window.addEventListener('resize', this._onResize);
       document.addEventListener('visibilitychange', this._onVisibility);
 
+      const main = document.getElementById('mainContent');
+      if (main && 'IntersectionObserver' in window) {
+        this._viewObserver = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              this.isInView = entry.isIntersecting;
+              if (this.isInView && this.isVisible && !this.rafId && !this.disposed) {
+                this.rafId = requestAnimationFrame(this._animate);
+              }
+            });
+          },
+          { threshold: 0.05 }
+        );
+        this._viewObserver.observe(main);
+      }
+
       global.addEventListener('beatengine:beat', (e) => {
         this.onBeat(e.detail?.isDownbeat);
       });
@@ -339,7 +359,7 @@
 
     _animate() {
       if (this.disposed) return;
-      if (!this.isVisible) {
+      if (!this.isVisible || !this.isInView) {
         this.rafId = null;
         return;
       }
@@ -399,6 +419,7 @@
       window.removeEventListener('scroll', this._onScroll);
       window.removeEventListener('resize', this._onResize);
       document.removeEventListener('visibilitychange', this._onVisibility);
+      if (this._viewObserver) this._viewObserver.disconnect();
 
       if (this.scene) {
         this.scene.traverse((obj) => {

@@ -6,6 +6,7 @@
 
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const isMobile = window.matchMedia('(max-width: 768px)').matches;
+  const isSmallScreen = window.matchMedia('(max-width: 480px)').matches;
 
   function initChapterObserver() {
     const chapters = document.querySelectorAll('.section[data-chapter]');
@@ -270,7 +271,7 @@
     const container = document.getElementById('floatingPetals');
     if (!container) return;
 
-    const count = isMobile ? 6 : 12;
+    const count = isSmallScreen ? 3 : isMobile ? 5 : 12;
     for (let i = 0; i < count; i += 1) {
       const petal = document.createElement('span');
       petal.className = 'floating-petal';

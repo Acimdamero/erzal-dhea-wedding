@@ -1,0 +1,398 @@
+/* ============================================
+   Mobile — Android & iOS optimizations
+   Loaded after style.css + scroll-animations.css
+   ============================================ */
+
+:root {
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --tap-min: 44px;
+}
+
+html {
+  height: -webkit-fill-available;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100vh;
+  min-height: 100svh;
+  min-height: 100dvh;
+  min-height: -webkit-fill-available;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-y: none;
+}
+
+body.invite-open {
+  overscroll-behavior-y: contain;
+}
+
+/* Touch-friendly interactive elements */
+button,
+a.btn,
+.nav__link,
+.gallery__item,
+.couple__social a,
+.lightbox__close,
+.lightbox__nav,
+.cover__open-btn,
+.music-control__btn,
+.autoscroll-toggle,
+.hero__scroll {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Minimum tap targets (Apple HIG 44×44) */
+.cover__open-btn {
+  min-width: var(--tap-min);
+  min-height: var(--tap-min);
+  padding: 0.85rem 1.75rem;
+}
+
+.music-control__btn,
+.autoscroll-toggle,
+.lightbox__close,
+.lightbox__nav {
+  min-width: var(--tap-min);
+  min-height: var(--tap-min);
+}
+
+.nav__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-min);
+  padding: 0.5rem 0.85rem;
+}
+
+.couple__social a {
+  width: var(--tap-min);
+  height: var(--tap-min);
+}
+
+.hero__scroll {
+  min-width: var(--tap-min);
+  min-height: var(--tap-min);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn {
+  min-height: var(--tap-min);
+  width: 100%;
+  max-width: 100%;
+}
+
+.share__buttons .btn {
+  width: auto;
+  min-width: min(100%, 260px);
+  flex: 1 1 auto;
+}
+
+/* Active feedback (touch — no hover-only UX) */
+.cover__open-btn:active,
+.btn:active,
+.music-control__btn:active,
+.autoscroll-toggle:active,
+.lightbox__close:active,
+.lightbox__nav:active,
+.nav__link:active,
+.gallery__item:active,
+.couple__social a:active,
+.hero__scroll:active {
+  transform: scale(0.97);
+  opacity: 0.92;
+}
+
+.btn--primary:active {
+  background: var(--color-primary-dark);
+}
+
+.btn--outline:active {
+  background: var(--color-primary);
+  color: var(--color-white);
+}
+
+/* Touch devices: gallery zoom hint without hover */
+@media (hover: none) {
+  .gallery__item:active img {
+    transform: scale(1.05);
+  }
+
+  .gallery__item:active::after {
+    opacity: 1;
+  }
+
+  .music-control__label--visible,
+  .music-control:focus-within .music-control__label {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Full viewport height — address bar safe (iOS Safari, Android Chrome) */
+.cover {
+  min-height: 100vh;
+  min-height: 100svh;
+  min-height: 100dvh;
+  min-height: -webkit-fill-available;
+  padding:
+    calc(1rem + var(--safe-top))
+    calc(1rem + var(--safe-right))
+    calc(1.25rem + var(--safe-bottom))
+    calc(1rem + var(--safe-left));
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.hero {
+  min-height: 100vh;
+  min-height: 100svh;
+  min-height: 100dvh;
+  min-height: -webkit-fill-available;
+}
+
+.cover__tagline {
+  top: calc(1rem + var(--safe-top));
+}
+
+/* Fixed controls — notch & home indicator */
+.music-control {
+  bottom: calc(1rem + var(--safe-bottom));
+  right: calc(1rem + var(--safe-right));
+}
+
+.autoscroll-toggle {
+  bottom: calc(1rem + var(--safe-bottom));
+  left: calc(1rem + var(--safe-left));
+}
+
+.autoscroll-hint {
+  bottom: calc(5rem + var(--safe-bottom));
+  padding-left: calc(1rem + var(--safe-left));
+  padding-right: calc(1rem + var(--safe-right));
+}
+
+.nav {
+  padding-top: calc(0.75rem + var(--safe-top));
+  padding-left: calc(1rem + var(--safe-left));
+  padding-right: calc(1rem + var(--safe-right));
+}
+
+.lightbox__close {
+  top: calc(1rem + var(--safe-top));
+  right: calc(1rem + var(--safe-right));
+}
+
+/* Prevent iOS zoom on input focus */
+.form-group input,
+.form-group select,
+.form-group textarea {
+  font-size: 16px;
+  max-width: 100%;
+}
+
+.rsvp__form,
+.wishes__form {
+  width: 100%;
+}
+
+/* Fluid typography — small phones (320–414px) */
+@media (max-width: 414px) {
+  .hero__title {
+    font-size: clamp(2.25rem, 11vw, 3.25rem);
+    line-height: 1.15;
+  }
+
+  .hero__subtitle {
+    font-size: clamp(0.9rem, 3.8vw, 1rem);
+    line-height: 1.65;
+    padding: 0 0.25rem;
+  }
+
+  .hero__pre {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+  }
+
+  .hero__date {
+    font-size: 0.8rem;
+    flex-wrap: wrap;
+    text-align: center;
+    line-height: 1.5;
+  }
+
+  .envelope {
+    width: min(300px, 88vw);
+    height: auto;
+    min-height: 200px;
+    margin-bottom: 1.5rem;
+  }
+
+  .envelope__names {
+    font-size: clamp(1.6rem, 7vw, 2rem);
+  }
+
+  .envelope__card {
+    padding: 1rem;
+  }
+
+  .cover__open-btn {
+    font-size: 0.85rem;
+    margin-top: 0.5rem;
+  }
+
+  .couple__name {
+    font-size: clamp(1.35rem, 5vw, 1.75rem);
+  }
+
+  .couple__photo {
+    width: min(160px, 45vw);
+    height: min(200px, 55vw);
+  }
+
+  .timeline__content {
+    padding: 1.25rem 1rem;
+  }
+
+  .timeline__content h3 {
+    font-size: clamp(1.1rem, 4.5vw, 1.35rem);
+  }
+
+  .timeline__content p {
+    font-size: 0.875rem;
+    line-height: 1.65;
+  }
+
+  .footer__names {
+    font-size: clamp(1.5rem, 7vw, 2rem);
+    word-break: break-word;
+  }
+
+  .footer__thanks,
+  .footer__credit {
+    font-size: clamp(0.8rem, 3.5vw, 0.9rem);
+    padding: 0 0.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .section {
+    padding: clamp(2.5rem, 8vw, 3.5rem) 0;
+  }
+
+  .section-title {
+    font-size: clamp(1.75rem, 6vw, 2.5rem);
+  }
+
+  .section-desc {
+    font-size: 0.9rem;
+    line-height: 1.65;
+    padding: 0 0.25rem;
+  }
+
+  /* Event cards — single column */
+  .events__grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .event-card {
+    padding: 2rem 1.25rem;
+  }
+
+  /* Gallery — 2 columns; 1 on very narrow */
+  .gallery__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+  }
+
+  /* Map embed */
+  .location__map {
+    min-height: 200px;
+    max-height: 50vh;
+    max-height: 50dvh;
+  }
+
+  .location__map iframe {
+    min-height: 200px;
+    max-height: 50vh;
+    max-height: 50dvh;
+  }
+
+  .share__buttons {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .share__content {
+    padding: 2rem 1.25rem;
+  }
+
+  .lightbox {
+    padding: calc(1rem + var(--safe-top)) calc(1rem + var(--safe-right))
+      calc(1rem + var(--safe-bottom)) calc(1rem + var(--safe-left));
+  }
+
+  .lightbox__img {
+    max-width: 100%;
+    max-height: calc(100dvh - 8rem - var(--safe-top) - var(--safe-bottom));
+  }
+
+  .lightbox__nav--prev {
+    left: calc(0.5rem + var(--safe-left));
+  }
+
+  .lightbox__nav--next {
+    right: calc(0.5rem + var(--safe-right));
+  }
+
+  /* iOS fixed-position compositing */
+  .music-control,
+  .autoscroll-toggle,
+  .nav,
+  .cover,
+  .lightbox {
+    transform: translateZ(0);
+  }
+}
+
+@media (max-width: 360px) {
+  .gallery__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .countdown__grid {
+    gap: 0.65rem;
+  }
+
+  .countdown__item {
+    padding: 1rem 0.5rem;
+  }
+}
+
+/* Reduce GPU load on very small / low-end phones */
+@media (max-width: 480px) {
+  .canvas-3d--bg {
+    opacity: 0.65;
+  }
+
+  .film-grain {
+    opacity: 0.5;
+  }
+}
+
+@media (max-width: 374px) {
+  .canvas-3d--bg,
+  .ornaments {
+    display: none !important;
+  }
+
+  .ornaments-fallback {
+    display: block;
+  }
+}

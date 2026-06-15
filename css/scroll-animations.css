@@ -295,6 +295,10 @@ body.invite-open .autoscroll-toggle {
   color: var(--color-white);
 }
 
+.autoscroll-toggle:active {
+  transform: scale(0.95);
+}
+
 .autoscroll-toggle[aria-pressed="false"] {
   color: var(--color-text-light);
   opacity: 0.7;
@@ -374,10 +378,10 @@ body.invite-open .autoscroll-toggle {
   }
 
   .autoscroll-toggle {
-    bottom: 1rem;
-    left: 1rem;
-    width: 40px;
-    height: 40px;
+    bottom: calc(1rem + env(safe-area-inset-bottom, 0px));
+    left: calc(1rem + env(safe-area-inset-left, 0px));
+    width: 44px;
+    height: 44px;
   }
 
   .floating-petals {

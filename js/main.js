@@ -47,6 +47,8 @@
   // ============================================
   function init3D() {
     const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    const isSmallScreen = window.matchMedia('(max-width: 374px)').matches;
     const hasWebGL = (() => {
       try {
         const c = document.createElement('canvas');
@@ -61,12 +63,19 @@
     }
 
     const openingCanvas = document.getElementById('opening-canvas');
-    if (openingCanvas && typeof Opening3D !== 'undefined' && hasWebGL && !reducedMotion) {
+    if (openingCanvas && typeof Opening3D !== 'undefined' && hasWebGL && !reducedMotion && !isSmallScreen) {
       opening3D = new Opening3D(openingCanvas);
     } else if (openingCanvas) {
       openingCanvas.classList.add('canvas-3d--fallback');
     }
 
+    // Defer background 3D on mobile until invite opens (saves GPU during envelope)
+    if (!isMobile && !isSmallScreen) {
+      initBackground3D(hasWebGL, reducedMotion);
+    }
+  }
+
+  function initBackground3D(hasWebGL, reducedMotion) {
     const bgCanvas = document.getElementById('bg-canvas-3d');
     if (bgCanvas && typeof Scene3D !== 'undefined' && hasWebGL && !reducedMotion) {
       scene3D = new Scene3D(bgCanvas);
@@ -108,8 +117,21 @@
       const heroReveal = document.querySelector('.hero__content.reveal');
       if (heroReveal) heroReveal.classList.add('visible');
 
-      // Attempt autoplay music after user interaction
+      // Attempt autoplay music after user interaction (required on iOS Safari).
+      // iOS blocks programmatic audio until a direct user gesture; opening the
+      // envelope counts, but playback may still fail silently — user can tap
+      // the music toggle to start.
       tryPlayMusic();
+
+      // Lazy-start background 3D on mobile after envelope opens
+      if (!scene3D && window.matchMedia('(max-width: 768px)').matches) {
+        const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const isSmallScreen = window.matchMedia('(max-width: 374px)').matches;
+        const hasWebGL = !document.body.classList.contains('no-webgl');
+        if (!isSmallScreen && hasWebGL) {
+          initBackground3D(hasWebGL, reducedMotion);
+        }
+      }
 
       // Show nav after scroll
       setTimeout(() => nav.classList.add('visible'), 600);
@@ -130,6 +152,10 @@
 
   // ============================================
   // Background Music (YouTube IFrame Player API)
+  //
+  // iOS Safari: audio only plays after a user gesture. Autoplay is attempted
+  // when the guest taps "Buka Undangan"; if it fails, the music toggle retries.
+  // YouTube IFrame API does not expose raw audio for Web Audio beat analysis.
   // ============================================
   function loadYouTubeAPI() {
     return new Promise((resolve) => {
@@ -230,6 +256,7 @@
   musicToggle.addEventListener('click', () => {
     if (!ytPlayerReady) {
       musicLabel.textContent = 'Memuat musik...';
+      musicLabel.classList.add('music-control__label--visible');
       return;
     }
 
@@ -241,6 +268,7 @@
         youtubePlayer.playVideo();
       } catch {
         musicLabel.textContent = 'Ketuk untuk putar';
+        musicLabel.classList.add('music-control__label--visible');
       }
     }
   });

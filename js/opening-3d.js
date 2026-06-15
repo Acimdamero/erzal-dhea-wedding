@@ -23,6 +23,7 @@
       this.canvas = canvas;
       this.reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       this.isMobile = window.innerWidth < 768;
+      this.isSmallScreen = window.innerWidth < 480;
       this.disposed = false;
       this.isOpening = false;
       this.openProgress = 0;
@@ -57,7 +58,7 @@
 
       const w = this.canvas.clientWidth || window.innerWidth;
       const h = this.canvas.clientHeight || window.innerHeight;
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      const dpr = Math.min(window.devicePixelRatio || 1, this.isMobile ? 1.5 : 2);
 
       this.renderer = new THREE.WebGLRenderer({
         canvas: this.canvas,
@@ -289,7 +290,7 @@
       const group = new THREE.Group();
 
       // Floating particles
-      const count = this.isMobile ? 20 : 40;
+      const count = this.isSmallScreen ? 8 : this.isMobile ? 12 : 40;
       const positions = new Float32Array(count * 3);
       for (let i = 0; i < count; i++) {
         positions[i * 3] = (Math.random() - 0.5) * 8;

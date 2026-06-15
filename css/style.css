@@ -349,6 +349,11 @@ button {
   background: var(--color-primary-dark);
 }
 
+.cover__open-btn:active {
+  transform: scale(0.98);
+  background: var(--color-primary-dark);
+}
+
 .cover__open-btn small {
   font-size: 0.7rem;
   opacity: 0.8;
@@ -407,6 +412,12 @@ button {
 
 .music-control__btn:hover {
   background: var(--color-primary);
+  color: var(--color-white);
+}
+
+.music-control__btn:active {
+  transform: scale(0.95);
+  background: var(--color-primary-dark);
   color: var(--color-white);
 }
 

@@ -31,7 +31,9 @@ A complete, deployable digital wedding invitation website built with pure HTML, 
 wedding-invitation/
 ├── index.html              # Main page
 ├── css/
-│   └── style.css           # All styles & beat-sync animations
+│   ├── style.css           # All styles & beat-sync animations
+│   ├── scroll-animations.css
+│   └── mobile.css          # Android & iOS touch/viewport overrides
 ├── js/
 │   ├── main.js             # Interactivity & logic
 │   ├── beat-sync.js        # BeatEngine — rhythmic pulse
@@ -76,6 +78,23 @@ python3 -m http.server 8080
 
 Open http://localhost:8080 in your browser.
 
+## Mobile Testing
+
+Test on real devices before sharing with guests:
+
+| Check | iPhone (Safari) | Android (Chrome) |
+|-------|-----------------|------------------|
+| Open envelope | "Buka Undangan" visible, not cut off by home indicator | Same; address bar collapse does not clip button |
+| Music | Tap open → music may autoplay; if silent, tap music button | Usually autoplays after open gesture |
+| Scroll & nav | Horizontal nav scrolls; sections anchor correctly | Same |
+| RSVP inputs | No unwanted zoom on focus (16px inputs) | Same |
+| Gallery | 2-column grid; tap opens lightbox | Same |
+| Share | Copy link + WhatsApp open correctly | WhatsApp intent works |
+
+**Share via WhatsApp:** Open the live URL on your phone, scroll to **Share Invitation**, tap **WhatsApp**, and send to yourself or a test contact to verify the Open Graph preview.
+
+Live: https://acimdamero.github.io/wedding-invitation/
+
 ## Deployment
 
 ### GitHub Pages
@@ -90,8 +109,9 @@ Live site: https://acimdamero.github.io/wedding-invitation/
 - **Three.js r128** loaded via CDN — no build step required
 - **WebGL required** for full 3D effect; static SVG ornaments shown as fallback
 - `prefers-reduced-motion`: skips 3D, shows static SVG ornaments only
-- Mobile: reduced particle/geometry count, `devicePixelRatio` capped at 2
-- 3D pauses when browser tab is hidden (`visibilitychange`)
+- Mobile: reduced particle/geometry count, `devicePixelRatio` capped at 1.5, background 3D deferred until after envelope opens
+- Screens ≤374px: site-wide 3D hidden (SVG fallback); opening 3D skipped
+- 3D pauses when browser tab is hidden (`visibilitychange`) or main content scrolls off-screen
 - Opening scene disposes GPU resources after envelope opens
 
 ### Section Theme Mapping
