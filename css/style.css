@@ -1486,6 +1486,7 @@ button {
 .wishes__empty {
   max-width: 520px;
   margin: 0 auto;
+  text-align: center;
 }
 
 .rsvp__form,
@@ -1851,19 +1852,88 @@ body.no-webgl .ornaments-fallback {
 .wishes .section-desc,
 .share .section-desc,
 .events .section-desc {
-  color: #f2ede6;
+  color: rgba(255, 255, 255, 0.96);
   font-weight: 400;
   line-height: 1.75;
   text-shadow:
-    0 1px 3px rgba(0, 0, 0, 0.5),
-    0 2px 10px rgba(0, 0, 0, 0.25);
-  background: rgba(26, 36, 24, 0.52);
-  padding: 0.85rem 1.35rem;
+    0 1px 2px rgba(0, 0, 0, 0.85),
+    0 2px 10px rgba(0, 0, 0, 0.55),
+    0 0 1px rgba(0, 0, 0, 1);
+  background: rgba(12, 18, 10, 0.84);
+  padding: 0.9rem 1.4rem;
   border-radius: var(--radius-sm);
-  backdrop-filter: blur(6px);
-  -webkit-backdrop-filter: blur(6px);
-  border: 1px solid rgba(232, 213, 181, 0.14);
-  box-shadow: 0 2px 14px rgba(0, 0, 0, 0.18);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(232, 213, 181, 0.24);
+  box-shadow: 0 4px 22px rgba(0, 0, 0, 0.4);
+}
+
+/* Dark-arch sections: brighten labels & feed copy on kaaba backdrop */
+.rsvp .section-label,
+.wishes .section-label,
+.share .section-label,
+.events .section-label {
+  color: #e8d5b5;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.75);
+}
+
+.wishes .wishes__feed-title {
+  color: #faf8f5;
+  font-weight: 500;
+  text-align: center;
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.85),
+    0 2px 10px rgba(0, 0, 0, 0.55);
+  background: rgba(12, 18, 10, 0.84);
+  padding: 0.75rem 1.35rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(232, 213, 181, 0.24);
+  box-shadow: 0 4px 22px rgba(0, 0, 0, 0.4);
+  max-width: 520px;
+  margin: 0 auto 1.5rem;
+}
+
+.wishes .wishes__empty,
+.wishes .wishes__empty.form-note--info {
+  color: rgba(255, 255, 255, 0.96);
+  font-weight: 400;
+  text-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.85),
+    0 2px 10px rgba(0, 0, 0, 0.55);
+  background: rgba(12, 18, 10, 0.84);
+  padding: 1rem 1.35rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid rgba(232, 213, 181, 0.24);
+  box-shadow: 0 4px 22px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+/* Share card: darker glass so body copy reads on mobile */
+.share .share__content.glass {
+  background: rgba(12, 18, 10, 0.82);
+  border: 1px solid rgba(232, 213, 181, 0.24);
+  box-shadow: 0 8px 36px rgba(0, 0, 0, 0.42);
+}
+
+.share .share__content .section-label {
+  color: #e8d5b5;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.75);
+}
+
+.share .share__content .section-title {
+  background: linear-gradient(
+    105deg,
+    #faf8f5 0%,
+    #e8d5b5 35%,
+    #ffffff 50%,
+    #c4a882 65%,
+    #faf8f5 100%
+  );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .section--islamic .section-label,

@@ -376,8 +376,23 @@ a.btn,
   .wishes .section-desc,
   .share .section-desc,
   .events .section-desc {
-    padding: 0.75rem 1.1rem;
+    padding: 0.8rem 1.15rem;
     line-height: 1.7;
+    font-size: 0.92rem;
+  }
+
+  .wishes .wishes__feed-title {
+    padding: 0.7rem 1.1rem;
+    font-size: 1.2rem;
+  }
+
+  .wishes .wishes__empty {
+    padding: 0.9rem 1.15rem;
+    font-size: 0.9rem;
+  }
+
+  .share .share__content.glass {
+    background: rgba(10, 16, 9, 0.88);
   }
 
   /* Event cards — single column */
